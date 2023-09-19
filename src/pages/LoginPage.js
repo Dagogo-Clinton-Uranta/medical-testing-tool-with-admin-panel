@@ -1,93 +1,92 @@
-import { Helmet } from 'react-helmet-async';
-// @mui
 import { styled } from '@mui/material/styles';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
-// hooks
 import useResponsive from '../hooks/useResponsive';
-
-import BANNER_IMG from '../assets/images/banner-bg.png';
-import IMG from '../assets/images/img-2.png';
-import MALE from '../assets/images/man.png';
-import FEMALE from '../assets/images/woman.png';
+import LOGO from '../assets/images/ibara_logo.png';
+import LOTTIE from '../assets/images/lottie.png';
 import LoginForm from 'src/components/login/LoginForm';
-
-// ----------------------------------------------------------------------
+import { useState } from 'react';
 
 const StyledRoot = styled('div')(({ theme }) => ({
-  backgroundColor: 'white',
-  [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  },
+  height: '100vh',
+  background: 'linear-gradient(to bottom, #000000, #15197ED9)',
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 }));
 
 const StyledSection = styled('div')(({ theme }) => ({
   width: '100%',
-  maxWidth: 680,
+  maxWidth: 580,
+  maxHeight: 600,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',
-  boxShadow: theme.customShadows.card,
-  backgroundColor: theme.palette.background.default,
-  backgroundImage: `url(${BANNER_IMG})`,
-  backgroundSize: '100% 100%',
-  objectFit: 'cover',
-  backgroundPosition: 'center',
-  alignItems: 'center',
-  justifyItems: 'center',
+  backgroundColor: '#404399',
+  borderTopLeftRadius: '14px',
+  borderBottomLeftRadius: '14px',
 }));
 
 const StyledContent = styled('div')(({ theme }) => ({
-  maxWidth: 480,
+  width: '100%',
+  minWidth: 480,
   margin: 'auto',
-  minHeight: '50vh',
+  minHeight: 600,
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
-  padding: theme.spacing(5, 5, 12, 5),
+  padding: theme.spacing(0, 2, 0, 2),
+  // paddingBottom: theme.spacing(12)
+  // padding: theme.spacing(12, 0),
 }));
 
-// ----------------------------------------------------------------------
+const CenteredContainer = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+const StyledLogo = styled('img')(({ theme }) => ({
+  margin: '20px',
+  position: 'absolute',
+  top: '20px',
+  left: '20px',
+}));
+
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
+  const [forgotPassword, setForgotPassword] = useState(false);
 
   return (
     <>
-      <Helmet>
-        <title> IBARA </title>
-      </Helmet>
-
-      <StyledRoot style={{ flexDirection: 'row-reverse' }}>
-      <Container maxWidth="sm" style={{ border: '1px solid #0000001A', flex: 2,   marginTop: '2%', marginBottom: '2%', borderRadius: '15px' }}>
-          <StyledContent>
-          <Typography variant="h4" gutterBottom style={{textAlign: 'center', fontSize: '46px'}} >
-              Login
+      <StyledRoot>
+        {mdUp && (
+          <StyledSection>
+            <Typography variant="h3" sx={{ px: 5, mt: 5, mb: 5, color: 'white', fontSize: '50px', fontWeight: '700' }}>
+            Providing Virtual clinical examination for medical institutions
             </Typography>
-
-          <Typography variant="h6" gutterBottom style={{textAlign: 'center', marginTop: '60px' }} >
-          Select your gender
-          </Typography>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '50px' }}>
-              <img src={MALE} width="130" height="130" />
-              <Divider sx={{ my: 3,}}>
-                OR
-              </Divider>
-            <img src={FEMALE} width="130" height="130" />
-            </div>
-            <Typography variant="h6" sx={{ textAlign: 'center', mb: 2}}>
-                Enter login details
+            <img src={LOTTIE} alt="login" />
+          </StyledSection>
+        )}
+        <CenteredContainer>
+          <Container
+            maxWidth={mdUp ? 'sm' : 'xs'}
+            style={{
+              borderTopRightRadius: '14px',
+              borderBottomRightRadius: '14px',
+              backgroundColor: 'white',
+            }}
+          >
+            <StyledContent>
+            <StyledLogo src={LOGO} alt="Logo" />
+              <Typography variant="h4" gutterBottom style={{fontSize: '30px'}}>
+              Examiner Log in
               </Typography>
-            <LoginForm />
-          
-
-            {/* <Divider sx={{ my: 3 }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                OR
-              </Typography>
-            </Divider> */}
-          </StyledContent>
-        </Container>
-     
+              <br/>
+              <LoginForm />
+            </StyledContent>
+          </Container>
+        </CenteredContainer>
       </StyledRoot>
     </>
   );

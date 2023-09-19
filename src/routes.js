@@ -8,6 +8,8 @@ import Page404 from './pages/Page404';
 import RegisterPage from './pages/RegisterPage';
 import PatientPage from './pages/PatientPage';
 import EntryPage from './pages/EntryPage';
+import EntryPage2 from './pages/EntryPage2';
+import HomePage from './pages/HomePage';
 
 
 export default function Router() {
@@ -16,15 +18,23 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/login" />, index: true },
-        { path: 'entry', element:  <EntryPage /> },
-        { path: 'home', element:  <PatientPage /> },
-        { path: 'patient', element: <PatientPage /> },
+        { element: <Navigate to="/entry" />, index: true },
+        // { path: 'entry', element:  <EntryPage /> },
+        // { path: 'home', element:  <PatientPage /> },
+        // { path: 'patient', element: <PatientPage /> },
       ],
     },
     {
       path: 'login',
       element: <LoginPage />,
+    },
+    {
+      path: 'entry',
+      element: <EntryPage2 />,
+    },
+    {
+      path: 'home',
+      element: <HomePage />,
     },
     // {
     //   path: 'register',
@@ -33,7 +43,7 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/login" />, index: true },
+        { element: <Navigate to="/entry" />, index: true },
         { element: <Navigate to="/dashboard/home" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },

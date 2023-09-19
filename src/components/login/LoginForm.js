@@ -22,26 +22,37 @@ export default function LoginForm() {
   const userSignin = (e) => {
     e.preventDefault();
     setLoading(true);
-    const user = { email, password };
-    dispatch(signin(user, navigate, setLoading));
+    // const user = { email, password };
+    // dispatch(signin(user, navigate, setLoading));
+    navigate('/home');
   }
 
   return (
     <>
      <form onSubmit={userSignin}>
-      <Stack spacing={3}>
+      <Stack spacing={2}>
+      <Typography variant="subtitle1" style={{fontSize: '20px'}}><b>Username</b></Typography>
       <TextField
       required
-      name="email"
-      type="email"
-      label="Email address"
+      name="username"
+      type="text"
+      // label="Email address"
+      onChange={(e) => setEmail(e.target.value)}
+      sx={{ borderRadius: '12px', background: '#D9D9D921' }}
+    />
+      <Typography variant="subtitle1" style={{fontSize: '20px'}}><b>Client ID</b></Typography>
+      <TextField
+      required
+      name="id"
+      type="text"
+      // label="Email address"
       onChange={(e) => setEmail(e.target.value)}
       sx={{ borderRadius: '12px', background: '#D9D9D921' }}
     />
 
+    <Typography variant="subtitle1" style={{fontSize: '20px'}}><b>Password</b></Typography>
         <TextField
           name="password"
-          label="Password"
           required
           onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? 'text' : 'password'}
@@ -58,20 +69,13 @@ export default function LoginForm() {
         />
       </Stack>
 
-      <Typography variant="body2" sx={{ mt: 2, mb: 2, color: '#21D0C3', textAlign: 'right' }}>
-              <Link href='/register' variant="subtitle2"><span style={{color: '#21D0C3' }}>Forgot Password?</span></Link>
-            </Typography>
 
-
-      {/* <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <Checkbox name="remember" label="Remember me" />
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack> */}
-      <LoadingButton fullWidth size="large" type="submit" disabled={loading} style={{backgroundColor: '#21D0C3', color: 'white'}}>
+      <LoadingButton fullWidth size="large" type="submit" disabled={loading} style={{marginTop: '30px', paddingTop: '7%', paddingBottom: '7%', backgroundColor: '#15197ED9', color: 'white'}}>
         {loading ? "Loading..." : "Login"}
       </LoadingButton>
+      <Typography variant="body2" sx={{ mt: 2, mb: 2, color: '#21D0C3', textAlign: 'center' }}>
+              <Link href='/register' variant="subtitle2"><span style={{color: 'black' }}>Forgot Password?</span></Link>
+            </Typography>
       </form>
     </>
   );
