@@ -24,39 +24,57 @@ export default function LoginForm() {
     setLoading(true);
     // const user = { email, password };
     // dispatch(signin(user, navigate, setLoading));
-    navigate('/home');
+    navigate('/entry');
   }
 
   return (
     <>
      <form onSubmit={userSignin}>
       <Stack spacing={2}>
-      <Typography variant="subtitle1" style={{fontSize: '20px'}}><b>Username</b></Typography>
+      <Typography variant="subtitle1" style={{fontSize: '15px', marginTop: '7px', marginBottom: '-8px'}}>Username</Typography>
       <TextField
       required
       name="username"
       type="text"
       // label="Email address"
       onChange={(e) => setEmail(e.target.value)}
-      sx={{ borderRadius: '12px', background: '#D9D9D921' }}
+      sx={{
+        borderRadius: '12px',
+        background: '#D9D9D921',
+        '& .MuiInputBase-input': {
+          padding: '10px 16px',
+        },
+      }}
     />
-      <Typography variant="subtitle1" style={{fontSize: '20px'}}><b>Client ID</b></Typography>
+      <Typography variant="subtitle1" style={{fontSize: '15px', marginBottom: '-8px' }}>Client ID</Typography>
       <TextField
       required
       name="id"
       type="text"
       // label="Email address"
       onChange={(e) => setEmail(e.target.value)}
-      sx={{ borderRadius: '12px', background: '#D9D9D921' }}
+      sx={{
+        borderRadius: '12px',
+        background: '#D9D9D921',
+        '& .MuiInputBase-input': {
+          padding: '10px 16px',
+        },
+      }}
     />
 
-    <Typography variant="subtitle1" style={{fontSize: '20px'}}><b>Password</b></Typography>
+    <Typography variant="subtitle1" style={{fontSize: '15px', marginBottom: '-8px'}}>Password</Typography>
         <TextField
           name="password"
           required
           onChange={(e) => setPassword(e.target.value)}
           type={showPassword ? 'text' : 'password'}
-          sx={{ borderRadius: '12px', background: '#D9D9D921' }}
+          sx={{
+            borderRadius: '12px',
+            background: '#D9D9D921',
+            '& .MuiInputBase-input': {
+              padding: '10px 16px',
+            },
+          }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

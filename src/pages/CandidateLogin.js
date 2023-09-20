@@ -52,7 +52,7 @@ const StyledLogo = styled('img')(({ theme }) => ({
 }));
 
 
-export default function LoginPage() {
+export default function CandidiateLogin() {
   const mdUp = useResponsive('up', 'md');
   const [forgotPassword, setForgotPassword] = useState(false);
 
@@ -79,7 +79,7 @@ export default function LoginPage() {
             <StyledContent>
               <StyledLogo src={LOGO} alt="Logo" />
               <Typography variant="h3" gutterBottom style={{ fontSize: '20px'}}>
-                Examiner Log in
+                Candidate Log in
               </Typography>
               <LoginForm />
             </StyledContent>

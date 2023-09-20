@@ -39,7 +39,7 @@ const EntryPage2 = () => {
         <h1
           style={{
             fontWeight: '700',
-            fontSize: '62px',
+            fontSize: '48px',
             textAlign: 'center',
             color: 'white',
           }}
@@ -49,7 +49,7 @@ const EntryPage2 = () => {
         <h3
           style={{
             fontWeight: '400',
-            fontSize: '42px',
+            fontSize: '37px',
             textAlign: 'center',
             lineHeight: '1px',
             color: 'white',
@@ -61,7 +61,7 @@ const EntryPage2 = () => {
         <h3
           style={{
             fontWeight: '400',
-            fontSize: '42px',
+            fontSize: '37px',
             textAlign: 'center',
             color: 'white',
           }}
@@ -78,7 +78,7 @@ const EntryPage2 = () => {
           color: 'white',
           fontSize: '15px',
           padding: '14px',
-          height: '80px',
+          height: '60px',
         }}
         onClick={() => {
             navigate('/login');

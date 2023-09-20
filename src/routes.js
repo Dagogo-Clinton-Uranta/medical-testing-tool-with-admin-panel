@@ -10,6 +10,7 @@ import PatientPage from './pages/PatientPage';
 import EntryPage from './pages/EntryPage';
 import EntryPage2 from './pages/EntryPage2';
 import HomePage from './pages/HomePage';
+import CandidiateLogin from './pages/CandidateLogin';
 
 
 export default function Router() {
@@ -18,7 +19,7 @@ export default function Router() {
       path: '/dashboard',
       element: <DashboardLayout />,
       children: [
-        { element: <Navigate to="/entry" />, index: true },
+        { element: <Navigate to="/home" />, index: true },
         // { path: 'entry', element:  <EntryPage /> },
         // { path: 'home', element:  <PatientPage /> },
         // { path: 'patient', element: <PatientPage /> },
@@ -27,6 +28,10 @@ export default function Router() {
     {
       path: 'login',
       element: <LoginPage />,
+    },
+    {
+      path: 'candidateLogin',
+      element: <CandidiateLogin />,
     },
     {
       path: 'entry',
@@ -43,7 +48,7 @@ export default function Router() {
     {
       element: <SimpleLayout />,
       children: [
-        { element: <Navigate to="/entry" />, index: true },
+        { element: <Navigate to="/home" />, index: true },
         { element: <Navigate to="/dashboard/home" />, index: true },
         { path: '404', element: <Page404 /> },
         { path: '*', element: <Navigate to="/404" /> },

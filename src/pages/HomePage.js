@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, TextField, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import LOGO from '../assets/images/ibara_logo.png';
@@ -50,10 +50,13 @@ const HomePage = () => {
               backgroundColor: '#15197ED9',
               border: '1px solid white',
               color: 'white',
-              paddingTop: '6%',
-              paddingBottom: '6%',
+              paddingTop: '4%',
+              paddingBottom: '4%',
               fontSize: '17px',
               marginRight: '10px',
+            }}
+            onClick={() => {
+              navigate('/candidateLogin');
             }}
           >
             Candidate Login
@@ -64,9 +67,12 @@ const HomePage = () => {
               backgroundColor: 'black',
               border: '1px solid white',
               color: 'white',
-              paddingTop: '6%',
-              paddingBottom: '6%',
+              paddingTop: '4%',
+              paddingBottom: '4%',
               fontSize: '17px',
+            }}
+            onClick={() => {
+              navigate('/login');
             }}
           >
             Examiner Login
@@ -125,7 +131,7 @@ const HomePage = () => {
           <h1
             style={{
               fontWeight: '700',
-              fontSize: '102px',
+              fontSize: '70px',
               textAlign: 'center',
               lineHeight: '80px',
               color: 'white',
@@ -137,7 +143,7 @@ const HomePage = () => {
           <h3
             style={{
               fontWeight: '400',
-              fontSize: '42px',
+              fontSize: '40px',
               textAlign: 'center',
               lineHeight: '40px',
               color: 'white',
@@ -148,6 +154,70 @@ const HomePage = () => {
           </h3>
         </div>
       </div>
+      <Grid container spacing={2} sx={{ p: 5, background: '#eee' }}>
+        <Grid item xs={6} sx={{ mt: 4 }}>
+          {/* Left Side */}
+          <div style={{width: '70%', marginTop: '60px', marginLeft: '50px'}}>
+            {' '}
+            <h1>Get in touch.</h1>
+            <p>
+              Fill the contact form and one of our customer service representatives will get in touch with you, usually
+              within 24 hours
+            </p>
+          </div>
+        </Grid>
+        <Grid item xs={6}>
+          {/* Right Side */}
+          <Grid container direction="column" spacing={2}>
+            <Grid item>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Typography variant="subtitle1" style={{ fontSize: '16px', marginBottom: '5px' }}>
+                    First Name
+                  </Typography>
+                  <TextField label="" variant="outlined" fullWidth style={{ background: 'white' }} />
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="subtitle1" style={{ fontSize: '16px', marginBottom: '5px' }}>
+                    Last Name
+                  </Typography>
+                  <TextField label="" variant="outlined" fullWidth style={{ background: 'white' }} />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item >
+              <Typography variant="subtitle1" style={{ fontSize: '16px', marginBottom: '5px' }}>
+                Email Address
+              </Typography>
+              <TextField label="" variant="outlined" fullWidth style={{ background: 'white' }} />
+            </Grid>
+            <Grid item>
+              <Typography variant="subtitle1" style={{ fontSize: '16px', marginBottom: '5px' }}>
+                Message
+              </Typography>
+              <TextField label="" variant="outlined" fullWidth multiline rows={5} style={{ background: 'white' }} />
+            </Grid>
+          </Grid>
+          <br/>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: 'black',
+              color: 'white',
+              paddingTop: '1%',
+              paddingBottom: '1%',
+              paddingLeft: '10%',
+              paddingRight: '10%',
+              fontSize: '17px',
+            }}
+            onClick={() => {
+              navigate('/login');
+            }}
+          >
+           Send
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 };
