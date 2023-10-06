@@ -12,12 +12,12 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
-import BONLOGO from '../../../assets/images/logo.png';
+import BONLOGO from '../../../assets/images/CMCNetwork-logo.png';
 
 // ----------------------------------------------------------------------
 
 // const NAV_WIDTH = 280;
-const NAV_WIDTH = 250;
+const NAV_WIDTH = 230;
 
 const StyledAccount = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -56,7 +56,7 @@ export default function Nav({ openNav, onCloseNav }) {
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>{/* <Logo /> */}</Box>
       <Box sx={{ mb: 5, mx: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <Link underline="none">
-          <img src={BONLOGO} width="170" height="40" alt="Logo" />
+          <img src={BONLOGO}  alt="Logo" />
         </Link>
       </Box>
 

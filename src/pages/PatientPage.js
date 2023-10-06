@@ -219,7 +219,7 @@ console.log("selected patient is ---->",selectedPatient)
 
   return (
     <>
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ marginTop:"5%" }}>
         <ToastContainer
           position="top-right"
           autoClose={1000}
