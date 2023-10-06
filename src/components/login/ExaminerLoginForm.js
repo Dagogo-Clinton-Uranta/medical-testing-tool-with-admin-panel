@@ -6,11 +6,11 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../iconify';
 import { useDispatch, useSelector } from 'react-redux';
-import { signCandidateIn } from 'src/redux/actions/auth.action';
+import { signExaminerIn } from 'src/redux/actions/auth.action';
 
 // ----------------------------------------------------------------------
 
-export default function LoginForm() {
+export default function ExaminerLoginForm() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
@@ -24,7 +24,7 @@ export default function LoginForm() {
     e.preventDefault();
     setLoading(true);
      const user = { email, password };
-    dispatch(signCandidateIn(user, navigate, setLoading));
+    dispatch(signExaminerIn(user, navigate, setLoading));
    // navigate('/entry');
   }
 

@@ -3,7 +3,7 @@ import { Link, Container, Typography, Divider, Stack, Button } from '@mui/materi
 import useResponsive from '../hooks/useResponsive';
 import LOGO from '../assets/images/ibara_logo.png';
 import LOTTIE from '../assets/images/lottie.png';
-import LoginForm from 'src/components/login/LoginForm';
+import ExaminerLoginForm from 'src/components/login/ExaminerLoginForm';
 import { useState } from 'react';
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -81,7 +81,7 @@ export default function LoginPage() {
               <Typography variant="h3" gutterBottom style={{ fontSize: '20px'}}>
                 Examiner Log in
               </Typography>
-              <LoginForm />
+              <ExaminerLoginForm />
             </StyledContent>
           </Container>
         </CenteredContainer>

@@ -35,49 +35,34 @@ export default function RecentTransaction() {
         <b>Recent Transactions</b>
       </Typography>
       <Divider />
-      <Grid container spacing={2} style={{background: 'white',  marginTop: '10px'}}>
-      {transactions?.length > 0 ? (
-  <>
-    <Grid item xs={4}>
-      <h4>DATE</h4>
-      {transactions.map((row, index) => (
-        <p
-          style={{ backgroundColor: index % 2 === 1 ? '#F6F6F6' : 'transparent' }}
-          key={index}
-        >
-          {row.date}
-        </p>
-      ))}
-    </Grid>
-    <Grid item xs={4}>
-      <h4>ACTION</h4>
-      {transactions.map((row, index) => (
-        <p
-          style={{ backgroundColor: index % 2 === 1 ? '#F6F6F6' : 'transparent' }}
-          key={index}
-        >
-          {row.type}
-        </p>
-      ))}
-    </Grid>
-    <Grid item xs={4}>
-      <h4>AMT</h4>
-      {transactions.map((row, index) => (
-        <p
-          style={{ backgroundColor: index % 2 === 1 ? '#F6F6F6' : 'transparent' }}
-          key={index}
-        >
-          ${row.amount}
-        </p>
-      ))}
-    </Grid>
-  </>
-) : (
-  <p style={{ paddingTop: '10%', paddingLeft: '30%', textAlign: 'center' }}>
-    <b>No transactions yet</b>
-  </p>
-)}
-
+      <Grid container spacing={2}>
+        {transactions?.length > 0
+         ?
+         <>
+         <Grid item xs={4}>
+          <h4>DATE</h4>
+          {transactions
+          // .sort((a, b) => new Date(b.date) - new Date(a.date))
+          .map((row) => (
+            <p>{row.date}</p>
+          ))}
+        </Grid>
+        <Grid item xs={4}>
+          <h4>ACTION</h4>
+          {transactions.map((row) => (
+            <p>{row.type}</p>
+          ))}
+        </Grid>
+        <Grid item xs={4}>
+          <h4>AMT</h4>
+          {transactions.map((row) => (
+            <p>${row.amount}</p>
+          ))}
+        </Grid>
+         </>
+          :
+          <p style={{paddingTop: '10%', paddingLeft: '30%', textAlign: 'center'}}><b>No transactions yet</b></p>
+        }
       </Grid>
       {/* <Grid container spacing={2}>
         <Grid item xs={4}>

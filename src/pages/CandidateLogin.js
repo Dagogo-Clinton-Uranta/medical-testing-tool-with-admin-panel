@@ -3,7 +3,7 @@ import { Link, Container, Typography, Divider, Stack, Button } from '@mui/materi
 import useResponsive from '../hooks/useResponsive';
 import LOGO from '../assets/images/ibara_logo.png';
 import LOTTIE from '../assets/images/lottie.png';
-import LoginForm from 'src/components/login/LoginForm';
+import CandidateLoginForm from 'src/components/login/CandidateLoginForm';
 import { useState } from 'react';
 
 const StyledRoot = styled('div')(({ theme }) => ({
@@ -81,7 +81,7 @@ export default function CandidiateLogin() {
               <Typography variant="h3" gutterBottom style={{ fontSize: '20px'}}>
                 Candidate Log in
               </Typography>
-              <LoginForm />
+              <CandidateLoginForm />
             </StyledContent>
           </Container>
         </CenteredContainer>

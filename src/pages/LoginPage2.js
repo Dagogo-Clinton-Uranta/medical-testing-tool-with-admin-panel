@@ -7,7 +7,7 @@ import useResponsive from '../hooks/useResponsive';
 
 import IMG from '../assets/images/child.png';
 import BONLOGO from '../assets/images/logo.png';
-import LoginForm from 'src/components/login/LoginForm';
+import LoginForm from 'src/components/login/ExaminerLoginForm';
 
 // ----------------------------------------------------------------------
 

@@ -139,7 +139,7 @@ export const fetchExaminerData = (id, type, navigate, setLoading) => async (disp
     dispatch(storeUserData(doc.data()));
     if(type === "sigin"){
       // notifySuccessFxn("Logged In😊");
-      navigate('/dashboard/entry', { replace: true });
+      navigate('/dashboard/examiner', { replace: true });
     }
   } else {
       setLoading(false);

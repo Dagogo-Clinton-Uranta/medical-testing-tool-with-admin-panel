@@ -81,7 +81,7 @@ const EntryPage2 = () => {
           height: '60px',
         }}
         onClick={() => {
-            navigate('/dashboard/patient');
+            navigate('/patient');
         }}
       >
        Begin Exam

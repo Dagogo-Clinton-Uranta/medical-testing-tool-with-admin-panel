@@ -11,6 +11,20 @@ import EntryPage from './pages/EntryPage';
 import EntryPage2 from './pages/EntryPage2';
 import HomePage from './pages/HomePage';
 import CandidiateLogin from './pages/CandidateLogin';
+import UserListPage from './pages/UserListPage';
+import ComplaintsListPage from './pages/ComplaintsListPage';
+import TeacherListPage from './pages/TeacherListPage';
+import StudentListPage from './pages/StudentListPage';
+import CategoriesVideoPage from './pages/CategoriesVideosPage';
+import AddSubject from './pages/AddSubject';
+import EditComplaint from './pages/EditComplaint';
+import AddTeacher from './pages/AddTeacher';
+import EditTeacher from './pages/EditTeacher';
+import ContractorStatsPage from './pages/ContractorStatsPage';
+import PatientExpanded from './pages/PatientExpanded';
+import AddComplaint from './pages/AddComplaint';
+import EditChapter from './pages/EditChapter';
+import EditCourse from './pages/EditCourse';
 
 
 export default function Router() {
@@ -22,7 +36,20 @@ export default function Router() {
         { element: <Navigate to="/home" />, index: true },
         // { path: 'entry', element:  <EntryPage /> },
         // { path: 'home', element:  <PatientPage /> },
-         { path: 'patient', element: <PatientPage /> },
+        { path: 'candidate-list', element: <StudentListPage /> },
+        { path: 'patient-list', element: <TeacherListPage /> },
+        { path: 'complaint-list', element: <ComplaintsListPage /> },
+         { path: 'examiner', element:<UserListPage/> },
+         { path: 'treatments', element: <CategoriesVideoPage /> },
+         { path: 'add-subject', element: <AddSubject /> },
+         { path: 'edit-subject', element: <EditCourse /> },
+         { path: 'add-complaint', element: <AddComplaint /> },
+         { path: 'edit-complaint', element: <EditComplaint /> },
+         { path: 'add-patient', element: <AddTeacher /> },
+         { path: 'edit-patient', element: <EditTeacher /> },
+         { path: 'edit-chapter', element: <EditChapter /> },
+         { path: 'candidate-stats', element: <ContractorStatsPage /> },
+         { path: 'patient-expanded', element: <PatientExpanded/> },
       ],
     },
     {
@@ -37,6 +64,8 @@ export default function Router() {
       path: 'entry',
       element: <EntryPage2 />,
     },
+    { path: 'patient',
+     element: <PatientPage /> },
     {
       path: 'home',
       element: <HomePage />,
