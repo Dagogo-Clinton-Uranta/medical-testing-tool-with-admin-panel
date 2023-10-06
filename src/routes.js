@@ -22,7 +22,7 @@ export default function Router() {
         { element: <Navigate to="/home" />, index: true },
         // { path: 'entry', element:  <EntryPage /> },
         // { path: 'home', element:  <PatientPage /> },
-        // { path: 'patient', element: <PatientPage /> },
+         { path: 'patient', element: <PatientPage /> },
       ],
     },
     {

@@ -6,7 +6,7 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../iconify';
 import { useDispatch, useSelector } from 'react-redux';
-import { signin } from 'src/redux/actions/auth.action';
+import { signCandidateIn } from 'src/redux/actions/auth.action';
 
 // ----------------------------------------------------------------------
 
@@ -14,6 +14,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
+  const [clientId, setClientId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -22,9 +23,9 @@ export default function LoginForm() {
   const userSignin = (e) => {
     e.preventDefault();
     setLoading(true);
-    // const user = { email, password };
-    // dispatch(signin(user, navigate, setLoading));
-    navigate('/entry');
+     const user = { email, password };
+    dispatch(signCandidateIn(user, navigate, setLoading));
+   // navigate('/entry');
   }
 
   return (
@@ -52,7 +53,7 @@ export default function LoginForm() {
       name="id"
       type="text"
       // label="Email address"
-      onChange={(e) => setEmail(e.target.value)}
+      onChange={(e) => setClientId(e.target.value)}
       sx={{
         borderRadius: '12px',
         background: '#D9D9D921',

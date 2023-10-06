@@ -1,8 +1,8 @@
 import { Grid, Container, Typography, Button, Paper, CircularProgress } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserData } from 'src/redux/actions/auth.action';
+//import { fetchCandidateData } from 'src/redux/actions/auth.action';
 // @mui
 import { useTheme, styled } from '@mui/material/styles';
 import { fetchMyTransactions } from 'src/redux/actions/transaction.action';
@@ -16,40 +16,175 @@ import IMG4 from '../assets/images/intervention.png';
 import IMG5 from '../assets/images/referrals.png';
 import HospitalBed from 'src/components/patient/hospital-bed';
 import EmptyPane from 'src/components/patient/empty-pane';
-import { getAdmittedPatients, getPatients, getWaitingRoomPatients, reset } from 'src/redux/actions/patient.action';
+import { fetchAllTreatmentCategories, fetchAllTreatmentTests, getAdmittedPatients,refreshCountdown ,getAllPatients,removePatient, getWaitingRoomPatients, reset } from 'src/redux/actions/patient.action';
 import { ToastContainer } from 'react-toastify';
+import {CSSTransition,TransitionGroup} from 'react-transition-group';
+
 import BloodInvestigation from 'src/components/treatment/blood-investigation';
 import Prescription from 'src/components/treatment/prescription';
 import Radiology from 'src/components/treatment/radiology';
 import ECG from 'src/components/treatment/ecg';
 import Referrals from 'src/components/treatment/referrals';
+import Countdown, { zeroPad, calcTimeDelta, formatTimeDelta }  from 'react-countdown';
 
 export default function PatientPage() {
   const theme = useTheme();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const { selectedPatient, patients, admittedPatients, isLoading } = useSelector((state) => state.patient);
+
+ 
   const [selectedBed, setSelectedBed] = useState(null);
   const [selectedTreatment, setSelectedTreatment] = useState(null);
+
+const [showPic,setShowPic] = useState(true)
+const [bloodInvClicked,setBloodInvClicked] = useState(false)
+
+const [blinkRadiology,setBlinkRadiology] = useState(true)
+const [radiologyClicked,setRadiologyClicked] = useState(false)
+
   const [state, setState] = useState({
-    prescription: '',
-    bloodInv1: '',
-    bloodInv2: '',
-    radiology: '',
+    prescription:'',
+    bloodInv1:'',
+    bloodInv2:'',
+    radiology1:null,
+    radiology2:null,
     ecg: 'Mid Axillary',
-    referral: '',
+    referral:'',
   });
 
+  const { user } = useSelector((state) => state.auth);
+
+  const { selectedPatient, patients,patientTimers ,admittedPatients, isLoading } = useSelector((state) => state.patient);
+  //console.log("PATIENT TIMERS IS-->",patientTimers)
   useEffect(() => {
+    dispatch(getAllPatients(patientTimers?patientTimers:[]));
     dispatch(getWaitingRoomPatients());
     dispatch(getAdmittedPatients());
-    dispatch(fetchUserData(user?.id));
-  }, []);
+    dispatch(fetchAllTreatmentCategories());
+    dispatch(fetchAllTreatmentTests());
+   // dispatch(fetchCandidateData(user?.uid));
+  }, [patients]);
+
+console.log("selected patient is ---->",selectedPatient)
+
+
+  /*const previousValue = useRef(null);
+  previousValue.current = selectedPatient;*/
+
+  /*useEffect(() => {
+      previousValue.current = selectedPatient;
+  }, [selectedPatient]);*/
+
+
+
+  useEffect(() => {
+
+    let timesRun = 0;
+    let timesRunRadiology = 0;
+
+    let interval;
+    let intervalRadiology;
+    
+  if(selectedTreatment !== 1){  
+ setBloodInvClicked(false)
+  }
+
+  if(selectedTreatment !== 2){  
+    setRadiologyClicked(false)
+     }
+   
+
+   const candidateResponseArray =user && user.response? user.response:[]
+
+   const particularPatientPosition = selectedPatient && candidateResponseArray && candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(selectedPatient.id):-1
+  
+
+  if(particularPatientPosition !== -1 && candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true)
+  {
+     
+
+
+     // stop the blinking after 27 times run
+     
+
+    /* if(previousValue.current !==  selectedPatient){
+      timesRun = 27;
+  }*/
+   
+
+
+     interval = setInterval(() => {
+  
+    
+    //console.log("i have run blood inv now",timesRun)
+    timesRun += 1;
+   
+    if(timesRun >= 27){
+      clearInterval(interval);
+  }
+  if(timesRun%2 ===1){setShowPic(false)} 
+    else{
+      setShowPic(true)
+    }
+      
+
+    }, 800);
+
+ // return () => clearInterval(interval);
+    
+  }
+
+
+
+  if(particularPatientPosition !== -1 && candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].radiologyPassed === true)
+  {
+   
+   
+    /* if(previousValue.current !==  selectedPatient){
+      timesRunRadiology = 27;
+  }*/
+
+
+     intervalRadiology = 
+      
+      setInterval(() => {
+      
+
+    
+    //("i have run radiology now",timesRunRadiology,blinkRadiology)
+    timesRunRadiology += 1;
+
+     if(timesRunRadiology >= 27 ){
+        clearInterval(intervalRadiology);
+    }
+
+    if(timesRunRadiology%2 ===1){setBlinkRadiology(false)} 
+    else{
+      setBlinkRadiology(true)
+    }
+    
+     
+    }
+    , 800);
+
+   
+   
+ // return () => clearInterval(intervalRadiology);
+    
+  }
+ 
+
+  return () => {clearInterval(intervalRadiology); clearInterval(interval)}
+ 
+
+
+  }, [selectedPatient]);
+
+
 
   const handleSelectBed = (bedNum) => {
-    console.log(`Selected Bed: ${bedNum}`);
+    //console.log(`Selected Bed is: ${bedNum}`);
     setSelectedBed(bedNum);
   };
 
@@ -59,6 +194,8 @@ export default function PatientPage() {
       ...state,
       [e.target.name]: value,
     });
+
+    //console.log("state IS:",state)
   };
 
   const renderContent = (selectedTreatment, state, setState, handleChange, selectedPatient) => {
@@ -68,9 +205,9 @@ export default function PatientPage() {
       case 2:
         return <Radiology state={state} setState={setState} handleChange={handleChange} />;
       case 3:
-        return  <Prescription state={state} handleChange={handleChange} />;
+        return <ECG state={state} setState={setState} handleChange={handleChange} /> ;
       case 4:
-        return  <ECG state={state} setState={setState} handleChange={handleChange} />;
+        return  <Prescription state={state} handleChange={handleChange} />;
       case 5:
         return  <Referrals state={state} setState={setState} handleChange={handleChange} />;
       default:
@@ -94,12 +231,33 @@ export default function PatientPage() {
           draggable
           pauseOnHover
         />
-        {isLoading ? (
+        {isLoading || patients.length <1 ? (
           <center>
             <CircularProgress />
           </center>
         ) : (
           <Grid container spacing={2}>
+
+          {/*
+            patientTimers && patientTimers.map((item)=>(
+              <div style={{display:"block",width:"0%",height:"0%",position:"relative",left:"50%"}}>
+                   {item.firstName}{" "} {item.lastName}{" "}{"---> "}
+                 <Countdown date={Date.now() + item.screenCountdown}
+              
+               precision={1000} 
+               intervalDelay={10000}
+             
+            onTick ={()=>{dispatch(refreshCountdown(patientTimers))}} 
+               onComplete={()=>{dispatch(removePatient(item.id,item.firstName,item.lastName,patientTimers,(selectedPatient &&selectedPatient.uid? selectedPatient.uid:null)))}}
+             
+               />
+               </div>
+            ))
+            
+            */}
+
+
+
             <Grid item xs={10} sm={4.5} sx={{ border: '0px solid red' }}>
               <Paper
                 sx={{
@@ -128,7 +286,7 @@ export default function PatientPage() {
                   p: 1,
                   display: 'flex',
                   flexDirection: 'column',
-                  height: 500,
+                  height: 497,
                   backgroundColor: '#F5F5F5',
                   borderRadius: '9px',
                 }}
@@ -151,12 +309,17 @@ export default function PatientPage() {
                 onClick={() => {
                  if(selectedBed){
                   setSelectedTreatment(1);
+                 setBloodInvClicked(true)
                  }
                 }}>
+                  
                   <center>
                     {' '}
-                    <img src={IMG1} alt="Image 1" style={{ marginTop: '12%', marginRight: '10%' }} />
+                    
+                    <img src={IMG1} alt="Image 1" style={{opacity:!bloodInvClicked?(showPic===true?"1":"0.4"):1, marginTop: '12%', marginRight: '10%' }} />
                   </center>
+
+
                   <Typography variant="subtitle1" style={{ textAlign: 'left', marginTop: '35%' }}>
                     INVESTIGATIONS
                   </Typography>
@@ -167,18 +330,20 @@ export default function PatientPage() {
                 onClick={() => {
                  if(selectedBed){
                   setSelectedTreatment(2);
+                  setRadiologyClicked(true)
                  }
                 }}>
                   <center>
-                    <img src={IMG2} alt="Image 2" style={{ marginTop: '12%', marginRight: '10%' }} />
-                  </center>
+                    <img src={IMG2} alt="Image 2" style={{opacity:!radiologyClicked?(blinkRadiology===true?"1":"0.4"):1, marginTop: '12%', marginRight: '10%' }} />
+                    </center>
+
                   <Typography variant="subtitle1" style={{ textAlign: 'center', marginTop: '35%' }}>
                     RADIOLOGY
                   </Typography>
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 3 */}
-                <Grid item xs={2.2} style={{ backgroundColor: '#A160E4', height: '150px', borderRadius: '9px', cursor: 'pointer', border: selectedTreatment === 3 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
+                <Grid item xs={2.2} style={{ backgroundColor: '#00B8D4', height: '150px', borderRadius: '9px', cursor: 'pointer', border: selectedTreatment === 3 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
                    onClick={() => {
                     if(selectedBed){
                      setSelectedTreatment(3);
@@ -189,12 +354,12 @@ export default function PatientPage() {
                     <img src={IMG4} alt="Image 3" style={{ marginTop: '12%', marginRight: '10%' }} />
                   </center>
                   <Typography variant="subtitle1" style={{ textAlign: 'center', marginTop: '35%' }}>
-                    PRESCRIPTIONS
+                  ECG
                   </Typography>
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 4 */}
-                <Grid item xs={2.2} style={{ backgroundColor: '#00B8D4', height: '150px', borderRadius: '9px',  cursor: 'pointer', border: selectedTreatment === 4 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
+                <Grid item xs={2.2} style={{ backgroundColor:'#A160E4', height: '150px', borderRadius: '9px',  cursor: 'pointer', border: selectedTreatment === 4 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
                    onClick={() => {
                     if(selectedBed){
                      setSelectedTreatment(4);
@@ -204,7 +369,7 @@ export default function PatientPage() {
                     <img src={IMG3} alt="Image 4" style={{ marginTop: '12%', marginRight: '10%' }} />
                   </center>
                   <Typography variant="subtitle1" style={{ textAlign: 'center', marginTop: '35%' }}>
-                    ECG   &nbsp;&nbsp;&nbsp;
+                     PRESCRIPTIONS  &nbsp;&nbsp;&nbsp;
                   </Typography>
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
@@ -252,27 +417,31 @@ export default function PatientPage() {
                 <HospitalBed bedNum={10} />
               </Grid> */}
               </Grid>
+             
               <Button
                     // fullWidth
                     variant="contained"
                     style={{
                       marginTop: '5%',
-                      marginLeft: '30%',
-                      backgroundColor: 'black',
+                      marginLeft: '0%',
+                      backgroundColor: '#21D0C3',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',
-                      width: '40%',
+                      width: '18%',
                       height: '50px',
                     }}
                     onClick={() => {
                       setSelectedBed(null);
                       setSelectedTreatment(null);
-                      dispatch(reset())
+                      dispatch(reset(user?.uid,patientTimers))
                     }}
                   >
                     Reset
                   </Button>
+                  
+
+
             </Grid>
           </Grid>
         )}
