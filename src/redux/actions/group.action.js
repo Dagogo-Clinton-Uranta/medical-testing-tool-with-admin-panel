@@ -250,7 +250,7 @@ export const fetchGroups = (adminID) => async (dispatch) => {
  });
  };
 
- export const fetchAllTreatmentCategories = (chosenSection)=> async(dispatch) =>{
+ export const fetchAllGroupTreatmentCategories = (chosenSection)=> async(dispatch) =>{
 
 
   var categories = db.collection("TreatmentTests");

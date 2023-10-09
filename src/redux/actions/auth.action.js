@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 import { clearGroup } from '../reducers/group.slice';
 import { fetchAllTreatmentCategories, fetchAllTreatmentTests, getAdmittedPatients, getAllPatients, getWaitingRoomPatients } from './patient.action';
+import { fetchAllCategories,fetchAllGroupTreatmentCategories } from './group.action';
 
 
 export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) => {
@@ -14,7 +15,7 @@ export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) 
     console.log('Signed In user is: ', user.email);
      dispatch(fetchCandidateData("ADq0LNbilFVUdDl8WrLIbOeP8xl2", "sigin", navigate, setLoading));
     
-        dispatch(getAllPatients([]));
+       // dispatch(getAllPatients([]));
         dispatch(getWaitingRoomPatients());
         dispatch(getAdmittedPatients());
         dispatch(fetchAllTreatmentCategories());
@@ -40,6 +41,8 @@ export const signExaminerIn = (user, navigate, setLoading) => async (dispatch) =
     var user = userCredential.user;
     console.log('Signed In user is: ', user.email);
      dispatch(fetchExaminerData(/*user.uid*/"iu2Nxs2jksaxYl1FAEsR4Rl7MwD3", "sigin", navigate, setLoading));
+     dispatch(fetchAllCategories())
+    dispatch(fetchAllGroupTreatmentCategories())
   })
   .catch((error) => {
     setLoading(false);

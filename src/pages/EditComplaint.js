@@ -47,8 +47,8 @@ function EditComplaint() {
 
 
    useEffect(()=>{
-    dispatch(fetchAllCategories())
-    dispatch(fetchAllTreatmentCategories())
+   // dispatch(fetchAllCategories())
+   // dispatch(fetchAllGroupTreatmentCategories())
   },[])
 
 

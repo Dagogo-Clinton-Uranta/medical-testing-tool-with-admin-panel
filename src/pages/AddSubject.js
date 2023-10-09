@@ -90,7 +90,7 @@ const [file,setFile] = useState('')
   useEffect(()=>{
 
     dispatch(getTeachers())
-    dispatch(fetchAllTreatmentCategories())
+   // dispatch(fetchAllGroupTreatmentCategories())
   },[])
 
   return (

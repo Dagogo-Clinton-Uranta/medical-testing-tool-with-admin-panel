@@ -74,8 +74,8 @@ function AddComplaint() {
   //console.log("user details are:",user)
 
   useEffect(()=>{
-    dispatch(fetchAllCategories())
-    dispatch(fetchAllTreatmentCategories())
+   // dispatch(fetchAllCategories())
+   // dispatch(fetchAllGroupTreatmentCategories())
   },[])
 
 
