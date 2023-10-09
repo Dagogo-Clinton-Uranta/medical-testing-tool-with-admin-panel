@@ -36,6 +36,7 @@ function AddTeacher() {
   const [imageUrl,setImageUrl] =useState('')
 
   const [screenTime,setScreenTime] = useState('')
+  const [waitTime,setWaitTime] = useState('')
   const [history,setHistory] = useState()
   const [firstName,setFirstName] =useState()
   const [lastName,setLastName] =useState()
@@ -61,6 +62,7 @@ function AddTeacher() {
     lastName,
     history,
     screenTime,
+    waitTime,
     icon,
     age:Number(age) && Number(age),
     complaint,
@@ -69,7 +71,7 @@ function AddTeacher() {
 
   const addThisTeacher = async(addObject,navigate) => {
     
-    if(!firstName||!lastName||!history || !screenTime ||!icon||!complaint||!age ){
+    if(!firstName||!lastName||!history || !screenTime|| !waitTime ||!icon||!complaint||!age ){
       notifyErrorFxn("Please make sure to fill in all fields.")
     }
     else{
@@ -227,6 +229,40 @@ function AddTeacher() {
             onChange = {(e)=>{
               if(Number(e.target.value)|| e.target.value=== ''){
               setScreenTime(e.target.value)
+              }
+            }}
+            
+            />
+            
+            
+          </Grid>
+        </Grid>
+
+
+
+        <Grid container item xs={12} spacing={2}>
+          <Grid item xs={3}>
+            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
+             <div >
+             WAIT TIME
+             </div>
+      
+            </Typography>
+          
+          </Grid>
+
+          <Grid item xs={7}>
+            <TextField
+            fullWidth
+            placeholder=" add wait time"
+            variant="outlined"
+            multiline
+            type="number"
+            maxRows={2}
+            value= {waitTime}
+            onChange = {(e)=>{
+              if(Number(e.target.value)|| e.target.value=== ''){
+              setWaitTime(e.target.value)
               }
             }}
             

@@ -30,6 +30,7 @@ function EditTeacher() {
 
   const [loading,setLoading] = useState(false)
   const [screenTime,setScreenTime] = useState(teacherInfo.screenTime && teacherInfo.screenTime)
+  const [waitTime,setWaitTime] = useState(teacherInfo.waitTime && teacherInfo.waitTime)
   const [history,setHistory] = useState(teacherInfo.history)
   const [firstName,setFirstName] =useState(teacherInfo.firstName)
   const [lastName,setLastName] =useState(teacherInfo.lastName)
@@ -64,6 +65,7 @@ function EditTeacher() {
     age:Number(age)&&Number(age),
     history,
     screenTime,
+    waitTime,
     complaint,
     complaintId
   }
@@ -72,7 +74,7 @@ function EditTeacher() {
 
      console.log("TYPE OF SCREEN TIME--->",typeof(screenTime))
 
-   if(!screenTime||!firstName||!lastName||!icon||!complaint||!history||!age){
+   if(!screenTime||!firstName||!lastName||!icon||!complaint||!history||!age||!waitTime){
     notifyErrorFxn("please make sure all fields are filled in")
    }else{
 
@@ -174,6 +176,38 @@ function EditTeacher() {
         </Grid>
 
 
+        <Grid container item xs={12} spacing={2}>
+          <Grid item xs={3}>
+            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
+             <div >
+             WAIT TIME
+             </div>
+      
+            </Typography>
+          
+          </Grid>
+
+          <Grid item xs={7}>
+            <TextField
+            type="number"
+            fullWidth
+            placeholder=" add wait time"
+            variant="outlined"
+            InputProps={{ inputProps: {type:"number" } }}
+            multiline
+            maxRows={2}
+            value= {waitTime}
+            onChange = {(e)=>{ 
+              if(Number(e.target.value)|| e.target.value=== ''){
+              setWaitTime(e.target.value)}}
+              }
+            />
+            
+            
+          </Grid>
+        </Grid>
+
+
 
        
         <Grid container item xs={12} spacing={2}>
@@ -247,7 +281,7 @@ function EditTeacher() {
           <Grid item xs={7}>
             <TextField
             fullWidth
-            placeholder=" enter last name."
+            placeholder=" enter age."
             variant="outlined"
             multiline
             maxRows={2}

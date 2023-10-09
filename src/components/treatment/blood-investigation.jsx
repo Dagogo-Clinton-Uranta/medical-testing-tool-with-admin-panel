@@ -261,11 +261,13 @@ const [trigger,setTrigger] = useState(true)
 
     setTestTaken("loading")
    
-    if(candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true){
-   setTimeout(()=>{setTestTaken(true)},5000)
-    }else{
+   /* if(candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true){*/
+   setTimeout(()=>{setTestTaken(true)},(selectedPatient && selectedPatient.waitTime ?selectedPatient.waitTime*1000:5000))
+   /* }*/
+    
+    /*else{
       setTestTaken(false)
-    }
+    }*/
 
     
   }

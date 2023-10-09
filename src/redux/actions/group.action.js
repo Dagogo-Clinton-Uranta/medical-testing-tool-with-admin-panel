@@ -537,6 +537,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
       complaint:addObject.complaint,
       complaintId:addObject.complaintId,
       screenTime:addObject.screenTime,
+      waitTime:addObject.waitTime,
         registeredOn:new Date()
 
       }
@@ -746,6 +747,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
       complaintId:updateObject.complaintId,
       complaint:updateObject.complaint,
       screenTime:updateObject.screenTime,
+      waitTime:updateObject.waitTime,
     }
   ).then((snapshot) => {
      //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
