@@ -236,7 +236,7 @@ console.log("selected patient is ---->",selectedPatient)
           draggable
           pauseOnHover
         />
-        {isLoading || patients.length <1 ? (
+        {isLoading /*|| patients.length <1*/ ? (
           <center>
             <CircularProgress />
           </center>
