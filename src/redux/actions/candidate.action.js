@@ -1,5 +1,7 @@
 import { db } from "../../config/firebase";
 import { fetchCandidates, fetchSingleCandidate } from "../reducers/candidate.slice";
+import { notifyErrorFxn, notifySuccessFxn } from "src/utils/toast-fxn";
+import { fetchCandidateData } from "./auth.action";
 
 
 export const getCandidates = (uid) => async (dispatch) => {
@@ -154,7 +156,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4) =>async (di
      }).then((value)=>{
        
        
-     dispatch(fetchUserData(uid))
+     dispatch(fetchCandidateData(uid))
       
      notifySuccessFxn(`submitted blood investigation!`);
    
@@ -297,7 +299,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4) =>async (di
   }).then((value)=>{
     
     
-  dispatch(fetchUserData(uid))
+  dispatch(fetchCandidateData(uid))
    
   notifySuccessFxn(`submitted radiology!`);
 
@@ -429,7 +431,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4) =>async (di
      }).then((value)=>{
        
        
-     dispatch(fetchUserData(uid))
+     dispatch(fetchCandidateData(uid))
       
      notifySuccessFxn(`submitted Prescription!`);
    
@@ -569,7 +571,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4) =>async (di
      }).then((value)=>{
        
        
-     dispatch(fetchUserData(uid))
+     dispatch(fetchCandidateData(uid))
       
      notifySuccessFxn(`submitted referrals!`);
    

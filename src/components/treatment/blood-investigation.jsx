@@ -1,15 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import IMG from '../../assets/images/empty-avatar.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { Grid, Container, Chip, Paper, TextareaAutosize, Button, Typography, Divider, Avatar } from '@mui/material';
+import { Grid, Container, Chip, Paper, TextareaAutosize, Button, Typography, Divider, Avatar, Box,CircularProgress } from '@mui/material';
+import Carousel from 'react-material-ui-carousel'
+import Modal from '@mui/material/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { admitPatients } from 'src/redux/actions/patient.action';
+import { admitPatients,fetchAllTreatmentCategories,fetchAllTreatmentTests } from 'src/redux/actions/patient.action';
+import { submitBloodInvestigation } from 'src/redux/actions/candidate.action';
+
 import { notifySuccessFxn } from 'src/utils/toast-fxn';
 import { useNavigate } from 'react-router-dom';
 import MAN from '../../assets/images/man.png';
 import WOMAN from '../../assets/images/woman.png';
 import KID from '../../assets/images/kid.png';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: '4rem',
   },
   searchInput: {
-    // background: '#00000033',
+    background: '#FFFFFF',
     border: '1px solid #00000026',
     padding: '10px',
     borderRadius: '8px',
@@ -48,11 +53,45 @@ const useStyles = makeStyles((theme) => ({
 
 const BloodInvestigation = ({ state, setState, handleChange }) => {
   const { selectedPatient } = useSelector((state) => state.patient);
+  const {user } = useSelector((state) => state.auth);
+ // console.log("our candidate's response is ",user.response)
+ // console.log("our selected patient is ",selectedPatient)
+
+  //OKAY SO WE GONNA LOOP THROUGH RESPONSES, MATCH THEM TO THE SELECTED USER, 
+  //IF THERE IS A MATCH, AND IN THAT MATCH, THE RESPONSE IS CORRECT
+  //THEN WE CAN CHANGE WHAT HAPPENS WHEN YOU CLICK THE BLOOD INVESTIGATION
+  //AND THE NOTIFICATION WOBBLING
+
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [testTaken,setTestTaken] = useState(false);
+  const [bloodInv1,setBloodInv1] = useState('')
+  const [bloodInv2,setBloodInv2] = useState([])
+  const [bloodInv2IdArray,setBloodInv2IdArray] = useState([])
+  
+  
+  const [candidateResponseArray,setCandidateResponseArray]= useState(user.response? user.response:[])
+   const [particularPatientPosition,setParticularPatientPosition] = useState(selectedPatient && candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(selectedPatient.id):-1)
+ 
+const [neverSubmitted,setNeverSubmitted] =  useState((particularPatientPosition === -1  ) ?true:false)
+const [hasSubmittedBefore,setHasSubmittedBefore] = useState((particularPatientPosition !== -1  ) ?true:false)
+const [trigger,setTrigger] = useState(true)
 
+
+
+   
+
+
+/*MODAL MANIPULATION LOGIC */
+  const [openPdf, setOpenPdf] = React.useState(false);
+  const handleOpenPdf = () => {setOpenPdf(true)}
+  const handleClosePdf = () => {setOpenPdf(false)};
+/*MODAL MANIPULATION LOGIC END */
+
+ 
   const mystyle = {
     fontFamily: 'Arial',
     fontStyle: 'normal',
@@ -62,13 +101,27 @@ const BloodInvestigation = ({ state, setState, handleChange }) => {
     color: 'black',
   };
 
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "95%",
+    height:"90%",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+ 
+
   const getAvatarSrc = (gender) => {
     switch (gender) {
-      case 'Male':
+      case 'male':
         return MAN;
-      case 'Female':
+      case 'female':
         return WOMAN;
-      case 'Kid':
+      case 'kid':
         return KID;
       default:
         return MAN; 
@@ -76,29 +129,253 @@ const BloodInvestigation = ({ state, setState, handleChange }) => {
   };
 
 
-  const admitPatientFxn = () => {
-    dispatch(admitPatients(selectedPatient?.uid, setLoading, navigate));
-  };
 
   const handleClick = () => {
     console.info('You clicked the Chip.');
   };
 
-  const handleDelete = () => {
+
+  const bloodInv1Setup = (e)=>{
+
+
+ let   targetCategory =  allTreatmentCategories.filter((item)=>(item.uid === e.target.value )).length > 0? allTreatmentCategories.filter((item)=>(item.uid === e.target.value )):[{title:null}]
+
+    setBloodInv1(targetCategory[0].title)
+  
+   /* setState({
+      ...state,
+      bloodInv2: '',
+    });*/
+
+   /* setBloodInv2([])
+    setBloodInv2IdArray([])*/
+   
+
+
+  }
+
+  const bloodInv2Setup = (e)=>{
+
+    let   targetCategoryTest =  allTreatmentTests.filter((item)=>(item.uid === e.target.value )).length > 0 ? allTreatmentTests.filter((item)=>(item.uid === e.target.value )):[{title:null}]
+   
+  if(!bloodInv2.includes(targetCategoryTest[0].title)){  setBloodInv2([...bloodInv2,targetCategoryTest[0].title])}
+
+  if(!bloodInv2IdArray.includes(targetCategoryTest[0].title)){  setBloodInv2IdArray([...bloodInv2IdArray,targetCategoryTest[0].uid])}
+    //console.log("bloodInv2 is set as",bloodInv2 )
+ 
+ 
+  }
+
+
+
+  const submitBIresponse = (patientId,b1,b2,b3,b4) => {
+    setHasSubmittedBefore(true)
+    dispatch(submitBloodInvestigation(user.uid,patientId,b1,b2,b3,b4))
+
+  }
+
+
+
+
+  useEffect(() => {
+    console.log("OUR ISSUE FOR BLOOD INV IS!:")
+    dispatch(fetchAllTreatmentCategories());
+    dispatch(fetchAllTreatmentTests());
+  }, []);
+
+
+
+  /*THIS USE EFFECT IS SO THAT WE CAN RESET THE SELECTIONS WHEN THE PATIENT IS CHANGED */
+  useEffect(()=>{
+   
+   /* setState({
+      ...state,
+      bloodInv1: '',
+      bloodInv2: '',
+    });*/
+  
+
+
+    setBloodInv2([])
+    setBloodInv2IdArray([])
+  },[selectedPatient])
+
+
+  /*LOGIC FOR SETTING VIEW RESULTS FOR BLOOD INVESTIGATION*/ 
+  useEffect(() => {
+   
+
+
+    setTestTaken(false)
+   
+   
+
+   if(neverSubmitted===true && hasSubmittedBefore === true )
+  {
+
+    setTestTaken("loading")
+   setTimeout(()=>{
+    if(candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true){
+    setTestTaken(true)
+    }else{
+      setTestTaken(false)
+    }
+  
+  },5000)
+    
+  }
+  
+   
+  else if( hasSubmittedBefore !== true && particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true )){
+
+   setTestTaken(true)
+
+  }
+
+
+  setCandidateResponseArray(user.response? user.response:[])
+  setParticularPatientPosition(selectedPatient && user.response && user.response.length> 0 ? user.response.map((item)=>(item.patientId)).indexOf(selectedPatient.id):-1)
+  setNeverSubmitted((particularPatientPosition === -1  ) ?true:false)
+
+  //YOU PROBABLY NEED A DIFFERENT LOGIC THAN THE ONE COMMENTED OUT BELOW, TO HAVE SUBMITTED BEFORE OR NEVER BEEN SUBMITTED TO CHANGE ONLY AFTER THE FIRST SUBMIT OF A PATIENT
+  setHasSubmittedBefore(user.response.map((item)=>(item.patientId)).indexOf(selectedPatient.id) !== -1 /*&& (candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].hasOwnProperty("bloodInvestigationPassed"))*/?true:false)
+  setTrigger(!trigger)
+
+
+
+  }, [selectedPatient,user]);
+   /*LOGIC FOR SETTING VIEW RESULTS FOR BLOOD INVESTIGATION - END*/ 
+
+
+
+
+  /*LOGIC FOR SETTING VIEW RESULTS FOR BLOOD INVESTIGATION RERUN*/ 
+  useEffect(() => {
+   
+    setTestTaken(false)
+    console.log("OUR STATE IS!:",state)
+   
+
+   if(neverSubmitted===true && hasSubmittedBefore === true )
+  {
+
+    setTestTaken("loading")
+   
+    if(candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true){
+   setTimeout(()=>{setTestTaken(true)},5000)
+    }else{
+      setTestTaken(false)
+    }
+
+    
+  }
+  
+  
+  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true  )){
+
+   setTestTaken(true)
+
+  }else{
+    setTestTaken(false)
+  }
+
+
+  setCandidateResponseArray(user.response? user.response:[])
+  setParticularPatientPosition(selectedPatient && user.response && user.response.length> 0 ? user.response.map((item)=>(item.patientId)).indexOf(selectedPatient.id):-1)
+  setNeverSubmitted(user.response.map((item)=>(item.patientId)).indexOf(selectedPatient.id) === -1  ?true:false)
+  setHasSubmittedBefore(user.response.map((item)=>(item.patientId)).indexOf(selectedPatient.id) !== -1 /*&& (candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].hasOwnProperty("bloodInvestigationPassed"))*/?true:false)
+  
+
+ 
+}, [trigger]);
+   /*LOGIC FOR SETTING VIEW RESULTS FOR BLOOD INVESTIGATION RERUN - END*/ 
+
+
+
+  const { allTreatmentCategories,allTreatmentTests } = useSelector((state) => state.patient);
+
+
+  const handleDelete = (tbr,tbrId) => {
+    
+
+     let placeholder =   bloodInv2.filter((item)=>(item !== tbr))
+     let placeholder2 =   bloodInv2IdArray.filter((item)=>(item !== tbrId))
+
+
+      setBloodInv2([...placeholder])
+      setBloodInv2IdArray([...placeholder2])
+  };
+
+
+  const resetAllOptions = (tbr) => {
     setState({
         ...state,
         bloodInv1: '',
         bloodInv2: '',
       });
+
+      setBloodInv2([])
+      setBloodInv2IdArray([])
+      setBloodInv1('')
+
   };
 
 
   return (
     <>
-      {selectedPatient && (
+
+
+<Modal
+        open={openPdf}
+        onClose={handleClosePdf}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+  
+  <Box sx={style} > 
+   <center >
+   
+   
+    {user && user.response  && user.response[particularPatientPosition]  &&   user.response[particularPatientPosition].bloodInvestigationAnswerImages ?
+    
+
+    <Carousel
+    navButtonsAlwaysVisible={true}
+   
+    sx={{position:"absolute",marginLeft:"10%",top:"-10px",width:"80%",height:"105%",display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"center"}}>
+  {  user.response[particularPatientPosition].bloodInvestigationAnswerImages.map((item)=>(
+   
+    <center style={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"center"}} >
+    <img    src ={item} />
+    </center>
+))
+ }
+</Carousel  >
+
+     : 
+
+     <Carousel sx={{position:"absolute",marginLeft:"10%",top:"0px",width:"80%",display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"center"}}>
+     
+     <p>No images loaded for the correct answer, please check back later..</p>
+  
+     </Carousel>
+
+    }
+
+   
+
+
+
+   </center>
+   </Box>   
+    </Modal>
+
+
+
+     
         <Grid container spacing={1} sx={{ minWidth: 100 }}>
           <Grid item>
-          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient.gender)} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
+          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
             {/* </ButtonBase> */}
           </Grid>
           <Grid item xs={12} sm container>
@@ -125,28 +402,40 @@ const BloodInvestigation = ({ state, setState, handleChange }) => {
                 </div>
               </Grid>
               <Typography variant="body2" gutterBottom style={mystyle} sx={{ ml: 1.8 }}>
-                {selectedPatient?.age}YRS | {selectedPatient?.gender.toUpperCase()}
+                {selectedPatient?.age}YRS | {selectedPatient?.icon.toUpperCase()}
               </Typography>
             </Grid>
           </Grid>
 
+
+        {testTaken === false?
+          <>
           <div style={{ width: '100%', margin: '20px' }}>
-            <Grid item xs={12} md={12} lg={12}>
-              <Typography variant="subtitle1" style={{ marginBottom: '10px' }}>
+          
+         
+           <Grid item xs={12} md={12} lg={12}>
+              <Typography variant="subtitle1" style={{ marginBottom: '10px',fontSize: '18px' }}>
                 <b>Blood Investigation</b>
               </Typography><br/>
+      
+            
               <select
                 name="bloodInv1"
-                value={state.bloodInv1}
-                onChange={handleChange}
+                value={state.bloodInv1 }
+                onChange={(e)=>{handleChange(e);bloodInv1Setup(e)}}
+              
                 className={classes.searchInput}
                 style={{ minHeight: '50px', fontSize: '17px', outline: '1px solid #eee' }}
                 required
               >
-                <option value=""></option>
-                <option value="Toxicology">Toxicology</option>
-                <option value="Pantalogy">Pantalogy</option>
-                <option value="Heriye">+Heriye</option>
+             {  allTreatmentCategories.filter((item)=>(item.treatmentId === "7aHB3TreYQYh3bzBS65K" )).map((prop)=>(
+
+                 <option value={prop.uid}>{prop.title}</option>
+                   
+             
+          ))  
+                
+             }
               </select>
             </Grid>
             <div style={{ marginTop: '10px' }}></div>
@@ -154,21 +443,35 @@ const BloodInvestigation = ({ state, setState, handleChange }) => {
               <select
                 name="bloodInv2"
                 value={state.bloodInv2}
-                onChange={handleChange}
+                onChange={(e)=>{handleChange(e);bloodInv2Setup(e)}}
+               
                 className={classes.searchInput}
                 style={{ minHeight: '50px', fontSize: '17px', outline: '1px solid #eee' }}
                 required
-                disabled={!state.bloodInv1 ? true : false}
+                disabled={state.bloodInv1 && state.bloodInv1.length <1 ? true : false}
               >
-                <option value=""></option>
-                <option value="Full Blood Count">Full Blood Count</option>
-                <option value="Half Blood Count">Half Blood Count</option>
+                {  allTreatmentTests.filter((item)=>(item.treatmentCategoryId === state.bloodInv1 )).map((prop)=>(
+
+                     <option value={prop.uid}>{prop.title}</option>
+                       
+
+                     ))  
+                     
+                     }
               </select>
             </Grid>
             <br/>
             <div style={{padding: '10px', border: state.bloodInv2 ? '1px solid #00000033' : ''}}>
-             {state.bloodInv2 && <> &nbsp; 
-              <Chip label={state.bloodInv2} onClick={handleClick} onDelete={handleDelete} /></>}
+             {state.bloodInv2 &&
+              <> 
+                 &nbsp; 
+               {  bloodInv2.map((item,index)=>(
+              <Chip label={item} onClick={handleClick} onDelete={()=>{handleDelete(item,bloodInv2IdArray[index])}} />
+              ))
+                }
+
+              </>
+              }
             </div>
             <div style={{ padding: '10px' }}>
               <br />
@@ -179,22 +482,97 @@ const BloodInvestigation = ({ state, setState, handleChange }) => {
                     fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor: '#21D0C3',
+                      backgroundColor:state.bloodInv1.length <1 ||state.bloodInv2.length <1||bloodInv2.length <1||bloodInv1.length <1  ?'#199e94':'#21D0C3',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',
                       height: '50px',
                     }}
-                    disabled={loading}
+                    disabled={state.bloodInv1.length <1  ||state.bloodInv2.length <1 ||bloodInv2.length <1||bloodInv1.length <1  ||loading}
+                    onClick={()=>{submitBIresponse(selectedPatient?.uid,bloodInv1,bloodInv2,bloodInv2IdArray,selectedPatient?.complaintId)}}
                   >
                     Submit
                   </Button>
                 </Grid>
+
+               {testTaken === false &&
+               
+               <Grid item xs={4} md={4}>
+                  <Button
+                    type="button"
+                    fullWidth
+                    variant="contained"
+                    style={{
+                      backgroundColor:'#21D0C3',
+                      color: 'white',
+                      fontSize: '15px',
+                      padding: '4px',
+                      height: '50px',
+                    }}
+                    disabled={false}
+                    onClick={()=>{resetAllOptions()}}
+                  >
+                    Clear
+                  </Button>
+                </Grid>
+                }
+
               </Grid>
             </div>
           </div>
+
+          </>
+          :
+    
+          <Grid container spacing={2} style={{margin:"0 auto",display:"flex", alignItems: 'bottom', justifyContent:'center'}}>
+               
+               <Grid item xs={12} md={12} lg={12}>
+               <Typography variant="subtitle1" style={{ marginTop: '4px',marginLeft:"4px",marginBottom: '50px',fontSize: '18px' }}>
+                <b>Blood Investigation</b>
+              </Typography><br/>
+              </Grid> 
+               
+              { testTaken !== false && testTaken === "loading"?
+
+              <div style={{display:"flex",justifyContent:"center",flexDirection:"column",gap:"2rem"}}>
+              "Please wait while we fetch your results..."
+               <center>
+              <CircularProgress />
+              </center>
+              </div>
+              :
+
+
+                <Grid item xs={4} md={4}>
+
+                 <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    style={{
+                      backgroundColor:'#21D0C3',
+                      color: 'white',
+                      fontSize: '15px',
+                      padding: '4px',
+                      height: '50px',
+                    }}
+                    
+                    onClick={()=>{handleOpenPdf()}}
+                  >
+                    View Result
+                  </Button>
+
+                
+                </Grid>
+              }
+                
+ 
+              </Grid>
+
+          }
+
         </Grid>
-      )}
+     
     </>
   );
 };
