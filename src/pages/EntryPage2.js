@@ -2,6 +2,8 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import LOGO from '../assets/images/ibara_logo.png';
+import BACKGROUND_IMG from '../assets/images/background.png';
+import BACKGROUND_IMG2 from '../assets/images/background2.jpeg';
 
 const EntryPage2 = () => {
   const navigate = useNavigate();
@@ -16,6 +18,10 @@ const EntryPage2 = () => {
         height: '100vh',
         background: 'linear-gradient(to bottom, #000000, #15197ED9)',
         position: 'relative',
+        backgroundImage: `url(${BACKGROUND_IMG2})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        zIndex: -2,
       }}
     >
       <div
@@ -34,6 +40,7 @@ const EntryPage2 = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        
         }}
       >
         <h1
@@ -42,6 +49,8 @@ const EntryPage2 = () => {
             fontSize: '48px',
             textAlign: 'center',
             color: 'white',
+          
+            zIndex: 1,
           }}
         >
           Royal College of Emergency Physicians Part 3 Exams
@@ -54,6 +63,7 @@ const EntryPage2 = () => {
             lineHeight: '1px',
             color: 'white',
             margin: '0',
+            zIndex:1,
           }}
         >
           5th Sept, 2023
@@ -72,6 +82,7 @@ const EntryPage2 = () => {
         type="submit"
         fullWidth
         variant="contained"
+        
         style={{
           maxWidth: '20%',
           backgroundColor: 'black',
@@ -79,6 +90,7 @@ const EntryPage2 = () => {
           fontSize: '15px',
           padding: '14px',
           height: '60px',
+          zIndex:1,
         }}
         onClick={() => {
             navigate('/patient');
