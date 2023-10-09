@@ -21,7 +21,7 @@ const EntryPage2 = () => {
         backgroundImage: `url(${BACKGROUND_IMG2})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        zIndex: -2,
+       
       }}
     >
       <div
@@ -90,7 +90,7 @@ const EntryPage2 = () => {
           fontSize: '15px',
           padding: '14px',
           height: '60px',
-          zIndex:1,
+          zIndex:6,
         }}
         onClick={() => {
             navigate('/patient');
