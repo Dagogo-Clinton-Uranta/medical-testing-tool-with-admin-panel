@@ -203,7 +203,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
   {
 
     setTestTaken("loading")
-   setTimeout(()=>{setTestTaken(true)},(selectedPatient && selectedPatient.waitTime?selectedPatient.waitTime*1000:5000))
+   setTimeout(()=>{setTestTaken(true)},(selectedPatient && selectedPatient.waitTime?Number(selectedPatient.waitTime)*1000:5000))
     
   }
   
