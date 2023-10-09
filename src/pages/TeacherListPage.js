@@ -35,7 +35,14 @@ export default function TeacherListPage() {
        
     }, [])*/
 
-    
+    const { user } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+
+      if(user && !user.isExaminer){
+  
+      navigate('/patient')
+      }},[]) 
  
  
  

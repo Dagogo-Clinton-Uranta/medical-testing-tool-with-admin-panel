@@ -18,6 +18,7 @@ const theme = createTheme();
 export default function StudentListPage() {
   const dispatch = useDispatch();
   const { jobs } = useSelector((state) => state.jobs);
+ 
   const [jobArr, setJobArr] = useState(jobs);
   const navigate = useNavigate()
 
@@ -70,7 +71,14 @@ export default function StudentListPage() {
       }
     });
  
- 
+    const { user } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+
+      if(user && !user.isExaminer){
+  
+      navigate('/patient')
+      }},[])
  
  useEffect(() => {
    dispatch(getJobs());  

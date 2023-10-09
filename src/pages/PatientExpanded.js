@@ -1,5 +1,5 @@
 import { Container,Grid, TextField, Typography, TextareaAutosize, Button, Paper,Divider,Box} from '@mui/material';
-import { useRef, useState} from 'react';
+import { useRef, useState,useEffect} from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
 import UPLOADIMG from '../assets/images/upload.png';
 import { addTeacher} from 'src/redux/actions/group.action';
@@ -68,6 +68,16 @@ function PatientExpanded() {
     setTimeout(()=>{setLoading(false)},1800)
     }
   }
+
+
+
+
+  useEffect(() => {
+
+    if(user && !user.isExaminer){
+
+    navigate('/patient')
+    }},[])
  
 
 

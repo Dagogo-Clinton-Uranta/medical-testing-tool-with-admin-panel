@@ -79,6 +79,15 @@ function AddComplaint() {
   },[])
 
 
+
+  useEffect(() => {
+
+    if(user && !user.isExaminer){
+
+    navigate('/patient')
+    }},[])
+
+
   const addObject ={
    ...stateObject,
    chosenBloodInvestigationArray:bloodInv,

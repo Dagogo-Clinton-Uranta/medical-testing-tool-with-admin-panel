@@ -89,6 +89,16 @@ function EditChapter() {
 };
 
 
+
+
+useEffect(() => {
+
+  if(user && !user.isExaminer){
+
+  navigate('/patient')
+  }},[])
+
+
   return (
     <>
     <Container maxWidth="xl">

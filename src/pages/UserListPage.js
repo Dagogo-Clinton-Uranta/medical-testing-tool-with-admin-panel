@@ -69,6 +69,16 @@ export default function CJobs() {
         colors: ['#000000', '#F97D0B', '#F97D0B', '#F97D0B', '#F97D0B', '#F97D0B', '#F97D0B']
       }
     });
+
+
+    const { user } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+
+      if(user && !user.isExaminer){
+  
+      navigate('/patient')
+      }},[])
  
  
  

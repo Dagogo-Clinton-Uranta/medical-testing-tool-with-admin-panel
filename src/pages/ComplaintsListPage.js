@@ -36,7 +36,14 @@ export default function ComplaintsListPage() {
     }, [])*/
 
     
- 
+    const { user } = useSelector((state) => state.auth);
+
+    useEffect(() => {
+
+      if(user && !user.isExaminer){
+  
+      navigate('/patient')
+      }},[])
  
  
  useEffect(() => {

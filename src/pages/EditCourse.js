@@ -44,6 +44,15 @@ function EditCourse() {
   
    },[])
 
+  
+
+   useEffect(() => {
+
+     if(user && !user.isExaminer){
+ 
+     navigate('/patient')
+     }},[])
+
   const updateObject ={
     title,
     body,

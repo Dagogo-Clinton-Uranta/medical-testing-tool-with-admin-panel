@@ -41,6 +41,16 @@ function EditTeacher() {
   
   console.log("TYPE OF SCREEN TIME-->",typeof(screenTime))
 
+  
+
+  useEffect(() => {
+
+    if(user && !user.isExaminer){
+
+    navigate('/patient')
+    }},[])
+
+
   useEffect(()=>{
 
     console.log("OUR UPDATE OBJECT IS--->",updateObject)

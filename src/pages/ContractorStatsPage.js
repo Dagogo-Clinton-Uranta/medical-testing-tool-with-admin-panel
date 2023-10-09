@@ -92,6 +92,16 @@ export default function ContractorStatsPage() {
 
   console.log('ibara users data is: ', jobArr);
 
+
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+
+    if(user && !user.isExaminer){
+
+    navigate('/patient')
+    }},[])
+
   return (
       
         

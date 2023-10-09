@@ -43,6 +43,8 @@ const [file,setFile] = useState('')
 
   console.log("user details are:",user)
   console.log("selected file:",selectedFile)
+
+  
   
 
   const handleselectedFile = event => {
@@ -85,6 +87,15 @@ const [file,setFile] = useState('')
     setTimeout(()=>{setLoading(false)},1800)
     }
   }
+
+ 
+
+  useEffect(() => {
+
+    if(user && !user.isExaminer){
+
+    navigate('/patient')
+    }},[])
  
 
   useEffect(()=>{

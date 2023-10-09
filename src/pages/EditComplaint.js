@@ -52,6 +52,15 @@ function EditComplaint() {
   },[])
 
 
+
+
+  useEffect(() => {
+
+    if(user && !user.isExaminer){
+
+    navigate('/patient')
+    }},[])
+
   const { allCategories,allTreatmentCategories } = useSelector((state) => state.group);
 
 
