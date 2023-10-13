@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import IMG from '../../assets/images/empty-avatar.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Container, Paper, Button, Typography, ButtonBase, Avatar } from '@mui/material';
@@ -42,7 +42,10 @@ const PatientDetails = () => {
     dispatch(admitPatients(selectedPatient?.uid, setLoading, navigate));
   }
 
-
+  useEffect(()=>{
+  console.log("our selected patient after submitting is--->",selectedPatient)
+  }
+  ,[selectedPatient])
   return (
    <>
    {selectedPatient && (
@@ -70,8 +73,124 @@ const PatientDetails = () => {
      </Grid>
      <div style={{padding: '10px'}}>
      <center>
-           <div style={{ marginTop: '10px', minHeight: '250px', border: '0px solid red' }}>
-            {selectedPatient?.aboutIssue ?? 'pturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis '}
+     {(selectedPatient.chosenBloodInvestigationTests || selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray || selectedPatient.chosenReferrals) &&
+              <b>Actions List</b>
+            }
+
+
+           <div style={{ marginTop: '10px', minHeight: '250px', minWidth:"500px",border: '0px solid red',display:"grid" , gridTemplateColumns:( (selectedPatient.chosenBloodInvestigationTests||selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray||selectedPatient.chosenReferrals)?"1fr 1fr" :"1fr"),gap:"1rem"}}>
+
+            
+            { (!selectedPatient.chosenBloodInvestigationTests && !selectedPatient.chosenRadiologyTests && !selectedPatient.prescriptionResponseArray && !selectedPatient.chosenReferrals) && 
+             (
+             selectedPatient.aboutIssue?
+             selectedPatient.aboutIssue:
+             'pturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis '
+             )
+            }
+          
+            
+        
+            {
+            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
+            (
+            <div>
+            <p>INVESTIGATIONS</p>
+            {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+              { 
+            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
+              <li>{item}</li>
+               ))
+              } 
+              </div> 
+            }
+
+           </div>
+           )
+               }
+
+
+         {
+            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
+            (
+            <div>
+            <p>INVESTIGATIONS</p>
+            {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+              { 
+            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
+              <li>{item}</li>
+               ))
+              } 
+              </div> 
+            }
+
+           </div>
+           )
+               }
+
+             
+         { 
+            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
+            (
+            <div>
+            <p>INVESTIGATIONS</p>
+            {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+              { 
+            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
+              <li>{item}</li>
+               ))
+              } 
+              </div> 
+            }
+
+           </div>
+           )
+               }
+
+
+
+         {
+            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
+            (
+            <div>
+            <p>INVESTIGATIONS</p>
+            {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+              { 
+            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
+              <li>{item}</li>
+               ))
+              } 
+              </div> 
+            }
+
+           </div>
+           )
+               }
+
+
+
+      {
+            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
+            (
+            <div>
+            <p>INVESTIGATIONS</p>
+            {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+              { 
+            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
+              <li>{item}</li>
+               ))
+              } 
+              </div> 
+            }
+
+           </div>
+           )
+               }
+
+            
+
+
+
            </div>
          </center>
          {/* <hr /> */}

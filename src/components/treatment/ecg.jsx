@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ECG = ({ state, setState, handleChange }) => {
-  const { selectedPatient } = useSelector((state) => state.patient);
+  const { selectedPatient,admittedPatients } = useSelector((state) => state.patient);
   const dispatch = useDispatch();
   const classes = useStyles();
   const navigate = useNavigate();
