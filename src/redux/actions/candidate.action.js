@@ -301,9 +301,9 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
       /*====  adding radiology to a particular admitted patient ====== */
         
-      const patientReplacementArray = b5
+      const patientReplacementArray = [...b5]
 
-      const patientIdToChange = b5.map((item)=>(item.uid)).indexOf(patientId)
+      const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
 
       if(patientIdToChange !== -1){
         patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenRadiologyTests:b2}
@@ -449,9 +449,9 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
             /*====  adding prescription to a particular admitted patient ====== */
         
-            const patientReplacementArray = b3
+            const patientReplacementArray = [...b3]
 
-            const patientIdToChange = b3.map((item)=>(item.uid)).indexOf(patientId)
+            const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
             
             if(patientIdToChange !== -1){
               patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],prescriptionResponseArray:b1}
@@ -606,9 +606,9 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
              /*====  adding referrals to a particular admitted patient ====== */
         
-             const patientReplacementArray = b5
+             const patientReplacementArray = [...b5]
 
-             const patientIdToChange = b5.map((item)=>(item.uid)).indexOf(patientId)
+             const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
            
              if(patientIdToChange !== -1){
                patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenReferrals:b2}

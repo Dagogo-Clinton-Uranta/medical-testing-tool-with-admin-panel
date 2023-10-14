@@ -111,13 +111,13 @@ const PatientDetails = () => {
 
 
          {
-            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
+            selectedPatient && selectedPatient.chosenRadiologyTests &&
             (
             <div>
-            <p>INVESTIGATIONS</p>
+            <p>RADIOLOGY</p>
             {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
               { 
-            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
+            selectedPatient.chosenRadiologyTests.map((item)=>(
               <li>{item}</li>
                ))
               } 
@@ -130,13 +130,13 @@ const PatientDetails = () => {
 
              
          { 
-            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
+            selectedPatient && selectedPatient.prescriptionResponseArray &&
             (
             <div>
-            <p>INVESTIGATIONS</p>
+            <p>PRESCRIPTIONS</p>
             {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
               { 
-            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
+            selectedPatient.prescriptionResponseArray.map((item)=>(
               <li>{item}</li>
                ))
               } 
@@ -150,13 +150,13 @@ const PatientDetails = () => {
 
 
          {
-            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
+            selectedPatient && selectedPatient.chosenReferrals &&
             (
             <div>
-            <p>INVESTIGATIONS</p>
+            <p>REFERRALS</p>
             {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
               { 
-            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
+            selectedPatient.chosenReferrals.map((item)=>(
               <li>{item}</li>
                ))
               } 
@@ -169,24 +169,7 @@ const PatientDetails = () => {
 
 
 
-      {
-            selectedPatient && selectedPatient.chosenBloodInvestigationTests &&
-            (
-            <div>
-            <p>INVESTIGATIONS</p>
-            {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
-              { 
-            selectedPatient.chosenBloodInvestigationTests.map((item)=>(
-              <li>{item}</li>
-               ))
-              } 
-              </div> 
-            }
-
-           </div>
-           )
-               }
-
+      
             
 
 
