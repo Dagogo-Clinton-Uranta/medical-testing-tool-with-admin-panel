@@ -15,9 +15,9 @@ export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) 
     console.log('Signed In user is: ', user.email);
      dispatch(fetchCandidateData("ADq0LNbilFVUdDl8WrLIbOeP8xl2", "sigin", navigate, setLoading));
     
-       // dispatch(getAllPatients([]));
-        dispatch(getWaitingRoomPatients());
-        dispatch(getAdmittedPatients());
+       dispatch(getAllPatients());
+      
+       
         dispatch(fetchAllTreatmentCategories());
         dispatch(fetchAllTreatmentTests());
   })

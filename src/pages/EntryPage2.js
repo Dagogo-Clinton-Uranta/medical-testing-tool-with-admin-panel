@@ -1,12 +1,23 @@
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+
+import { useDispatch, useSelector } from 'react-redux';
+import React,{useEffect} from 'react';
+import {  reset } from 'src/redux/actions/patient.action';
+
 import LOGO from '../assets/images/ibara_logo.png';
 import BACKGROUND_IMG from '../assets/images/background.png';
 import BACKGROUND_IMG2 from '../assets/images/background2.jpeg';
 
 const EntryPage2 = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const { user } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+   dispatch(reset(user?.uid))
+  }, []);
+
 
   return (
     <div

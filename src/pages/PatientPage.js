@@ -16,7 +16,7 @@ import IMG4 from '../assets/images/intervention.png';
 import IMG5 from '../assets/images/referrals.png';
 import HospitalBed from 'src/components/patient/hospital-bed';
 import EmptyPane from 'src/components/patient/empty-pane';
-import { fetchAllTreatmentCategories, fetchAllTreatmentTests, getAdmittedPatients,refreshCountdown ,getAllPatients,removePatient, getWaitingRoomPatients, reset } from 'src/redux/actions/patient.action';
+import { fetchAllTreatmentCategories, fetchAllTreatmentTests, getAdmittedPatients,refreshCountdown ,getAllPatients,removePatient, getWaitingRoomPatients, reset, refreshAllPatients } from 'src/redux/actions/patient.action';
 import { ToastContainer } from 'react-toastify';
 import {CSSTransition,TransitionGroup} from 'react-transition-group';
 
@@ -56,7 +56,16 @@ const [radiologyClicked,setRadiologyClicked] = useState(false)
   const { user } = useSelector((state) => state.auth);
 
   const { selectedPatient, patients,patientTimers ,admittedPatients, isLoading } = useSelector((state) => state.patient);
-  //console.log("PATIENT TIMERS IS-->",patientTimers)
+  console.log("PATIENT TIMERS IS--->",patientTimers)
+
+
+  window.onload = function(){
+    dispatch(getAllPatients());
+    console.log("I JUST RELOADED NOW")
+  }
+
+
+
   useEffect(() => {
 
     if(user && user.isExaminer){
@@ -236,30 +245,30 @@ console.log("selected patient is ---->",selectedPatient)
           draggable
           pauseOnHover
         />
-        {isLoading /*|| patients.length <1*/ ? (
+        {isLoading ? (
           <center>
             <CircularProgress />
           </center>
         ) : (
           <Grid container spacing={2}>
 
-          {/*
+          {
             patientTimers && patientTimers.map((item)=>(
-              <div style={{display:"block",width:"0%",height:"0%",position:"relative",left:"50%"}}>
+              <div style={{display:"none",width:"100%",position:"relative",left:"40%"}}>
                    {item.firstName}{" "} {item.lastName}{" "}{"---> "}
                  <Countdown date={Date.now() + item.screenCountdown}
               
                precision={1000} 
-               intervalDelay={10000}
+               intervalDelay={1000}
              
             onTick ={()=>{dispatch(refreshCountdown(patientTimers))}} 
-               onComplete={()=>{dispatch(removePatient(item.id,item.firstName,item.lastName,patientTimers,(selectedPatient &&selectedPatient.uid? selectedPatient.uid:null)))}}
+               onComplete={()=>{dispatch(removePatient(item.id,item.firstName,item.lastName,patientTimers,(selectedPatient &&selectedPatient.uid? selectedPatient.uid:null),admittedPatients,patients))}}
              
                />
                </div>
             ))
             
-            */}
+            }
 
 
 

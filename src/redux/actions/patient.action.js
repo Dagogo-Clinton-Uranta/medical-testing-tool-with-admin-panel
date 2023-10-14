@@ -5,7 +5,7 @@ import { fetchCandidateData } from "./auth.action";
 
 
 
-export const getAllPatients = (existingTimes) => async (dispatch) => {
+export const getAllPatients = () => async (dispatch) => {
 
 
   db.collection('Patients')
@@ -18,7 +18,15 @@ export const getAllPatients = (existingTimes) => async (dispatch) => {
                                                        lastName:doc.data().lastName,
                                                        screenCountdown:doc.data().screenTime*60*1000 }));
 
-    dispatch(fetchAllPatients(patients));
+  
+  
+      const waitingRoomPatients = patients.filter((item)=>(item.isAdmitted===false))
+      const admittedPatients = patients.filter((item)=>(item.isAdmitted===true))
+
+      dispatch(fetchAdmittedPatients(admittedPatients))
+      dispatch(fetchPatients(waitingRoomPatients))
+      
+      dispatch(fetchAllPatients(patients));
    
       
 
@@ -40,6 +48,7 @@ export const getAllPatients = (existingTimes) => async (dispatch) => {
    
   });
 };
+
 
 
 
@@ -98,12 +107,8 @@ export const refreshCountdown = (originalArray) => async (dispatch) => {
   const currentTimeArray = sessionStorage.getItem("patientTimers")!==null &&   JSON.parse(sessionStorage.getItem("patientTimers"))
   console.log(" current Time array-->",currentTimeArray)
    
-
- 
-
   dispatch(fetchPatientTimers(currentTimeArray))
 
-  
 }
 
 export const getAdmittedPatients = () => async (dispatch) => {
@@ -181,7 +186,7 @@ export const admitPatients = (uid, setLoading, navigate) => async (dispatch) => 
 
 
 export const dischargePatients = (uid, setLoading, navigate) => async (dispatch) => {
-  console.log('FUNCTIONALITY CHECKER.');
+  console.log('Discharge FUNCTIONALITY CHECKERs.');
   //setLoading(true);
   // Check if the user already has a bed number
   const userRef = db.collection('Patients').doc(uid);
@@ -236,68 +241,88 @@ export const dischargePatients = (uid, setLoading, navigate) => async (dispatch)
   //setLoading(false);
 };
 
-export const removePatient = (id,firstName,lastName, patientTimers,selectedPatientId) => async (dispatch) => {
+export const removePatient = (id,firstName,lastName, patientTimers,selectedPatientId,admittedPatientArray,waitingRoomPatientArray) => async (dispatch) => {
 
   
  
 try{
-  const userRef = db.collection('Patients').doc(id);
-  const userSnapshot = await userRef.get();
-
-
-  if (userSnapshot.exists) {
-  const  userData = userSnapshot.data();
-
-
-    await userRef.update({ bedNumber: null, isAdmitted: null });
-  
-   //dispatch(getAllPatients())
-
-    //dispatching admitted patients manually to avoid page refresh
-    db.collection('Patients')
-    .where('isAdmitted', '==', true)
-    .get()
-    .then((snapshot) => {
-      const patients = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      dispatch(fetchAdmittedPatients(patients));
-    })
-    .catch((error) => {
-      var errorMessage = error.message;
-      console.log('Error fetching the patients', errorMessage);
-    });
-    //dispatching admitted patients manually to avoid page refresh - END
-
-  
-    //dispatching waiting room patients manually to avoid page refresh
-    db.collection('Patients')
-    .where('isAdmitted', '==', false)
-    .get()
-    .then((snapshot) => {
-      const patients = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-
-      dispatch(fetchPatients(patients));
-     
-     if(selectedPatientId !== undefined && selectedPatientId === id){
-        dispatch(setSelectedPatient(null))
-      }
-      console.log("OUR PRE BEEP IS-->",userData)
-
-  if(userData &&  userData.elapsed === false){
-  
-    notifyInfoFxn(` patient ${firstName} ${lastName}'s time has elapsed `);
-  }
-    }).then(async(snapshot)=>{
-
-      await userRef.update({ elapsed: true });
-    })
-    .catch((error) => {
-      var errorMessage = error.message;
-      console.log('Error fetching waiting room-ERS ', errorMessage);
-     
-    });
-   //dispatching waiting room patients manually to avoid page refresh - END
  
- }
+
+      
+    /*====  dispatching  admitted patients manually ====== */
+        
+    const patientReplacementArray = admittedPatientArray.filter((item)=>(item.uid !== id))?admittedPatientArray.filter((item)=>(item.uid !== id)):[]
+
+    const patientIdToChange = admittedPatientArray.map((item)=>(item.uid)).indexOf(id)
+
+    if(patientIdToChange !== -1){
+
+      /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond */
+      const userRef = db.collection('Patients').doc(id);
+
+      userRef.update({
+        bedNumber: null,
+        isAdmitted: null,
+        elapsed:true
+      })
+
+      /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond  -END*/
+
+     
+     if(admittedPatientArray[patientIdToChange] && admittedPatientArray[patientIdToChange].elapsed !== true){ notifyInfoFxn(` patient ${firstName} ${lastName}'s time has elapsed `); }
+    
+     dispatch(fetchAdmittedPatients(patientReplacementArray));
+    
+    }
+
+    
+
+    /*======dispatching  admitted patients manually END ===== */
+
+
+  
+   //dispatch(getAllPatients()) <-- i may use this later for the timer or something.
+
+  
+    //dispatching waiting room patients manually WITHOUT CALLING database
+
+    const patientReplacementArray2 = waitingRoomPatientArray.filter((item)=>(item.uid !== id))? waitingRoomPatientArray.filter((item)=>(item.uid !== id)):[]
+
+    const patientIdToChange2 = waitingRoomPatientArray.map((item)=>(item.uid)).indexOf(id)
+
+    if(patientIdToChange2 !== -1){
+     
+      /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond */
+      const userRef = db.collection('Patients').doc(id);
+
+      userRef.update({
+        bedNumber: null,
+        isAdmitted: null,
+        elapsed:true
+      })
+
+      /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond  -END*/
+
+
+     
+      if(waitingRoomPatientArray[patientIdToChange2] && waitingRoomPatientArray[patientIdToChange2].elapsed !== true){ notifyInfoFxn(` patient ${firstName} ${lastName}'s time has elapsed `); }
+      dispatch(fetchPatients(patientReplacementArray2));
+   
+    }
+
+  //dispatching waiting room patients manually WITHOUT CALLING database - END
+
+  if(selectedPatientId !== undefined && selectedPatientId === id){
+    dispatch(setSelectedPatient(null))
+  }
+
+  console.log('REMOVAL OF PATIENT');
+
+  /*if(all patients have their timers elapsed ){*/
+    
+    /*batch update all patients as admitted null and elapsed true */
+    /*there may be no point to this because different students deal with the same patient */
+ /* }*/
 
 }catch (error) {
   console.log('Error removing the patients:', error);
@@ -311,7 +336,7 @@ try{
 
 export const reset = (uid,existingTimes) => async (dispatch) => {
   dispatch(setIsLoading(true));
-  dispatch(getAdmittedPatients());
+  //dispatch(getAdmittedPatients());
   //dispatch(getWaitingRoomPatients());
 
   try {
@@ -330,8 +355,7 @@ export const reset = (uid,existingTimes) => async (dispatch) => {
     });
 
     await batch.commit();
-    dispatch(getWaitingRoomPatients());
-
+    
 /*resetting ALL the tests submitted */
     const userRef = db.collection('Candidates').doc(uid);
     const userSnapshot = await userRef.get();
@@ -345,31 +369,37 @@ export const reset = (uid,existingTimes) => async (dispatch) => {
    
   }
 
-
+/*resetting ALL the tests submitted END */
     
     
 
-    db.collection('Patients').get().then((snapshot) => {
-      
+     db.collection('Patients').get().then((snapshot) => {
+       
       const patientTimers = snapshot.docs.map((doc) => ({ id: doc.id,
                                                          firstName:doc.data().firstName,
                                                          lastName:doc.data().lastName,
                                                          screenCountdown:doc.data().screenTime*60*1000 }));
                                                         
-                                                        
+                                                         console.log("current patient timers!",patientTimers)
+                                                                          
                                                          dispatch(clearPatient(patientTimers));  
                                                          sessionStorage.setItem("patientTimers", `${JSON.stringify(patientTimers)}`);                                               
                                                          dispatch(setIsLoading(false));
     })
+
+
+  
+
 
   } catch (error) {
     console.error('Error resetting the patients:', error);
     dispatch(setIsLoading(false));
   }
 
+  dispatch(getWaitingRoomPatients());
+  dispatch(getAdmittedPatients());
 
-
-  db.collection('Patients')
+/*  db.collection('Patients')
   .where('isAdmitted', 'in',[true,false])
   .get()
   .then(async(snapshot) => {
@@ -393,7 +423,7 @@ export const reset = (uid,existingTimes) => async (dispatch) => {
     var errorMessage = error.message;
     console.log('Error fetching patients', errorMessage);
    
-  });
+  });*/
 
 
  
