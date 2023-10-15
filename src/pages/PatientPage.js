@@ -274,7 +274,7 @@ console.log("selected patient is ----->",selectedPatient)
 
 
 
-          {/*
+          {
              patientTimers &&patientTimers.length >0  && patientTimers.map((item)=>(
               <div style={{display:"none",width:"100%",position:"relative",left:"40%"}}>
                    {item.firstName}{" "} {item.lastName}{" "}{"---> "}
@@ -290,7 +290,7 @@ console.log("selected patient is ----->",selectedPatient)
                </div>
             ))
             
-             */}
+             }
 
 
 
