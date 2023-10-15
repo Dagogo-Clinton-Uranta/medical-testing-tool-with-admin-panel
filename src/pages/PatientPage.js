@@ -16,7 +16,7 @@ import IMG4 from '../assets/images/intervention.png';
 import IMG5 from '../assets/images/referrals.png';
 import HospitalBed from 'src/components/patient/hospital-bed';
 import EmptyPane from 'src/components/patient/empty-pane';
-import { fetchAllTreatmentCategories, fetchAllTreatmentTests, getAdmittedPatients,refreshCountdown ,getAllPatients,removePatient, getWaitingRoomPatients, reset, refreshAllPatients } from 'src/redux/actions/patient.action';
+import { fetchAllTreatmentCategories, fetchAllTreatmentTests, getAdmittedPatients,refreshCountdown ,getAllPatients,removePatient, getWaitingRoomPatients, reset, refreshAllPatients, refreshWaitdown, enterPatient } from 'src/redux/actions/patient.action';
 import { ToastContainer } from 'react-toastify';
 import {CSSTransition,TransitionGroup} from 'react-transition-group';
 
@@ -55,8 +55,9 @@ const [radiologyClicked,setRadiologyClicked] = useState(false)
 
   const { user } = useSelector((state) => state.auth);
 
-  const { selectedPatient, patients,patientTimers ,admittedPatients, isLoading } = useSelector((state) => state.patient);
-  console.log("PATIENT TIMERS IS--->",patientTimers)
+  const { selectedPatient, allPatients,patients,patientTimers ,waitTimers,admittedPatients, isLoading } = useSelector((state) => state.patient);
+  console.log("PATIENTS TIMERS IS----LOOK HERE-->",patientTimers)
+
 
 
   window.onload = function(){
@@ -80,7 +81,7 @@ const [radiologyClicked,setRadiologyClicked] = useState(false)
    // dispatch(fetchCandidateData(user?.uid));
   }, [patients]);
 
-console.log("selected patient is ---->",selectedPatient)
+console.log("selected patient is ----->",selectedPatient)
 
 
   /*const previousValue = useRef(null);
@@ -252,9 +253,30 @@ console.log("selected patient is ---->",selectedPatient)
         ) : (
           <Grid container spacing={2}>
 
+
+         {
+            waitTimers && waitTimers.map((item,index)=>(
+              <div style={{width:"100%",position:"relative",left:"40%",marginBottom:index=== waitTimers.length -1?"2rem":"0rem"}}>
+                   {item.firstName}{" "} {item.lastName}{" "}{"---> "}
+                 <Countdown date={Date.now() + item.waitCountdown}
+              
+               precision={1000} 
+               intervalDelay={1000}
+             
+               onTick ={()=>{dispatch(refreshWaitdown(waitTimers))}}                                                                                                                                                  
+               onComplete={()=>{dispatch(enterPatient(item.id,item.firstName,item.lastName,waitTimers,(selectedPatient &&selectedPatient.uid? selectedPatient.uid:null),patients,allPatients,patientTimers))}}
+             
+               />
+               </div>
+            ))
+            
+            }
+
+
+
           {
-            patientTimers && patientTimers.map((item)=>(
-              <div style={{display:"none",width:"100%",position:"relative",left:"40%"}}>
+             patientTimers &&patientTimers.length >0  && patientTimers.map((item)=>(
+              <div style={{width:"100%",position:"relative",left:"40%"}}>
                    {item.firstName}{" "} {item.lastName}{" "}{"---> "}
                  <Countdown date={Date.now() + item.screenCountdown}
               
