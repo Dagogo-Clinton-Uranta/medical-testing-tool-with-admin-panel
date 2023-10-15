@@ -106,7 +106,7 @@ export const refreshCountdown = (originalArray) => async (dispatch) => {
    newTimeArray.forEach((item,index)=>{ 
    newMutable.push({
     ...originalArray[index],
-    screenCountdown: originalArray[index].screenCountdown -1000
+    screenCountdown: originalArray[index].screenCountdown -10000
    }
    )
   })
@@ -141,7 +141,7 @@ export const refreshWaitdown = (originalArray) => async (dispatch) => {
   newTimeArray.forEach((item,index)=>{ 
   newMutable.push({
    ...originalArray[index],
-   waitCountdown: originalArray[index].waitCountdown-1000
+   waitCountdown: originalArray[index].waitCountdown-10000
   }
   )
  })
