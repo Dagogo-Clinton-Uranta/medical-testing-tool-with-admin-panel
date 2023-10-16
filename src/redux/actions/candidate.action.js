@@ -108,14 +108,14 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
        const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
       
-       console.log("halo blood inv--->",patientIdToChange)
+       console.log("halo blood inv HERE OKAI!!---->",patientIdToChange)
 
        if(patientIdToChange !== -1){
          patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenBloodInvestigationTests:b2}
         
          
        }else{
-         notifyErrorFxn("we cant find this guy to update his blood inv")
+         console.log("WE CANT FIND THIS GUY, TO UPDATE HIS BLOOD INV")
        }
  
        dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -163,14 +163,71 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
        });
          
       
-    }else{
-    
-      redoResponseArray[particularPatientPositionAlso] = {
-    
-        ...redoResponseArray[particularPatientPositionAlso],
-        bloodInvestigationPassed:false,
-      }
+    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray){
+      
+
+
+       /*====  adding blood investigations to a particular admitted patient ====== */
+       const patientReplacementArray = [...b5]
+
+       const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+      
+      
+
+       if(patientIdToChange !== -1){
+         patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenBloodInvestigationTests:b2}
+          
+         
+       }else{
+         console.log("we cant find this guy to update his blood inv")
+       }
+ 
+       dispatch(fetchAdmittedPatients(patientReplacementArray));
+ 
+       
+ 
+       /*======adding blood investigations to particular admitted patient END ===== */
+
+         
    
+
+      let correctAnswers= complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray
+     
+      await  db.collection('TreatmentTests')
+       .where('uid', 'in', correctAnswers)
+       .get()
+       .then((snapshot) => {
+         const correctAnswerImages = snapshot.docs.map((doc) => (doc.data().answerImage));
+         
+         if (correctAnswerImages.length) {
+          
+           redoResponseArray[particularPatientPositionAlso] = {
+     
+             ...redoResponseArray[particularPatientPositionAlso],
+             bloodInvestigationPassed:false,
+             bloodInvestigationAnswerImages:correctAnswerImages
+           }
+           
+           
+         } else {
+          
+           redoResponseArray[particularPatientPositionAlso] = {
+     
+             ...redoResponseArray[particularPatientPositionAlso],
+             bloodInvestigationPassed:false,
+             bloodInvestigationAnswerImages:[]
+           }
+      
+           
+         }
+
+       }).catch((error) => {
+        console.log('Error getting document:', error);
+        notifyErrorFxn(`error assigning correct answer images for BLOOD INV, WRONG SECTION!`);
+      });
+        
+    }else{
+      notifyErrorFxn(`THIS COMPLAINT IS NOT SUFFICIENTLY POPULATED IN THE DATABASE!`);
     }
    
     
@@ -322,15 +379,72 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
     });
       
    
- }else{
- 
-   redoResponseArray[particularPatientPositionAlso] = {
- 
-     ...redoResponseArray[particularPatientPositionAlso],
-     radiologyPassed:false,
-   }
+ }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenRadiologyArray){
+      
 
- }
+
+  /*====  adding radiology to a particular admitted patient ====== */
+  const patientReplacementArray = [...b5]
+
+  const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+ 
+ 
+
+  if(patientIdToChange !== -1){
+    patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenRadiologyTests:b2}
+     
+    
+  }else{
+    console.log("we cant find this guy to update his radiology")
+  }
+
+  dispatch(fetchAdmittedPatients(patientReplacementArray));
+
+  
+
+  /*======adding radiology to particular admitted patient END ===== */
+
+    
+
+
+ let correctAnswers= complaintSnapshot.data().treatment.chosenRadiologyIdArray
+
+ await  db.collection('TreatmentTests')
+  .where('uid', 'in', correctAnswers)
+  .get()
+  .then((snapshot) => {
+    const correctAnswerImages = snapshot.docs.map((doc) => (doc.data().answerImage));
+    
+    if (correctAnswerImages.length) {
+     
+      redoResponseArray[particularPatientPositionAlso] = {
+
+        ...redoResponseArray[particularPatientPositionAlso],
+        radiologyPassed:false,
+        radiologyAnswerImages:correctAnswerImages
+      }
+      
+      
+    } else {
+     
+      redoResponseArray[particularPatientPositionAlso] = {
+
+        ...redoResponseArray[particularPatientPositionAlso],
+        radiologyPassed:false,
+        radiologyAnswerImages:[]
+      }
+ 
+      
+    }
+
+  }).catch((error) => {
+   console.log('Error getting document:', error);
+   notifyErrorFxn(`error assigning correct answer images for BLOOD INV, WRONG SECTION!`);
+ });
+   
+}else{
+  notifyErrorFxn(`THIS COMPLAINT IS NOT SUFFICIENTLY POPULATED IN THE DATABASE!`);
+}
 
  
 
@@ -457,7 +571,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
               patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],prescriptionResponseArray:b1}
                
             }else{
-              notifyErrorFxn("we cant find this guy to update his prescription")
+              console.log("we cant find this guy to update his prescription")
             }
       
             dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -472,13 +586,36 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
        });*/
          
       
-    }else{
-    
+    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.correctPrescriptionArray){
+      
       redoResponseArray[particularPatientPositionAlso] = {
-    
+     
         ...redoResponseArray[particularPatientPositionAlso],
         prescriptionPassed:false,
       }
+
+
+       /*====  adding prescription to a particular admitted patient ====== */
+   
+       const patientReplacementArray = [...b3]
+
+       const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+       
+       if(patientIdToChange !== -1){
+         patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],prescriptionResponseArray:b1}
+          
+       }else{
+         console.log("we cant find this guy to update his prescription")
+       }
+ 
+       dispatch(fetchAdmittedPatients(patientReplacementArray));
+
+ /*======adding prescription toa particular admitted patient END ===== */ 
+
+    }
+    else{
+    
+      notifyErrorFxn(`THIS PRESCRIPTION IS NOT SUFFICIENTLY POPULATED IN THE DATABASE!`);
    
     }
    
@@ -629,13 +766,36 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
        });*/
          
       
-    }else{
-    
+    }if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenReferralsIdArray){
+
       redoResponseArray[particularPatientPositionAlso] = {
-    
+     
         ...redoResponseArray[particularPatientPositionAlso],
         referralPassed:false,
+       
       }
+
+        /*====  adding referrals to a particular admitted patient ====== */
+   
+        const patientReplacementArray = [...b5]
+
+        const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+      
+        if(patientIdToChange !== -1){
+          patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenReferrals:b2}
+        }else{
+          notifyErrorFxn("we cant find this guy to update his referral")
+        }
+  
+        dispatch(fetchAdmittedPatients(patientReplacementArray));
+
+ /*======adding referrals to a particular admitted patient END ===== */
+
+    }
+    
+    else{
+    
+      notifyErrorFxn(`THIS REFERRAL IS NOT SUFFICIENTLY POPULATED IN THE DATABASE!`);
    
     }
    

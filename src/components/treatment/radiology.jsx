@@ -208,7 +208,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
   }
   
   
-  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].radiologyPassed === true )){
+  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].radiologyPassed || !candidateResponseArray[particularPatientPosition].radiologyPassed )){
 
    setTestTaken(true)
 
@@ -245,7 +245,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
   }
   
   
-  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].radiologyPassed === true )){
+  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].radiologyPassed || !candidateResponseArray[particularPatientPosition].radiologyPassed  )){
 
    setTestTaken(true)
 

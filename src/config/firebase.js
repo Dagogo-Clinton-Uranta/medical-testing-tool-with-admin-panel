@@ -5,7 +5,7 @@ import "firebase/auth";
 
 
 
-/*const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyCdlxFQSkuSiCD80rJnuuOVLbfwdtyKPzs",
   authDomain: "ibara-34497.firebaseapp.com",
   projectId: "ibara-34497",
@@ -14,7 +14,7 @@ import "firebase/auth";
   appId: "1:886817189981:web:f69ca549f78c1186cbddb4",
   measurementId: "G-TNGY4Q8KYS"
 };
-*/
+
 
 /*THIS IS JUST TO TEST, ABOVE IS THE ORIGINAL */
 /*const firebaseConfig = {
@@ -28,7 +28,7 @@ import "firebase/auth";
 };*/
 
 
-/*3rd databse cuz the 1st two are filling up  */
+/*3rd databse cuz the 1st two are filling up 
 const firebaseConfig = {
   apiKey: "AIzaSyBTSpuiuXf0oj_-axh5jscLQaEtAH5xBEY",
   authDomain: "ibara-sub-3.firebaseapp.com",
@@ -37,7 +37,7 @@ const firebaseConfig = {
   messagingSenderId: "129815972516",
   appId: "1:129815972516:web:c55364946ab9ad4fa8f431",
   measurementId: "G-6WY4C2S815"
-};
+};*/
 
 
 // Initialize Firebase

@@ -112,7 +112,7 @@ const [testTaken,setTestTaken] = useState(false);
 
     setTestTaken("loading")
    setTimeout(()=>{
-    if(candidateResponseArray[particularPatientPosition].prescriptionPassed === true){
+    if(candidateResponseArray[particularPatientPosition].prescriptionPassed ||candidateResponseArray[particularPatientPosition].prescriptionPassed ===false){
     setTestTaken(true)
     }else{
       setTestTaken(false)
@@ -123,7 +123,7 @@ const [testTaken,setTestTaken] = useState(false);
   }
   
    
-  else if( hasSubmittedBefore !== true && particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].prescriptionPassed === true )){
+  else if( hasSubmittedBefore !== true && particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].prescriptionPassed ||candidateResponseArray[particularPatientPosition].prescriptionPassed === false )){
 
    setTestTaken(true)
 
@@ -158,7 +158,7 @@ const [testTaken,setTestTaken] = useState(false);
 
     setTestTaken("loading")
    
-    if(candidateResponseArray[particularPatientPosition].prescriptionPassed === true){
+    if(candidateResponseArray[particularPatientPosition].prescriptionPassed ||candidateResponseArray[particularPatientPosition].prescriptionPassed === false){
    setTimeout(()=>{setTestTaken(true)},5000)
     }else{
       setTestTaken(false)
@@ -168,7 +168,7 @@ const [testTaken,setTestTaken] = useState(false);
   }
   
   
-  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].prescriptionPassed === true  )){
+  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].prescriptionPassed ||candidateResponseArray[particularPatientPosition].prescriptionPassed === false )){
 
    setTestTaken(true)
 

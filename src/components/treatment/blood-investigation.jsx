@@ -215,7 +215,7 @@ const [trigger,setTrigger] = useState(true)
 
     setTestTaken("loading")
    setTimeout(()=>{
-    if(candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true){
+    if(candidateResponseArray[particularPatientPosition].bloodInvestigationPassed || !candidateResponseArray[particularPatientPosition].bloodInvestigationPassed){
     setTestTaken(true)
     }else{
       setTestTaken(false)
@@ -226,7 +226,7 @@ const [trigger,setTrigger] = useState(true)
   }
   
    
-  else if( hasSubmittedBefore !== true && particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true )){
+  else if( hasSubmittedBefore !== true && particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].bloodInvestigationPassed || !candidateResponseArray[particularPatientPosition].bloodInvestigationPassed)){
 
    setTestTaken(true)
 
@@ -273,7 +273,7 @@ const [trigger,setTrigger] = useState(true)
   }
   
   
-  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true  )){
+  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].bloodInvestigationPassed || !candidateResponseArray[particularPatientPosition].bloodInvestigationPassed )){
 
    setTestTaken(true)
 

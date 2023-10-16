@@ -58,37 +58,36 @@ export const signExaminerIn = (user, navigate, setLoading) => async (dispatch) =
 
 
 export const signup = (user, navigate, setLoading) => async (dispatch) => {
-var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-var today  = new Date();
-
-  fb.auth().createUserWithEmailAndPassword(
-    user.email,
-    user.password
-).then((res)=>{
-  return db.collection('Patients').doc(res.user.uid).set({
-    uid: res.user.uid,
-    email: user.email,
-    firstName: user.fname,
-    lastName: user.lname,
-    age: '25',
-    gender: 'Male',
-    complaint: 'Malu',
-    isAdmitted: false,
-    password: user.password,
-    accountCreated: today.toLocaleDateString("en-US", options),
+  var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  var today  = new Date();
+  
+    fb.auth().createUserWithEmailAndPassword(
+      user.email,
+      user.password
+  ).then((res)=>{
+    return db.collection('Candidates').doc(res.user.uid).set({
+      uid: res.user.uid,
+      email: user.email,
+      firstName: user.fname,
+      lastName: user.lname,
+     /* age: '25',
+      gender: 'Male',
+      complaint: 'Malu',
+      isAdmitted: false,*/
+      password: user.password,
+      accountCreated: today.toLocaleDateString("en-US", options),
+    })
+  }).then(() => {
+    notifySuccessFxn('Registered Successfully✔');
+    navigate('/login', { replace: true });
+  }).catch((err) => {
+    console.error("Error signing up: ", err);
+    var errorMessage = err.message;
+    notifyErrorFxn(errorMessage);
+    dispatch(signupFailed({ errorMessage }));
+    setLoading(false);
   })
-}).then(() => {
-  notifySuccessFxn('Registered Successfully✔');
-  navigate('/login', { replace: true });
-}).catch((err) => {
-  console.error("Error signing up: ", err);
-  var errorMessage = err.message;
-  notifyErrorFxn(errorMessage);
-  dispatch(signupFailed({ errorMessage }));
-  setLoading(false);
-})
-}
-
+  }
 
 export const uploadImage = (user, file, navigate, setLoading) => async (dispatch) => {
   const imageName = uuidv4() + '.' + file?.name?.split('.')?.pop();

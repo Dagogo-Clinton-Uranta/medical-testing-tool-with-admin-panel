@@ -16,7 +16,7 @@ import IMG4 from '../assets/images/intervention.png';
 import IMG5 from '../assets/images/referrals.png';
 import HospitalBed from 'src/components/patient/hospital-bed';
 import EmptyPane from 'src/components/patient/empty-pane';
-import { fetchAllTreatmentCategories, fetchAllTreatmentTests, getAdmittedPatients,refreshCountdown ,getAllPatients,removePatient, getWaitingRoomPatients, reset, refreshAllPatients, refreshWaitdown, enterPatient } from 'src/redux/actions/patient.action';
+import { refreshCountdown ,getAllPatients,removePatient, reset, refreshWaitdown, enterPatient } from 'src/redux/actions/patient.action';
 import { ToastContainer } from 'react-toastify';
 import {CSSTransition,TransitionGroup} from 'react-transition-group';
 
@@ -25,7 +25,7 @@ import Prescription from 'src/components/treatment/prescription';
 import Radiology from 'src/components/treatment/radiology';
 import ECG from 'src/components/treatment/ecg';
 import Referrals from 'src/components/treatment/referrals';
-import Countdown, { zeroPad, calcTimeDelta, formatTimeDelta }  from 'react-countdown';
+import Countdown from 'react-countdown';
 
 export default function PatientPage() {
   const theme = useTheme();
@@ -81,7 +81,7 @@ const [radiologyClicked,setRadiologyClicked] = useState(false)
    // dispatch(fetchCandidateData(user?.uid));
   }, [patients]);
 
-console.log("selected patient is ----->",selectedPatient)
+console.log("selected patient is ---->",selectedPatient)
 
 
   /*const previousValue = useRef(null);
