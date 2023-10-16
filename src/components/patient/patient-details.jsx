@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import IMG from '../../assets/images/empty-avatar.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { Grid, Container, Paper, Button, Typography, ButtonBase, Avatar } from '@mui/material';
-import { admitPatients } from 'src/redux/actions/patient.action';
+import { admitPatients, dischargePatients } from 'src/redux/actions/patient.action';
 import { notifySuccessFxn } from 'src/utils/toast-fxn';
 import { useNavigate } from 'react-router-dom';
 import MAN from '../../assets/images/man.png';
@@ -40,6 +40,10 @@ const PatientDetails = () => {
 
   const admitPatientFxn = () => {
     dispatch(admitPatients(selectedPatient?.uid, setLoading, navigate));
+  }
+
+  const dischargePatientFxn = () => {
+    dispatch(dischargePatients(selectedPatient?.uid, setLoading, navigate));
   }
 
   useEffect(()=>{
@@ -192,6 +196,7 @@ const PatientDetails = () => {
                height: '50px'
              }}
              disabled={loading}
+             onClick={dischargePatientFxn}
            >
              Discharge
            </Button>

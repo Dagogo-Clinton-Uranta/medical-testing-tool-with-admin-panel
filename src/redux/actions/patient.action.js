@@ -76,6 +76,7 @@ export const getWaitingRoomPatients = (existingTimes) => async (dispatch) => {
  //dispatch(setIsLoading(true));
   db.collection('Patients')
     .where('isAdmitted', '==', false)
+    .where('waitElapsed', '==', true)
     .get()
     .then((snapshot) => {
       const patients = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -165,6 +166,7 @@ export const getAdmittedPatients = () => async (dispatch) => {
  //dispatch(setIsLoading(true));
   db.collection('Patients')
     .where('isAdmitted', '==', true)
+    .where('waitElapsed', '==', true)
     .get()
     .then((snapshot) => {
       const patients = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -247,7 +249,7 @@ export const dischargePatients = (uid, setLoading, navigate) => async (dispatch)
      userData = userSnapshot.data();
     
     if (!userData.bedNumber && userData.isAdmitted !== null) {
-      console.log('User is not admitted,please admit first.');
+      console.log('User is not really admitted,please admit first.');
       notifyErrorFxn("User is not admitted,please admit first.");
       //setLoading(false);
       return;
