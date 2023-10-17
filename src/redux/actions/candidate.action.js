@@ -92,8 +92,44 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
      const complaintSnapshot = await complaintToCheck.get();
     //console.log("radiology complaint is",complaintSnapshot.data())
    
+
+
+
+    if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray
    
-     if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray &&
+   ){
+
+
+      /*====  adding blood investigations to a particular admitted patient ====== */
+   const patientReplacementArray = [...b5]
+
+   const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+  
+   console.log("halo blood inv HERE OKAI!!---->",patientIdToChange)
+
+   if(patientIdToChange !== -1){
+     patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenBloodInvestigationTests:b2}
+    
+     
+   }else{
+     console.log("WE CANT FIND THIS GUY, TO UPDATE HIS BLOOD INV")
+   }
+
+   dispatch(fetchAdmittedPatients(patientReplacementArray));
+
+   
+
+   /*======adding blood investigations to particular admitted patient END ===== */
+   redoResponseArray[particularPatientPositionAlso] = {
+ 
+    ...redoResponseArray[particularPatientPositionAlso],
+    bloodInvestigationPassed:true,
+    bloodInvestigationAnswerImages:[]
+  }
+  
+}
+   
+    else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray &&
    
       
         (redoResponseArray[particularPatientPositionAlso].chosenBloodInvestigationTestIds.every((item)=>(complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray.includes(item))))
@@ -163,7 +199,12 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
        });
          
       
-    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray){
+    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray &&
+    
+    
+    !(redoResponseArray[particularPatientPositionAlso].chosenBloodInvestigationTestIds.every((item)=>(complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray.includes(item))))
+    
+    ){
       
 
 
@@ -319,7 +360,39 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
  //console.log("radiology complaint is",complaintSnapshot.data())
 
 
-  if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenRadiologyIdArray &&
+
+
+
+if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.chosenRadiologyIdArray){
+
+  redoResponseArray[particularPatientPositionAlso] = {
+
+    ...redoResponseArray[particularPatientPositionAlso],
+    radiologyPassed:true,
+    radiologyAnswerImages:[]
+  }
+
+
+   /*====  adding radiology to a particular admitted patient ====== */
+     
+   const patientReplacementArray = [...b5]
+
+   const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+
+   if(patientIdToChange !== -1){
+     patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenRadiologyTests:b2}
+   
+   }else{
+     notifyErrorFxn("we cant find this guy to update his radiology")
+   }
+
+   dispatch(fetchAdmittedPatients(patientReplacementArray));
+
+   /*======adding radiology to a particular admitted patients END ===== */
+
+
+}
+  else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenRadiologyIdArray &&
 
    
      (redoResponseArray[particularPatientPositionAlso].chosenRadiologyTestIds.every((item)=>(complaintSnapshot.data().treatment.chosenRadiologyIdArray.includes(item))))
@@ -379,7 +452,11 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
     });
       
    
- }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenRadiologyArray){
+ }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenRadiologyArray &&
+ 
+ !(redoResponseArray[particularPatientPositionAlso].chosenRadiologyTestIds.every((item)=>(complaintSnapshot.data().treatment.chosenRadiologyIdArray.includes(item))))
+ 
+ ){
       
 
 
@@ -474,6 +551,16 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
   }
 
 
+
+
+
+
+
+
+
+
+
+
   export const submitPrescription=  (uid,patientId,b1,b2,b3) =>async (dispatch) => {
     const userRef = db.collection('Candidates').doc(uid);
     const userSnapshot = await userRef.get();
@@ -527,32 +614,44 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
     //console.log("radiology complaint is",complaintSnapshot.data())
    
    
-     if(complaintSnapshot.exists && complaintSnapshot.data().treatment.correctPrescriptionArray &&
+    
+    
+    if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.correctPrescriptionArray){
+
+   
+
+      redoResponseArray[particularPatientPositionAlso] = {
+     
+        ...redoResponseArray[particularPatientPositionAlso],
+        prescriptionPassed:true,
+      }
+
+
+       /*====  adding prescription to a particular admitted patient ====== */
+   
+       const patientReplacementArray = [...b3]
+
+       const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+       
+       if(patientIdToChange !== -1){
+         patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],prescriptionResponseArray:b1}
+          
+       }else{
+         console.log("we cant find this guy to update his prescription")
+       }
+ 
+       dispatch(fetchAdmittedPatients(patientReplacementArray));
+
+    /*======adding prescription toa particular admitted patient END ===== */
+  
+
+    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.correctPrescriptionArray &&
    
       
         (redoResponseArray[particularPatientPositionAlso].prescriptionResponseArray.every((item)=>(complaintSnapshot.data().treatment.correctPrescriptionArray.includes(item))))
        
        ){
    
-       // let correctAnswers= complaintSnapshot.data().treatment.correctPrescriptionArray
-       
-      /*await  db.collection('TreatmentTests')*/
-       //.where('uid', 'in', correctAnswers)
-      /* .get()*/
-       /*.then((snapshot) => {*/
-        // const correctAnswerImages = snapshot.docs.map((doc) => (doc.data().answerImage));
-         
-        /* if (correctAnswerImages.length) {
-          
-           redoResponseArray[particularPatientPositionAlso] = {
-     
-             ...redoResponseArray[particularPatientPositionAlso],
-             radiologyPassed:true,
-             radiologyAnswerImages:correctAnswerImages
-           }
-           
-        
-         }*/ /*else {*/
           
            redoResponseArray[particularPatientPositionAlso] = {
      
@@ -578,15 +677,13 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
       /*======adding prescription toa particular admitted patient END ===== */
    
-       /*  }*/
-      /* }) */
-      /* .catch((error) => {
-         console.log('Error getting document:', error);
-         notifyErrorFxn(`error assigning correct answer images for radiology!`);
-       });*/
-         
+    
       
-    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.correctPrescriptionArray){
+    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.correctPrescriptionArray &&
+    
+    !(redoResponseArray[particularPatientPositionAlso].prescriptionResponseArray.every((item)=>(complaintSnapshot.data().treatment.correctPrescriptionArray.includes(item))))
+    
+    ){
       
       redoResponseArray[particularPatientPositionAlso] = {
      
@@ -706,33 +803,41 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
     
    
    
-     if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenReferralsIdArray &&
+    if(complaintSnapshot.exists && !(complaintSnapshot.data().treatment.chosenReferralsIdArray) ){
+
+
+      redoResponseArray[particularPatientPositionAlso] = {
+     
+        ...redoResponseArray[particularPatientPositionAlso],
+        referralPassed:true,
+       
+      }
+
+        /*====  adding referrals to a particular admitted patient ====== */
+   
+        const patientReplacementArray = [...b5]
+
+        const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+      
+        if(patientIdToChange !== -1){
+          patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenReferrals:b2}
+        }else{
+          notifyErrorFxn("we cant find this guy to update his radiology")
+        }
+  
+        dispatch(fetchAdmittedPatients(patientReplacementArray));
+
+ /*======adding referrals to a particular admitted patient END ===== */
+
+    
+    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenReferralsIdArray &&
    
       
         (redoResponseArray[particularPatientPositionAlso].chosenReferralIds.every((item)=>(complaintSnapshot.data().treatment.chosenReferralsIdArray.includes(item))))
        
        ){
    
-       /* let correctAnswers= complaintSnapshot.data().treatment.chosenRadiologyIdArray
-      
-   
-      await  db.collection('TreatmentTests')
-       .where('uid', 'in', correctAnswers)
-       .get()
-       .then((snapshot) => {
-         const correctAnswerImages = snapshot.docs.map((doc) => (doc.data().answerImage));
-         
-         if (correctAnswerImages.length) {
-          
-           redoResponseArray[particularPatientPositionAlso] = {
-     
-             ...redoResponseArray[particularPatientPositionAlso],
-             radiologyPassed:true,
-             radiologyAnswerImages:correctAnswerImages
-           }
-           
-        
-         } else { */
+       
           
            redoResponseArray[particularPatientPositionAlso] = {
      
@@ -757,16 +862,13 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
       /*======adding referrals to a particular admitted patient END ===== */
 
-   
-      /*   }*/
-   /*    })
-       .catch((error) => {
-         console.log('Error getting document:', error);
-         notifyErrorFxn(`error assigning correct answer images for radiology!`);
-       });*/
-         
+    
       
-    }if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenReferralsIdArray){
+    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.chosenReferralsIdArray &&
+    
+    !(redoResponseArray[particularPatientPositionAlso].chosenReferralIds.every((item)=>(complaintSnapshot.data().treatment.chosenReferralsIdArray.includes(item))))
+    
+    ){
 
       redoResponseArray[particularPatientPositionAlso] = {
      
