@@ -15,6 +15,7 @@ const PatientDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  
 
   const mystyle = {
     fontFamily: 'Arial',
@@ -77,7 +78,7 @@ const PatientDetails = () => {
      </Grid>
      <div style={{padding: '10px'}}>
      <center>
-     {(selectedPatient.chosenBloodInvestigationTests || selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray || selectedPatient.chosenReferrals||selectedPatient.ecgPassed) &&
+     {(selectedPatient.chosenBloodInvestigationTests || selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray || selectedPatient.chosenReferrals||selectedPatient.ecgPassed||selectedPatient.isAdmitted) &&
               <b>Actions List</b>
             }
 
@@ -85,7 +86,7 @@ const PatientDetails = () => {
            <div style={{ marginTop: '10px', minHeight: '250px', minWidth:"500px",border: '0px solid red',display:"grid" , gridTemplateColumns:( (selectedPatient.chosenBloodInvestigationTests||selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray||selectedPatient.chosenReferrals)?"1fr 1fr" :"1fr"),gap:"1rem"}}>
 
             
-            { (!selectedPatient.chosenBloodInvestigationTests && !selectedPatient.chosenRadiologyTests && !selectedPatient.prescriptionResponseArray && !selectedPatient.chosenReferrals && !selectedPatient.ecgPassed) && 
+            { (!selectedPatient.chosenBloodInvestigationTests && !selectedPatient.chosenRadiologyTests && !selectedPatient.prescriptionResponseArray && !selectedPatient.chosenReferrals && !selectedPatient.ecgPassed && !selectedPatient.isAdmitted) && 
              (
              selectedPatient.aboutIssue?
              selectedPatient.aboutIssue:
@@ -93,6 +94,25 @@ const PatientDetails = () => {
              )
             }
           
+
+
+          {
+            selectedPatient && selectedPatient.isAdmitted &&
+            (
+            <div>
+            <p>ADMITTED</p>
+            {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+               
+            
+              <li>Patient has been admitted</li>
+               
+               
+              </div> 
+            }
+
+           </div>
+           )
+               }
             
         
             {
