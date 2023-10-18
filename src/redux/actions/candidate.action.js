@@ -40,7 +40,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
   if (userSnapshot.exists) {
 
-
+    
     const candidateResponseArray = userSnapshot.data().response?userSnapshot.data().response:[]
 
 
@@ -93,20 +93,20 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
     //console.log("radiology complaint is",complaintSnapshot.data())
    
 
+   
 
-
-    if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray
+    if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray||complaintSnapshot.data().treatment.chosenBloodInvestigationIdArray.length <1)
    
    ){
 
-
+   
       /*====  adding blood investigations to a particular admitted patient ====== */
    const patientReplacementArray = [...b5]
 
    const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
   
-   console.log("halo blood inv HERE OKAI!!---->",patientIdToChange)
-
+  
+   console.log("ISSUES WITH BLOOD INV NO MORE") /*<----THE BUG IS BETWEEN LINE 98 AND 117*/
    if(patientIdToChange !== -1){
      patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenBloodInvestigationTests:b2}
     
@@ -114,10 +114,10 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
    }else{
      console.log("WE CANT FIND THIS GUY, TO UPDATE HIS BLOOD INV")
    }
-
+   
    dispatch(fetchAdmittedPatients(patientReplacementArray));
 
-   
+   console.log("halo, blood inv IS HERE AND WE'RE ABOUT TO SET FOR BLOOD INV 100% !!--->",patientIdToChange)
 
    /*======adding blood investigations to particular admitted patient END ===== */
    redoResponseArray[particularPatientPositionAlso] = {
@@ -363,7 +363,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
 
 
-if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.chosenRadiologyIdArray){
+if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiologyIdArray||complaintSnapshot.data().treatment.chosenRadiologyIdArray.length < 1 )){
 
   redoResponseArray[particularPatientPositionAlso] = {
 
@@ -825,7 +825,7 @@ if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.chosenRadiolo
    
     
     
-    if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.correctPrescriptionArray){
+    if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.correctPrescriptionArray||complaintSnapshot.data().treatment.correctPrescriptionArray.length <1)){
 
    
 
@@ -1012,7 +1012,7 @@ if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.chosenRadiolo
     
    
    
-    if(complaintSnapshot.exists && !(complaintSnapshot.data().treatment.chosenReferralsIdArray) ){
+    if(complaintSnapshot.exists && (!(complaintSnapshot.data().treatment.chosenReferralsIdArray)||complaintSnapshot.data().treatment.chosenReferralsIdArray.length < 1  ) ){
 
 
       redoResponseArray[particularPatientPositionAlso] = {

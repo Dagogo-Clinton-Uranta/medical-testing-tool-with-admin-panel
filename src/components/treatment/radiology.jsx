@@ -208,7 +208,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
   }
   
   
-  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].radiologyPassed || !candidateResponseArray[particularPatientPosition].radiologyPassed )){
+  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].radiologyAnswerImages && candidateResponseArray[particularPatientPosition].radiologyAnswerImages.length >0)){
 
    setTestTaken(true)
 
@@ -245,7 +245,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
   }
   
   
-  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].radiologyPassed || !candidateResponseArray[particularPatientPosition].radiologyPassed  )){
+  else if(particularPatientPosition !== -1 && (candidateResponseArray[particularPatientPosition].radiologyAnswerImages && candidateResponseArray[particularPatientPosition].radiologyAnswerImages.length >0 )){
 
    setTestTaken(true)
 

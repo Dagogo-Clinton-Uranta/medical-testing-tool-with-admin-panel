@@ -621,8 +621,8 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
   
       console.log("the new  Complaints id is",doc.id)
       dispatch(getTeachers())
-       notifySuccessFxn(`new Complaint ${addObject.complaint} added!`)
-       setTimeout(()=>{navigate('/dashboard/complaint-list')},1000)
+      // notifySuccessFxn(`new Complaint ${addObject.complaint} added!`)
+       setTimeout(()=>{navigate('/dashboard/patient-list')},1000)
    }).catch((error) => {
      console.log("Error adding cOMPLAINT:", error);
      notifyErrorFxn(error)
