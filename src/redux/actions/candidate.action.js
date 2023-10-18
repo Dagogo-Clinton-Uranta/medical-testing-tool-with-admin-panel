@@ -383,7 +383,7 @@ if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.chosenRadiolo
      patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenRadiologyTests:b2}
    
    }else{
-     notifyErrorFxn("we cant find this guy to update his radiology")
+     console.log("we cant find this guy to update his radiology")
    }
 
    dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -548,6 +548,215 @@ if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.chosenRadiolo
 
 
 
+  }
+
+
+
+
+
+  export const submitECG=  (uid,patientId,b2,b3) =>async (dispatch) => {
+    const userRef = db.collection('Candidates').doc(uid);
+    const userSnapshot = await userRef.get();
+    
+
+  if (userSnapshot.exists) {
+
+    console.log("user is",userSnapshot.data())
+
+    const candidateResponseArray = userSnapshot.data().response?userSnapshot.data().response:[]
+
+    const particularPatientPosition =  candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(patientId):-1
+    console.log("particular patients position",particularPatientPosition)
+   
+    //const particularPatientResponse = userSnapshot.data().response.filter((item)=>{item.patientId === patientId})
+
+   if(particularPatientPosition !== -1){
+
+    candidateResponseArray[particularPatientPosition] = {
+
+      ...candidateResponseArray[particularPatientPosition],
+     
+      patientId,
+      chosenComplaintId:b2,
+      takenOn:new Date(),
+    }
+
+   }else{
+    candidateResponseArray.push({
+      
+      patientId,
+      chosenComplaintId:b2,
+      takenOn:new Date()
+    })
+   }
+
+
+
+    await userRef.update({ response:[...candidateResponseArray]
+    }).then(async(notUsing)=>{
+
+ 
+
+      const refetchUser = await userRef.get();
+      const redoResponseArray = refetchUser.data().response?refetchUser.data().response:[]
+      
+      const particularPatientPositionAlso =  candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(patientId):-1
+   
+      const complaintToCheck = db.collection('Complaints').doc(redoResponseArray[particularPatientPositionAlso].chosenComplaintId);
+     const complaintSnapshot = await complaintToCheck.get();
+    //console.log("radiology complaint is",complaintSnapshot.data())
+   
+   
+    
+    
+    if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.ECG){
+
+   
+      let correctAnswers= ['4NLkZix4e6t8gjCkZHmG'] 
+      //console.log ("what we are sending treatment tests to search is",correctAnswers)
+ 
+    await  db.collection('TreatmentTests')
+     .where('uid', 'in', correctAnswers)
+     .get()
+     .then((snapshot) => {
+       const correctAnswerImages = snapshot.docs.map((doc) => (doc.data().answerImage));
+       
+       if (correctAnswerImages.length) {
+        
+         redoResponseArray[particularPatientPositionAlso] = {
+   
+           ...redoResponseArray[particularPatientPositionAlso],
+           ecgPassed:true,
+           ecgAnswerImages:correctAnswerImages
+         }
+         
+      
+       } else {
+        
+         redoResponseArray[particularPatientPositionAlso] = {
+   
+           ...redoResponseArray[particularPatientPositionAlso],
+           ecgPassed:true,
+           ecgAnswerImages:[]
+         }
+ 
+       }
+ 
+       /*====  adding ecg to a particular admitted patient ====== */
+         
+       const patientReplacementArray = [...b3]
+ 
+       const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+ 
+       if(patientIdToChange !== -1){
+         patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],ecgPassed:true}
+       
+       }else{
+         console.log("we cant find this guy to update his ecg")
+       }
+ 
+       dispatch(fetchAdmittedPatients(patientReplacementArray));
+ 
+       /*======adding ecg to a particular admitted patients END ===== */
+     })
+     .catch((error) => {
+       console.log('Error getting document:', error);
+       notifyErrorFxn(`error assigning  images for ECG!`);
+     });
+    
+     
+  
+
+    }else if(complaintSnapshot.exists && complaintSnapshot.data().treatment.ECG)
+   
+       {
+   
+        let correctAnswers= ['4NLkZix4e6t8gjCkZHmG'] 
+     //console.log ("what we are sending treatment tests to search is",correctAnswers)
+
+   await  db.collection('TreatmentTests')
+    .where('uid', 'in', correctAnswers)
+    .get()
+    .then((snapshot) => {
+      const correctAnswerImages = snapshot.docs.map((doc) => (doc.data().answerImage));
+      
+      if (correctAnswerImages.length) {
+       
+        redoResponseArray[particularPatientPositionAlso] = {
+  
+          ...redoResponseArray[particularPatientPositionAlso],
+          ecgPassed:true,
+          ecgAnswerImages:correctAnswerImages
+        }
+        
+     
+      } else {
+       
+        redoResponseArray[particularPatientPositionAlso] = {
+  
+          ...redoResponseArray[particularPatientPositionAlso],
+          ecgPassed:true,
+          ecgAnswerImages:[]
+        }
+
+      }
+
+      /*====  adding ecg to a particular admitted patient ====== */
+        
+      const patientReplacementArray = [...b3]
+
+      const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
+
+      if(patientIdToChange !== -1){
+        patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],ecgPassed:true}
+      
+      }else{
+        console.log("we cant find this guy to update his ecg")
+      }
+
+      dispatch(fetchAdmittedPatients(patientReplacementArray));
+
+      /*======adding ecg to a particular admitted patients END ===== */
+    })
+    .catch((error) => {
+      console.log('Error getting document:', error);
+      notifyErrorFxn(`error assigning  images for ECG!`);
+    });
+   
+    
+      
+    }
+    else{
+    
+      notifyErrorFxn(`ECG IS NOT SUFFICIENTLY POPULATED IN THE DATABASE!`);
+   
+    }
+   
+    
+   
+    return redoResponseArray
+   
+   }).then((updatedArray)=>{
+    
+     
+     userRef.update({ response:[...updatedArray]
+     }).then((value)=>{
+       
+       
+     dispatch(fetchCandidateData(uid))
+      
+     notifySuccessFxn(`ECG request noted!`);
+   
+    
+     })
+     
+    
+   })
+  
+   
+    
+}
+   
   }
 
 

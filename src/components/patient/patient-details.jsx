@@ -77,7 +77,7 @@ const PatientDetails = () => {
      </Grid>
      <div style={{padding: '10px'}}>
      <center>
-     {(selectedPatient.chosenBloodInvestigationTests || selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray || selectedPatient.chosenReferrals) &&
+     {(selectedPatient.chosenBloodInvestigationTests || selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray || selectedPatient.chosenReferrals||selectedPatient.ecgPassed) &&
               <b>Actions List</b>
             }
 
@@ -85,7 +85,7 @@ const PatientDetails = () => {
            <div style={{ marginTop: '10px', minHeight: '250px', minWidth:"500px",border: '0px solid red',display:"grid" , gridTemplateColumns:( (selectedPatient.chosenBloodInvestigationTests||selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray||selectedPatient.chosenReferrals)?"1fr 1fr" :"1fr"),gap:"1rem"}}>
 
             
-            { (!selectedPatient.chosenBloodInvestigationTests && !selectedPatient.chosenRadiologyTests && !selectedPatient.prescriptionResponseArray && !selectedPatient.chosenReferrals) && 
+            { (!selectedPatient.chosenBloodInvestigationTests && !selectedPatient.chosenRadiologyTests && !selectedPatient.prescriptionResponseArray && !selectedPatient.chosenReferrals && !selectedPatient.ecgPassed) && 
              (
              selectedPatient.aboutIssue?
              selectedPatient.aboutIssue:
@@ -131,6 +131,28 @@ const PatientDetails = () => {
            </div>
            )
                }
+
+
+
+
+         {
+            selectedPatient && selectedPatient.ecgPassed &&
+            (
+            <div>
+            <p>ECG</p>
+            {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
+               
+            
+              <li>ECG Requested</li>
+               
+               
+              </div> 
+            }
+
+           </div>
+           )
+               }
+
 
              
          { 

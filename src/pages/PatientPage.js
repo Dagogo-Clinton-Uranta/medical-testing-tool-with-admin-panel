@@ -56,7 +56,7 @@ const [radiologyClicked,setRadiologyClicked] = useState(false)
   const { user } = useSelector((state) => state.auth);
 
   const { selectedPatient, allPatients,patients,patientTimers ,waitTimers,admittedPatients, isLoading } = useSelector((state) => state.patient);
-  console.log("PATIENTS TIMERS IS---LOOK HERE-->",patientTimers)
+  console.log("PATIENTS TIMERS IS---->",patientTimers)
 
 
 
