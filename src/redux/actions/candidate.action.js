@@ -57,6 +57,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
         chosenBloodInvestigationTests:b2,
         chosenBloodInvestigationTestIds:b3,
         bloodInvestigationPassed:null,
+        overallGrade:candidateResponseArray[particularPatientPosition].overallGrade?candidateResponseArray[particularPatientPosition].overallGrade:0,
         patientId,
         takenOn:new Date()
 
@@ -69,6 +70,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
         chosenBloodInvestigationTests:b2,
         chosenBloodInvestigationTestIds:b3,
         bloodInvestigationPassed:null,
+        overallGrade:0,
         patientId,
         takenOn:new Date()
 
@@ -124,6 +126,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
  
     ...redoResponseArray[particularPatientPositionAlso],
     bloodInvestigationPassed:true,
+    overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade +20),
     bloodInvestigationAnswerImages:[]
   }
   
@@ -174,6 +177,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
      
              ...redoResponseArray[particularPatientPositionAlso],
              bloodInvestigationPassed:true,
+             overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
              bloodInvestigationAnswerImages:correctAnswerImages
            }
            
@@ -184,6 +188,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
      
              ...redoResponseArray[particularPatientPositionAlso],
              bloodInvestigationPassed:true,
+             overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
              bloodInvestigationAnswerImages:[]
            }
    
@@ -323,6 +328,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
       chosenComplaintId: b4,
       chosenRadiologyTests:b2,
       chosenRadiologyTestIds:b3,
+      overallGrade:candidateResponseArray[particularPatientPosition].overallGrade?candidateResponseArray[particularPatientPosition].overallGrade:0,
       radiologyPassed:null,
       patientId,
       takenOn:new Date()
@@ -336,6 +342,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
       chosenRadiologyTests:b2,
       chosenRadiologyTestIds:b3,
       radiologyPassed:null,
+      overallGrade:0,
       patientId,
       takenOn:new Date()
     
@@ -369,6 +376,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
 
     ...redoResponseArray[particularPatientPositionAlso],
     radiologyPassed:true,
+    overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
     radiologyAnswerImages:[]
   }
 
@@ -414,6 +422,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
   
           ...redoResponseArray[particularPatientPositionAlso],
           radiologyPassed:true,
+          overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
           radiologyAnswerImages:correctAnswerImages
         }
         
@@ -424,6 +433,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
   
           ...redoResponseArray[particularPatientPositionAlso],
           radiologyPassed:true,
+          overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
           radiologyAnswerImages:[]
         }
 
@@ -516,7 +526,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
 
   }).catch((error) => {
    console.log('Error getting document:', error);
-   notifyErrorFxn(`error assigning correct answer images for BLOOD INV, WRONG SECTION!`);
+   notifyErrorFxn(`error assigning correct answer images for RADIOLOGY, WRONG SECTION!`);
  });
    
 }else{
@@ -578,6 +588,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
      
       patientId,
       chosenComplaintId:b2,
+      overallGrade:candidateResponseArray[particularPatientPosition].overallGrade?candidateResponseArray[particularPatientPosition].overallGrade:0,
       takenOn:new Date(),
     }
 
@@ -586,6 +597,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
       
       patientId,
       chosenComplaintId:b2,
+      overallGrade:0,
       takenOn:new Date()
     })
    }
@@ -627,6 +639,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
    
            ...redoResponseArray[particularPatientPositionAlso],
            ecgPassed:true,
+           overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
            ecgAnswerImages:correctAnswerImages
          }
          
@@ -637,6 +650,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
    
            ...redoResponseArray[particularPatientPositionAlso],
            ecgPassed:true,
+           overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
            ecgAnswerImages:[]
          }
  
@@ -686,6 +700,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
   
           ...redoResponseArray[particularPatientPositionAlso],
           ecgPassed:true,
+          overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
           ecgAnswerImages:correctAnswerImages
         }
         
@@ -696,6 +711,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
   
           ...redoResponseArray[particularPatientPositionAlso],
           ecgPassed:true,
+          overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
           ecgAnswerImages:[]
         }
 
@@ -794,6 +810,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
       prescriptionResponseArray: b1,
       patientId,
       chosenComplaintId:b2,
+      overallGrade:candidateResponseArray[particularPatientPosition].overallGrade?candidateResponseArray[particularPatientPosition].overallGrade:0,
       takenOn:new Date(),
     }
 
@@ -801,6 +818,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
     candidateResponseArray.push({
       prescriptionResponseArray: b1,
       patientId,
+      overallGrade:0,
       chosenComplaintId:b2,
       takenOn:new Date()
     })
@@ -832,6 +850,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
       redoResponseArray[particularPatientPositionAlso] = {
      
         ...redoResponseArray[particularPatientPositionAlso],
+        overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
         prescriptionPassed:true,
       }
 
@@ -865,6 +884,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
            redoResponseArray[particularPatientPositionAlso] = {
      
              ...redoResponseArray[particularPatientPositionAlso],
+             overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
              prescriptionPassed:true,
            }
 
@@ -979,6 +999,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
         chosenComplaintId: b4,
         chosenReferrals:b2,
         chosenReferralIds:b3,
+        overallGrade:candidateResponseArray[particularPatientPosition].overallGrade?candidateResponseArray[particularPatientPosition].overallGrade:0,
         patientId,
         takenOn:new Date(),
       }
@@ -990,6 +1011,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
         chosenReferrals:b2,
         chosenReferralIds:b3,
         patientId,
+        overallGrade:0,
         takenOn:new Date()
       })
      }
@@ -1018,6 +1040,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
       redoResponseArray[particularPatientPositionAlso] = {
      
         ...redoResponseArray[particularPatientPositionAlso],
+        overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20),
         referralPassed:true,
        
       }
@@ -1052,7 +1075,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
      
              ...redoResponseArray[particularPatientPositionAlso],
              referralPassed:true,
-            
+             overallGrade:Number(redoResponseArray[particularPatientPositionAlso].overallGrade + 20)
            }
 
              /*====  adding referrals to a particular admitted patient ====== */
