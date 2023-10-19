@@ -114,7 +114,7 @@ export const refreshCountdown = (originalArray) => async (dispatch) => {
 
 
 
-  console.log("new time array to be updated is--->",newMutable)
+  console.log("new PATIENT TIMERS array to be updated is--->",newMutable)
  
 
   //INSTEAD OF OG ARRAY TRY DELTA FUNCTION OF ONTICK OR STH
@@ -149,7 +149,7 @@ export const refreshWaitdown = (originalArray) => async (dispatch) => {
 
 
 
- console.log("new  WAIT --> time array to be updated is--->",newMutable)
+ console.log("new  ARRAY OF INCOMING PATIENTS IS--->",newMutable)
 
 
 
@@ -293,37 +293,66 @@ export const dischargePatients = (uid, setLoading, navigate) => async (dispatch)
   //setLoading(false);
 };
 
-export const removePatient = (id,firstName,lastName, patientTimers,selectedPatientId,admittedPatientArray,waitingRoomPatientArray) => async (dispatch) => {
+export const removePatient = (id,firstName,lastName, patientTimers,selectedPatientId,admittedPatientArray,waitingRoomPatientArray,allPatients) => async (dispatch) => {
 
   
  
 try{
  
+  const patientTimeArray = sessionStorage.getItem("patientTimers")!==null? JSON.parse(sessionStorage.getItem("patientTimers")):[]
+
+
+    const patientsToRemove = patientTimeArray.filter((item)=>(item.screenCountdown === 0))?patientTimeArray.filter((item)=>(item.screenCountdown === 0)).map((patient)=>(patient.id)):[]
+
+    const patientsToRemoveFull = patientTimeArray.filter((item)=>(item.screenCountdown === 0))?patientTimeArray.filter((item)=>(item.screenCountdown === 0)):[]
+
+
+  let replacementArray = [...allPatients];
+  
+
+    patientsToRemove.forEach((patient)=>{ 
+      
+      //I WANT TO GET ALL ITEMS NOT EQUAL TO ANY ITEM IN THE REMOVE ARRAY
+      let indexToSplice = replacementArray.findIndex((admittedPatient)=>(admittedPatient.uid === patient))
+       
+       replacementArray.splice(indexToSplice,1)
+
+       console.log("OUR REPLACEMENT ARRAY IS GETTING SMALLER",replacementArray)
+       
+    })
 
       
     /*====  dispatching  admitted patients manually ====== */
         
-    const patientReplacementArray = admittedPatientArray.filter((item)=>(item.uid !== id))?admittedPatientArray.filter((item)=>(item.uid !== id)):[]
+    const patientReplacementArray = replacementArray.length?replacementArray:[]
 
-    const patientIdToChange = admittedPatientArray.map((item)=>(item.uid)).indexOf(id)
+    const patientIdToChange = admittedPatientArray.map((item)=>(item.uid)).indexOf(id) /*i still need this so i can dispatch notifications individually */
 
-    if(patientIdToChange !== -1){
+    if(patientsToRemove.length > 0){
 
       /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond */
-      const userRef = db.collection('Patients').doc(id);
+      patientsToRemove.forEach((patient)=>{
+      const userRef = db.collection('Patients').doc(patient);
 
       userRef.update({
         bedNumber: null,
         isAdmitted: null,
         elapsed:true
       })
-
+     })
       /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond  -END*/
 
      
-     if(admittedPatientArray[patientIdToChange] && admittedPatientArray[patientIdToChange].elapsed !== true){ notifyInfoFxn(` patient ${firstName} ${lastName}'s time has elapsed `); }
+     /*if(patientsToRemoveFull.length > 0){ 
+      patientsToRemoveFull.forEach((item)=>{*/
+       
+      notifyInfoFxn(` patient ${firstName} ${lastName}'s time has elapsed `)
     
-     dispatch(fetchAdmittedPatients(patientReplacementArray));
+    /*   }
+      )
+    }*/
+    
+     dispatch(fetchAdmittedPatients(patientReplacementArray))
     
     }
 
@@ -336,27 +365,47 @@ try{
   
     //dispatching waiting room patients manually WITHOUT CALLING database
 
-    const patientReplacementArray2 = waitingRoomPatientArray.filter((item)=>(item.uid !== id))? waitingRoomPatientArray.filter((item)=>(item.uid !== id)):[]
+    let replacementArray2 = [...waitingRoomPatientArray];
 
-    const patientIdToChange2 = waitingRoomPatientArray.map((item)=>(item.uid)).indexOf(id)
+    patientsToRemove.forEach((patient)=>{   
 
-    if(patientIdToChange2 !== -1){
+      let indexToSplice = replacementArray2.findIndex((admittedPatient)=>(admittedPatient.uid === patient))
+       
+      replacementArray2.splice(indexToSplice,1)
+    })
+
+
+
+    const patientReplacementArray2 = replacementArray2.length?replacementArray2:[]
+
+    const patientIdToChange2 = waitingRoomPatientArray.map((item)=>(item.uid)).indexOf(id) /*i still need this so i can dispatch notifications individually */
+
+    if(patientsToRemove.length > 0){
      
       /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond */
-      const userRef = db.collection('Patients').doc(id);
-
-      userRef.update({
-        bedNumber: null,
-        isAdmitted: null,
-        elapsed:true
-      })
-
+      patientsToRemove.forEach((patient)=>{
+        const userRef = db.collection('Patients').doc(patient);
+  
+        userRef.update({
+          bedNumber: null,
+          isAdmitted: null,
+          elapsed:true
+        })
+       })
       /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond  -END*/
 
 
      
-      if(waitingRoomPatientArray[patientIdToChange2] && waitingRoomPatientArray[patientIdToChange2].elapsed !== true){ notifyInfoFxn(` patient ${firstName} ${lastName}'s time has elapsed `); }
-      dispatch(fetchPatients(patientReplacementArray2));
+     /* if(patientsToRemove.length > 0){ 
+        patientsToRemove.forEach((item)=>{
+          if(item.screenCountdown === 0){
+        notifyInfoFxn(` patient ${item.firstName} ${item.lastName}'s time has elapsed `)
+          } 
+         }
+        )
+      }*/
+
+      dispatch(fetchPatients(patientReplacementArray2))
    
     }
 
@@ -386,79 +435,110 @@ try{
 
 export const enterPatient = (id,firstName,lastName, waitTimers,selectedPatientId,waitingRoomPatients,patients,patientTimers) => async (dispatch) => {
 
-  
+    
  
   try{
    
   
         
       /*====  adding patients to waiting room and notifying ====== */
-       
+
+      const patientTimeArray = sessionStorage.getItem("waitTimers")!==null? JSON.parse(sessionStorage.getItem("waitTimers")):[]
+      
+      //IS IT SUPPOSED TO CATCH STUFF THAT ARE LESS THAN ZERO ? IT WORKS , SO LEAVE IT AS SUCH FOR NOW
+      const patientsToAdd = patientTimeArray.filter((item)=>(item.waitCountdown <= 0))?patientTimeArray.filter((item)=>(item.waitCountdown <= 0)).map((patient)=>(patient.id)):[]
+
+     
+
       /*===not waittimers(below) , but the full array of patients ===*/
-      const patientForWaitingRoom = patients.filter((item)=>(item.uid === id))?patients.filter((item)=>(item.uid === id)):[]
-      const patientAdditionArray = waitTimers.filter((item)=>(item.id === id))?waitTimers.filter((item)=>(item.id === id)):[]
+   
+      let replacementArray = [];
+      let replacementPatientTimers = []
+
+     
+      patientsToAdd.forEach((patient)=>{   
+         
+         const onePatientFullDetails =patients.findIndex((waitingPatient)=>(waitingPatient.id === patient))
+
+         replacementArray.push(patients[onePatientFullDetails]) 
+
+         replacementPatientTimers.push({id:patients[onePatientFullDetails].id,
+                                        firstName:patients[onePatientFullDetails].firstName,
+                                        lastName:patients[onePatientFullDetails].lastName,
+                                        screenCountdown:patients[onePatientFullDetails].screenTime*60*1000,
+                                        waitCountdown:patients[onePatientFullDetails].waitTime*60*1000,
+        
+                })  
+      })
+
+
+      
+
+      const patientForWaitingRoom = replacementArray.length?replacementArray:[]
+
+      const patientAdditionArray = replacementPatientTimers.length?replacementPatientTimers:[] 
+     
+     
+      const patientIdToChange = waitTimers.map((item)=>(item.id)).indexOf(id)
+
+      console.log("-----OUR PATIENTS DUE NEXT TO ENTER ARE-->",patientAdditionArray)
   
-      const patientIdToChange = waitTimers.map((item)=>(item.uid)).indexOf(id)
-  
+     
+
+
       if(patientAdditionArray.length > 0){
   
         /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond */
-        const userRef = db.collection('Patients').doc(id);
+        patientsToAdd.forEach((patient)=>{
+        const userRef = db.collection('Patients').doc(patient);
   
         userRef.update({
          waitElapsed:true
         })
-  
+      })
         /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond  -END*/
-    console.log("LATEST NUMBER I HAVE IS--->",patientIdToChange)
+    console.log("LATEST NUMBER-(PATIENT ID TO CHANGE) I HAVE IS--->",patientIdToChange)
        
-       if(patientForWaitingRoom.length && patientForWaitingRoom[0].waitElapsed !== true){ notifyInfoFxn(` patient ${firstName} ${lastName} has entered the waiting room! `); }
-      
+       if(patientAdditionArray.length )
+       { 
+        patientAdditionArray.forEach((item)=>
+        {
+        notifyInfoFxn(` patient ${item.firstName} ${item.lastName} has entered the waiting room! `); 
+        }
+        )
+      }
+     
+   
        dispatch(fetchPatients([...waitingRoomPatients,...patientForWaitingRoom]));
        dispatch(fetchPatientTimers([...patientTimers,...patientAdditionArray]))
-
+      
        sessionStorage.setItem("patientTimers", `${JSON.stringify([...patientTimers,...patientAdditionArray])}`);  
+       
 
       }
   
       
-    console.log("HALO I AM IN PATiENT TIMERS--------->",[...patientTimers,...patientAdditionArray])
+    
       /*======adding patients to waiting room and notifying END ===== */
   
   
   
     
-      /*dispatching waiting room patients manually WITHOUT CALLING database
-  
-      const patientReplacementArray2 = waitingRoomPatientArray.filter((item)=>(item.uid !== id))? waitingRoomPatientArray.filter((item)=>(item.uid !== id)):[]
-  
-      const patientIdToChange2 = waitingRoomPatientArray.map((item)=>(item.uid)).indexOf(id)
-  
-      if(patientIdToChange2 !== -1){
-       
-       
-        const userRef = db.collection('Patients').doc(id);
-  
-        userRef.update({
-          waitTime:0
-        })
-  
-   
-  
-  
-       
-        if(waitingRoomPatientArray[patientIdToChange2] && waitingRoomPatientArray[patientIdToChange2].elapsed !== true){ notifyInfoFxn(` patient ${firstName} ${lastName}'s time has entered the waiting room `); }
-        dispatch(fetchPatients(patientReplacementArray2));
-     
-      }
-  
-    dispatching waiting room patients manually WITHOUT CALLING database - END */
   
     if(selectedPatientId !== undefined && selectedPatientId === id){
       dispatch(setSelectedPatient(null))
     }
+
+    const patientsToStillTrack = patientTimeArray.filter((item)=>(item.waitCountdown > 0))?patientTimeArray.filter((item)=>(item.waitCountdown > 0)):[]
+
+    sessionStorage.setItem("waitTimers", `${JSON.stringify(patientsToStillTrack)}`); 
+
+    const waitTimeArray = sessionStorage.getItem("waitTimers")!==null &&   JSON.parse(sessionStorage.getItem("waitTimers"))
+
   
-    console.log('ENTRY OF PATIENT INTO WAITING ROOM');
+ dispatch(fetchWaitTimers(waitTimeArray))
+  
+    console.log('PATIENTS TO STILL TRACK',patientsToStillTrack);
   
     /*if(all patients have their timers elapsed ){*/
       

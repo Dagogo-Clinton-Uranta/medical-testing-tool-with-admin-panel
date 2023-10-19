@@ -256,7 +256,7 @@ console.log("selected patient is ---->",selectedPatient)
 
          {
             waitTimers && waitTimers.map((item,index)=>(
-              <div style={{display:"none",width:"100%",position:"relative",left:"40%",marginBottom:index=== waitTimers.length -1?"2rem":"0rem"}}>
+              <div style={{display:"block",width:"100%",position:"relative",left:"40%",marginBottom:index=== waitTimers.length -1?"2rem":"0rem"}}>
                    {item.firstName}{" "} {item.lastName}{" "}{"---> "}
                  <Countdown date={Date.now() + item.waitCountdown}
               
@@ -276,7 +276,7 @@ console.log("selected patient is ---->",selectedPatient)
 
           {
              patientTimers &&patientTimers.length >0  && patientTimers.map((item)=>(
-              <div style={{display:"none",width:"100%",position:"relative",left:"40%"}}>
+              <div style={{display:"block",width:"100%",position:"relative",left:"40%"}}>
                    {item.firstName}{" "} {item.lastName}{" "}{"---> "}
                  <Countdown date={Date.now() + item.screenCountdown}
               
@@ -284,7 +284,7 @@ console.log("selected patient is ---->",selectedPatient)
                intervalDelay={10000}
              
             onTick ={()=>{dispatch(refreshCountdown(patientTimers))}} 
-               onComplete={()=>{dispatch(removePatient(item.id,item.firstName,item.lastName,patientTimers,(selectedPatient &&selectedPatient.uid? selectedPatient.uid:null),admittedPatients,patients))}}
+               onComplete={()=>{dispatch(removePatient(item.id,item.firstName,item.lastName,patientTimers,(selectedPatient &&selectedPatient.uid? selectedPatient.uid:null),admittedPatients,patients,allPatients))}}
              
                />
                </div>
