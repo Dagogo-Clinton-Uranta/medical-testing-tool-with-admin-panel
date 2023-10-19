@@ -115,12 +115,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
 
 /*THIS USE EFFECT IS SO THAT WE CAN RESET THE SELECTIONS WHEN THE PATIENT IS CHANGED */
   useEffect(()=>{
-   /*setState({
-        ...state,
-        radiology1: '',
-        radiology2: '',
-      });*/
-    
+  
     setRadiology2([])
     setRadiology2IdArray([])
   },[selectedPatient])
@@ -132,10 +127,11 @@ const handleClosePdf = () => {setOpenPdf(false)};
 
     dispatch(fetchAllTreatmentCategories());
     dispatch(fetchAllTreatmentTests());
-  }, []);
+  }, [])
 
   const { allTreatmentCategories,allTreatmentTests } = useSelector((state) => state.patient);
-
+  const [allTreatmentCategories2,setAllTreatmentCategories2] = useState(allTreatmentCategories && [{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
+  const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
 
 
   const radiology1Setup = (e)=>{
@@ -332,7 +328,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
 
         <Grid container spacing={1} sx={{ minWidth: 100 }}>
           <Grid item>
-          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
+          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient && selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
             {/* </ButtonBase> */}
           </Grid>
           <Grid item xs={12} sm container>
@@ -381,7 +377,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
                 style={{ minHeight: '50px', fontSize: '17px', outline: '1px solid #eee' }}
                 required
               >
-               {  allTreatmentCategories.filter((item)=>(item.treatmentId === "j7ib7pKNXMCNWqnHRacC" )).map((prop)=>(
+               {  allTreatmentCategories2.filter((item)=>(item.treatmentId === "j7ib7pKNXMCNWqnHRacC" ||item.treatmentId ==='first' )).map((prop)=>(
 
                 <option value={prop.uid}>{prop.title}</option>
                   
@@ -404,7 +400,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
                 required
                 disabled={state.radiology1 && state.radiology1.length < 1 ? true : false}
               >
-               {  allTreatmentTests.filter((item)=>(item.treatmentCategoryId === state.radiology1 )).map((prop)=>(
+               {  allTreatmentTests2.filter((item)=>(item.treatmentCategoryId === state.radiology1 || item.treatmentCategoryId === 'first' )).map((prop)=>(
 
                <option value={prop.uid}>{prop.title}</option>
                  
@@ -438,13 +434,13 @@ const handleClosePdf = () => {setOpenPdf(false)};
                     fullWidth
                     variant="contained"
                     style={{
-                     backgroundColor:state.radiology1 && state.radiology1.length <1  ||state.radiology2 &&  state.radiology2.length <1 ||radiology1 &&  radiology1.length <1||radiology2 &&  radiology2.length <1   ?'#199e94':'#21D0C3',
+                     backgroundColor:state.radiology1 && state.radiology1.length <1  ||state.radiology2 &&  state.radiology2.length <1 || radiology1 ===''||radiology1 &&  radiology1.length <1||radiology2 &&  radiology2.length <1   ?'#199e94':'#21D0C3',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',
                       height: '50px',
                     }}
-                    disabled={state.radiology1 && state.radiology1.length <1  ||state.radiology2 && state.radiology2.length <1 ||radiology1 && radiology1.length <1||radiology2 && radiology2.length <1  ||loading}
+                    disabled={state.radiology1 && state.radiology1.length <1  ||state.radiology2 && state.radiology2.length <1 ||radiology1 && radiology1.length <1||radiology1 ===''||radiology2 && radiology2.length <1  ||loading}
                     onClick={()=>{submitRadiologyResponse(selectedPatient?.uid,radiology1,radiology2,radiology2IdArray,selectedPatient?.complaintId,admittedPatients)}}
                   >
                     Submit

@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Referrals = ({ state, setState, handleChange }) => {
   const { selectedPatient,admittedPatients } = useSelector((state) => state.patient);
-  console.log("selected patient is",selectedPatient )
+
   const dispatch = useDispatch();
   const classes = useStyles();
   const navigate = useNavigate();
@@ -169,9 +169,9 @@ const [testTaken,setTestTaken] = useState(false);
 
 
   setCandidateResponseArray(user.response? user.response:[])
-  setParticularPatientPosition(selectedPatient && user.response && user.response.length> 0 ? user.response.map((item)=>(item.patientId)).indexOf(selectedPatient.id):-1)
-  setNeverSubmitted(user.response.map((item)=>(item.patientId)).indexOf(selectedPatient.id) === -1  ?true:false)
-  setHasSubmittedBefore(user.response.map((item)=>(item.patientId)).indexOf(selectedPatient.id) !== -1 /*&& (candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].hasOwnProperty("bloodInvestigationPassed"))*/?true:false)
+  setParticularPatientPosition(selectedPatient && user.response && user.response.length> 0 ? user.response.map((item)=>(item.patientId)).indexOf(selectedPatient && selectedPatient.id):-1)
+  setNeverSubmitted(user.response.map((item)=>(item.patientId)).indexOf(selectedPatient && selectedPatient.id) === -1  ?true:false)
+  setHasSubmittedBefore(user.response.map((item)=>(item.patientId)).indexOf(selectedPatient && selectedPatient.id) !== -1 /*&& (candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].hasOwnProperty("bloodInvestigationPassed"))*/?true:false)
   
 
  
@@ -211,7 +211,14 @@ const [testTaken,setTestTaken] = useState(false);
  
 
   const { allTreatmentCategories,allTreatmentTests } = useSelector((state) => state.patient);
+  const [allTreatmentCategories2,setAllTreatmentCategories2] = useState(allTreatmentCategories && [{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
+  const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentTests])
+  
 
+  useEffect(()=>{
+
+    setAllTreatmentTests2([{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentTests])
+  },[])
 
 
   const submitReferralResponse = (patientId,b1,b2,b3,b4,admittedPatients) => {
@@ -238,7 +245,7 @@ const [testTaken,setTestTaken] = useState(false);
      
         <Grid container spacing={1} sx={{ minWidth: 100 }}>
           <Grid item>
-          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
+          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient && selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
             {/* </ButtonBase> */}
           </Grid>
           <Grid item xs={12} sm container>
@@ -285,7 +292,7 @@ const [testTaken,setTestTaken] = useState(false);
                 style={{ minHeight: '50px', fontSize: '17px', outline: '1px solid #eee' }}
                 required
               >
-              {  allTreatmentTests.filter((item)=>(item.treatmentId === "wcN8WP6CXlG3SFDzJNsq" )).map((prop)=>(
+              {  allTreatmentTests2.filter((item)=>(item.treatmentId === "wcN8WP6CXlG3SFDzJNsq"||item.treatmentId === "first" )).map((prop)=>(
 
                <option value={prop.uid}>{prop.title}</option>
                  

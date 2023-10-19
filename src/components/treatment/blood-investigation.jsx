@@ -177,7 +177,7 @@ const [trigger,setTrigger] = useState(true)
 
 
 
-  useEffect(() => {
+ useEffect(() => {
     console.log("OUR ISSUE FOR BLOOD INV IS!:")
     dispatch(fetchAllTreatmentCategories());
     dispatch(fetchAllTreatmentTests());
@@ -188,14 +188,6 @@ const [trigger,setTrigger] = useState(true)
   /*THIS USE EFFECT IS SO THAT WE CAN RESET THE SELECTIONS WHEN THE PATIENT IS CHANGED */
   useEffect(()=>{
    
-   /* setState({
-      ...state,
-      bloodInv1: '',
-      bloodInv2: '',
-    });*/
-  
-
-
     setBloodInv2([])
     setBloodInv2IdArray([])
   },[selectedPatient])
@@ -295,7 +287,13 @@ const [trigger,setTrigger] = useState(true)
 
 
   const { allTreatmentCategories,allTreatmentTests } = useSelector((state) => state.patient);
+  const [allTreatmentCategories2,setAllTreatmentCategories2] = useState(allTreatmentCategories && [{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
+  const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
+  
 
+
+
+console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
 
   const handleDelete = (tbr,tbrId) => {
     
@@ -377,7 +375,7 @@ const [trigger,setTrigger] = useState(true)
      
         <Grid container spacing={1} sx={{ minWidth: 100 }}>
           <Grid item>
-          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
+          <Avatar alt="avatar" src={getAvatarSrc( selectedPatient && selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
             {/* </ButtonBase> */}
           </Grid>
           <Grid item xs={12} sm container>
@@ -385,7 +383,7 @@ const [trigger,setTrigger] = useState(true)
               <Grid item xs style={{ border: '0px solid red', display: 'flex', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Typography gutterBottom variant="subtitle1" component="div" style={mystyle}>
-                    <b>{selectedPatient?.firstName + ' ' + ' ' + selectedPatient?.lastName}</b>
+                    <b>{selectedPatient && selectedPatient?.firstName + ' ' + ' ' + selectedPatient && selectedPatient?.lastName}</b>
                   </Typography>
                   &nbsp; &nbsp; &nbsp;
                   <Divider
@@ -404,7 +402,7 @@ const [trigger,setTrigger] = useState(true)
                 </div>
               </Grid>
               <Typography variant="body2" gutterBottom style={mystyle} sx={{ ml: 1.8 }}>
-                {selectedPatient?.age}YRS | {selectedPatient?.icon.toUpperCase()}
+                {selectedPatient && selectedPatient?.age}YRS | {selectedPatient && selectedPatient?.icon.toUpperCase()}
               </Typography>
             </Grid>
           </Grid>
@@ -430,7 +428,7 @@ const [trigger,setTrigger] = useState(true)
                 style={{ minHeight: '50px', fontSize: '17px', outline: '1px solid #eee' }}
                 required
               >
-             {  allTreatmentCategories.filter((item)=>(item.treatmentId === "7aHB3TreYQYh3bzBS65K" )).map((prop)=>(
+             {  allTreatmentCategories2.filter((item)=>(item.treatmentId === "7aHB3TreYQYh3bzBS65K"|| item.treatmentId ==='first' )).map((prop)=>(
 
                  <option value={prop.uid}>{prop.title}</option>
                    
@@ -451,8 +449,10 @@ const [trigger,setTrigger] = useState(true)
                 style={{ minHeight: '50px', fontSize: '17px', outline: '1px solid #eee' }}
                 required
                 disabled={state.bloodInv1 && state.bloodInv1.length <1 ? true : false}
+
+                defaultValue={'halo'}
               >
-                {  allTreatmentTests.filter((item)=>(item.treatmentCategoryId === state.bloodInv1 )).map((prop)=>(
+                {  allTreatmentTests2.filter((item)=>(item.treatmentCategoryId === state.bloodInv1 || item.treatmentCategoryId ==='first')).map((prop)=>(
 
                      <option value={prop.uid}>{prop.title}</option>
                        
