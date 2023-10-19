@@ -104,7 +104,7 @@ const PatientDetails = () => {
             {<div style={{display:"flex",justifyContent:"center",flexDirection:"column"}}>
                
             
-              <li>Patient has been admitted</li>
+              <li style={{visibility:"hidden"}}>patient has been admitted</li>
                
                
               </div> 

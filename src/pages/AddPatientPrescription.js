@@ -55,41 +55,33 @@ const prescriptionHandler = (prescriptionString)=>{
 
 
 
+ /*============= YUSUF MULTILINE ===============*/
+ const [text, setText] = useState('');
+ const [textInput, setTextInput] = useState([]);
+ const handleTextChange = (e) => {
+   setText(e.target.value);
+
+ };
+
+ const handleAddText = () => {
+   if (text.trim() !== '') {
+     const lines = text.split('\n').filter(line => line.trim() !== '');
+     setTextInput((prevInput) => [...prevInput, ...lines]);
+     setText('');
+   }
+
+   
+ };
+/*============= YUSUF MULTILINE END ===============*/
 
 
    const addObject ={
     ...patientProcessSteps,
-   prescription
+   prescription:textInput
   
-
   }
 
   const [loading,setLoading] = useState(false)
-
-  const [level,setLevel] = useState('')
-  const [body,setBody] = useState('')
-  const [imageUrl,setImageUrl] =useState('')
-
-  const [screenTime,setScreenTime] = useState('')
-  const [history,setHistory] = useState()
-  const [firstName,setFirstName] =useState()
-  const [lastName,setLastName] =useState()
-  const [icon,setIcon]=useState()
-  const [age,setAge]=useState('')
-  const [complaint,setComplaint] =useState()
-  const [complaintId,setComplaintId] =useState()
- 
-
- 
-
-
-
-
-
- 
-  
-
-
 
 
  
@@ -101,11 +93,27 @@ const prescriptionHandler = (prescriptionString)=>{
       notifyErrorFxn("Please make sure to fill in all fields.")
     }
     else{
+      
+      
 
     setLoading(true)
+
+    new Promise((resolve,reject)=>{
+      resolve(handleAddText());
+    }
+  ).then(()=>{
+
+    if(textInput.length >0){
+      dispatch(fetchPatientProcessSteps(addObject,navigate,navigateUrl))
+    }
+ 
+  })
+
+
    
-    dispatch(fetchPatientProcessSteps(addObject,navigate,navigateUrl))
-    
+      console.log("THE RECORDED PRESCRIPTION IS---->",textInput)
+  
+  
     
     setTimeout(()=>{setLoading(false)},1800)
     
@@ -165,7 +173,7 @@ const prescriptionHandler = (prescriptionString)=>{
    </Grid>
   
            <Grid item xs={7}>
-       <TextField
+       {/*<TextField
        style={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%"}}
        fullWidth
        placeholder=" Add prescription"
@@ -176,8 +184,27 @@ const prescriptionHandler = (prescriptionString)=>{
        value= {prescription.toString()}
        onChange = {(e)=>{prescriptionHandler(e.target.value)}}
        
-       />
+       />*/}
        
+
+       { <div>
+               <textarea
+                 rows="14"
+                 cols="60"
+                 value={text}
+                 onChange={handleTextChange}
+                 placeholder="Enter your prescription..."
+                 style={{border: '0.1px solid black',padding:"0.5rem"}}
+                 onKeyDown={(e) => {
+                   if (e.key === 'Enter') {
+                     e.preventDefault();
+                     setText(text + '\n');
+                   }
+                 }}
+               />
+              
+             </div>
+           }
        
      </Grid>
    </Grid>
