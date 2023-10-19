@@ -215,10 +215,10 @@ const [testTaken,setTestTaken] = useState(false);
   const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentTests])
   
 
-  useEffect(()=>{
+ /* useEffect(()=>{
 
     setAllTreatmentTests2([{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentTests])
-  },[])
+  },[])*/
 
 
   const submitReferralResponse = (patientId,b1,b2,b3,b4,admittedPatients) => {

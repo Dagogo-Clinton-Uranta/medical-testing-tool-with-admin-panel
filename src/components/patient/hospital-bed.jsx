@@ -40,7 +40,7 @@ const HospitalBed = ({ bedNum, patient, onSelectBed, selectedBed  }) => {
           border: '1px solid #eee',
           borderRadius: '9px',
           cursor: 'pointer',
-          backgroundColor: bedNum === selectedBed ? '#23C6B3' : '#EBEBEB80',
+          backgroundColor: bedNum === selectedBed ? '#5B8DDE' : '#EBEBEB80',
           p: 1,
           mb: 2,
           display: 'flex',

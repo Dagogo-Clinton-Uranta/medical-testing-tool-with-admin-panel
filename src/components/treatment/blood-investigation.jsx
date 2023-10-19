@@ -207,7 +207,7 @@ const [trigger,setTrigger] = useState(true)
 
     setTestTaken("loading")
    setTimeout(()=>{
-    if(candidateResponseArray[particularPatientPosition].bloodInvestigationAnswerImages && candidateResponseArray[particularPatientPosition].bloodInvestigationAnswerImages.length >0){
+    if(candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].bloodInvestigationAnswerImages && candidateResponseArray[particularPatientPosition].bloodInvestigationAnswerImages.length >0){
     setTestTaken(true)
     }else{
       setTestTaken(false)
@@ -290,11 +290,11 @@ const [trigger,setTrigger] = useState(true)
   const [allTreatmentCategories2,setAllTreatmentCategories2] = useState(allTreatmentCategories && [{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
   const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
   
-  useEffect(()=>{
+ /* useEffect(()=>{
 
-    setAllTreatmentTests2( [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentTests])
+    setAllTreatmentTests2( [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentCategories])
     setAllTreatmentCategories2( [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
-  },[])
+  },[])*/
 
 
 console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)

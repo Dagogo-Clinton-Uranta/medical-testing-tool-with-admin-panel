@@ -200,7 +200,7 @@ const [testTaken,setTestTaken] = useState(false);
      
         <Grid container spacing={1} sx={{minWidth: 100}}>
           <Grid item>
-          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
+          <Avatar alt="avatar" src={getAvatarSrc(selectedPatient && selectedPatient.icon.toLowerCase())} style={{ width: '80px', height: '80px', marginRight: '20px' }} />
             {/* </ButtonBase> */}
          
           </Grid>
