@@ -103,9 +103,9 @@ const prescriptionHandler = (prescriptionString)=>{
     else{
 
     setLoading(true)
-    if(window.confirm("are you sure this prescription is correct ?")){
+   
     dispatch(fetchPatientProcessSteps(addObject,navigate,navigateUrl))
-    }
+    
     
     setTimeout(()=>{setLoading(false)},1800)
     
