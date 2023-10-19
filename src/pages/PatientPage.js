@@ -362,7 +362,7 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 2 */}
-                <Grid item xs={2.2} style={{ backgroundColor: '#21D0C3', height: '150px', borderRadius: '9px', cursor: 'pointer', border: selectedTreatment === 2 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
+                <Grid item xs={2.2} style={{ backgroundColor: '#5B8DDE', height: '150px', borderRadius: '9px', cursor: 'pointer', border: selectedTreatment === 2 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
                 onClick={() => {
                  if(selectedBed){
                   setSelectedTreatment(2);
@@ -460,7 +460,7 @@ console.log("selected patient is ---->",selectedPatient)
                     style={{
                       marginTop: '5%',
                       marginLeft: '0%',
-                      backgroundColor: '#21D0C3',
+                      backgroundColor: '#5B8DDE',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',

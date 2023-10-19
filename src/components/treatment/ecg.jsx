@@ -372,7 +372,7 @@ setTrigger(!trigger)
                variant="contained"
                onClick={()=>{submitECGRequest(selectedPatient?.uid,selectedPatient?.complaintId,admittedPatients)}}
                style={{
-                 backgroundColor:'#21D0C3',
+                 backgroundColor:'#5B8DDE',
                  color: 'white',
                  fontSize: '15px',
                  padding: '8px',
@@ -403,7 +403,7 @@ setTrigger(!trigger)
              variant="contained"
              onClick={()=>{handleOpenPdf()}}
              style={{
-               backgroundColor:'#21D0C3',
+               backgroundColor:'#5B8DDE',
                color: 'white',
                fontSize: '15px',
                padding: '8px',
@@ -446,7 +446,7 @@ setTrigger(!trigger)
                     fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor: '#21D0C3',
+                      backgroundColor: '#5B8DDE',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',

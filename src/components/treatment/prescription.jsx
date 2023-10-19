@@ -277,7 +277,7 @@ const [testTaken,setTestTaken] = useState(false);
                   fullWidth
                   variant="contained"
                   style={{
-                    backgroundColor:!state.prescription?'#199e94':'#21D0C3',
+                    backgroundColor:!state.prescription?'#4167a3':'#5B8DDE',
                     color: 'white',
                     fontSize: '15px',
                     padding: '4px',

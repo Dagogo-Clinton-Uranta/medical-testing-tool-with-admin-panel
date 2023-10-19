@@ -83,7 +83,7 @@ const PatientDetails = () => {
             }
 
 
-           <div style={{ marginTop: '10px', minHeight: '250px', minWidth:"500px",border: '0px solid red',display:"grid" , gridTemplateColumns:( (selectedPatient.chosenBloodInvestigationTests||selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray||selectedPatient.chosenReferrals)?"1fr 1fr" :"1fr"),gap:"1rem"}}>
+           <div style={{ marginTop: '10px', minHeight: '250px', minWidth:"100%",border: '0px solid red',display:"grid" , gridTemplateColumns:( (selectedPatient.chosenBloodInvestigationTests||selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray||selectedPatient.chosenReferrals||selectedPatient.isAdmitted)?"1fr 1fr" :"1fr"),gap:"1rem"}}>
 
             
             { (!selectedPatient.chosenBloodInvestigationTests && !selectedPatient.chosenRadiologyTests && !selectedPatient.prescriptionResponseArray && !selectedPatient.chosenReferrals && !selectedPatient.ecgPassed && !selectedPatient.isAdmitted) && 
@@ -231,7 +231,7 @@ const PatientDetails = () => {
              fullWidth
              variant="contained"
              style={{
-               backgroundColor: "#21D0C3",
+               backgroundColor: "#5B8DDE",
                color: "white",
                fontSize: "15px",
                padding: '6px',

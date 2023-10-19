@@ -434,7 +434,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
                     fullWidth
                     variant="contained"
                     style={{
-                     backgroundColor:state.radiology1 && state.radiology1.length <1  ||state.radiology2 &&  state.radiology2.length <1 || radiology1 ===''||radiology1 &&  radiology1.length <1||radiology2 &&  radiology2.length <1   ?'#199e94':'#21D0C3',
+                     backgroundColor:state.radiology1 && state.radiology1.length <1  ||state.radiology2 &&  state.radiology2.length <1 || radiology1 ===''||radiology1 &&  radiology1.length <1||radiology2 &&  radiology2.length <1   ?'#4167a3':'#5B8DDE',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',
@@ -455,7 +455,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
                     fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor:'#21D0C3',
+                      backgroundColor:'#5B8DDE',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',
@@ -503,7 +503,7 @@ const handleClosePdf = () => {setOpenPdf(false)};
                fullWidth
                variant="contained"
                style={{
-                 backgroundColor:'#21D0C3',
+                 backgroundColor:'#5B8DDE',
                  color: 'white',
                  fontSize: '15px',
                  padding: '4px',

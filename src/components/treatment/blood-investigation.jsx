@@ -290,7 +290,11 @@ const [trigger,setTrigger] = useState(true)
   const [allTreatmentCategories2,setAllTreatmentCategories2] = useState(allTreatmentCategories && [{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
   const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
   
+  useEffect(()=>{
 
+    setAllTreatmentTests2( [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentTests])
+    setAllTreatmentCategories2( [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
+  },[])
 
 
 console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
@@ -484,7 +488,7 @@ console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
                     fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor:state.bloodInv1.length <1 ||state.bloodInv2.length <1||bloodInv2.length <1||bloodInv1.length <1  ?'#199e94':'#21D0C3',
+                      backgroundColor:state.bloodInv1.length <1 ||state.bloodInv2.length <1||bloodInv2.length <1||bloodInv1.length <1  ?'#4167a3':'#5B8DDE',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',
@@ -505,7 +509,7 @@ console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
                     fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor:'#21D0C3',
+                      backgroundColor:'#5B8DDE',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',
@@ -552,7 +556,7 @@ console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
                     fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor:'#21D0C3',
+                      backgroundColor:'#5B8DDE',
                       color: 'white',
                       fontSize: '15px',
                       padding: '4px',

@@ -92,7 +92,7 @@ export default function CandidateLoginForm() {
       <LoadingButton fullWidth size="large" type="submit" disabled={loading} style={{marginTop: '30px', paddingTop: '7%', paddingBottom: '7%', backgroundColor: '#15197ED9', color: 'white'}}>
         {loading ? "Loading..." : "Login"}
       </LoadingButton>
-      <Typography variant="body2" sx={{ mt: 2, mb: 2, color: '#21D0C3', textAlign: 'center' }}>
+      <Typography variant="body2" sx={{ mt: 2, mb: 2, color: '#5B8DDE', textAlign: 'center' }}>
               <Link href='/register' variant="subtitle2"><span style={{color: 'black' }}>Forgot Password?</span></Link>
             </Typography>
       </form>
