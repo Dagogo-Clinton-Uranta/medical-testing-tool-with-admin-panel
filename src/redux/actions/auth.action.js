@@ -13,7 +13,7 @@ export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) 
     // Signed in
     var user = userCredential.user;
     console.log('Signed In user is: ', user.email);
-     dispatch(fetchCandidateData("ADq0LNbilFVUdDl8WrLIbOeP8xl2", "sigin", navigate, setLoading));
+     dispatch(fetchCandidateData(user.uid/*"ADq0LNbilFVUdDl8WrLIbOeP8xl2"*/, "sigin", navigate, setLoading));
     
        dispatch(getAllPatients());
       
@@ -25,8 +25,8 @@ export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) 
     setLoading(false);
     var errorCode = error.code;
     var errorMessage = error.message;
-    alert(errorMessage);
-    // notifyErrorFxn(errorMessage);
+   // alert(errorMessage);
+     notifyErrorFxn(error.message);
     console.log('Error Code is: ', errorCode, + ' Msg is: ', errorMessage);
     dispatch(loginFailed(errorMessage));
   });
@@ -40,16 +40,17 @@ export const signExaminerIn = (user, navigate, setLoading) => async (dispatch) =
     // Signed in
     var user = userCredential.user;
     console.log('Signed In user is: ', user.email);
-     dispatch(fetchExaminerData(/*user.uid*/"iu2Nxs2jksaxYl1FAEsR4Rl7MwD3", "sigin", navigate, setLoading));
+     dispatch(fetchExaminerData(user.uid/*"iu2Nxs2jksaxYl1FAEsR4Rl7MwD3"*/, "sigin", navigate, setLoading));
      dispatch(fetchAllCategories())
     dispatch(fetchAllGroupTreatmentCategories())
+    
   })
   .catch((error) => {
     setLoading(false);
     var errorCode = error.code;
     var errorMessage = error.message;
-    alert(errorMessage);
-    // notifyErrorFxn(errorMessage);
+   // alert(errorMessage);
+    notifyErrorFxn(error.message);
     console.log('Error Code is: ', errorCode, + ' Msg is: ', errorMessage);
     dispatch(loginFailed(errorMessage));
   });
@@ -147,7 +148,7 @@ export const fetchExaminerData = (id, type, navigate, setLoading) => async (disp
     // console.log("User Data:", doc.data());
     dispatch(storeUserData(doc.data()));
     if(type === "sigin"){
-      // notifySuccessFxn("Logged In😊");
+       notifySuccessFxn("Logged In");
       navigate('/dashboard/examiner', { replace: true });
     }
   } else {

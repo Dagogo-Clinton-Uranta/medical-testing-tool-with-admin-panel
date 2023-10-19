@@ -98,7 +98,7 @@ function TablePaginationActions(props) {
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor:'#000000'/* "#60A1EC"*/,
+    backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))",
     color: theme.palette.common.white,
     width:150
   },
@@ -215,7 +215,7 @@ export default function TeacherList({teachers}) {
            
             variant="contained"
             style={{
-              backgroundColor: '#000000' ,
+             backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" ,
               color: "white",
               fontSize: "15px",
             }}
@@ -231,26 +231,33 @@ export default function TeacherList({teachers}) {
       </div>*/}
       
       <br/>
-      <p style={{fontSize: '26px', marginLeft: '5px',marginBottom:"1rem", color: 'black',display:"flex",justifyContent:"space-between"}}><b>ALL PATIENTS</b>   <Button
+      <p style={{fontSize: '26px', marginLeft: '5px',marginBottom:"1rem",display:"flex",justifyContent:"space-between"}}>
+        <b>ALL PATIENTS</b> 
+         
+         
+          <Button
                    
-                   type="button"
-                    // fullWidth
-                    variant="contained"
-                    style={{
-                      backgroundColor: '#000000' ,
-                      color: "white",
-                      width: "17%",
+              type="button"
+              
+               variant="contained"
+               style={{
+                backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" ,
+                 color: "white",
+                 width: "17%",
+                 fontSize: "15px",
+               }}
+               sx={{ mt: 7, mb: 2 }}
+               onClick={() => {navigate('/dashboard/add-patient-bio')}}
+             >
+               ADD PATIENT
+                  </Button> 
+        </p>
 
-                      fontSize: "15px",
-                    }}
-                    sx={{ mt: 7, mb: 2 }}
-                    onClick={() => {navigate('/dashboard/add-patient')}}
-                  >
-                    ADD PATIENT
-                  </Button></p><br/>
+
+        <br/>
       <hr />
       <TableContainer component={Paper}>
-        <Table sx={{ maxWidth: 1500,tableLayout:"fixed" }} aria-label="custom pagination table">
+        <Table sx={{ maxWidth: 1500,tableLayout:"fixed",backgroundImage:"linear-gradient(#5c7ef4, #5c7ef4)" }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
@@ -273,17 +280,17 @@ export default function TeacherList({teachers}) {
               : teacherList
             ).map((row) => (
               <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+                <TableCell style={{ width: 140,color:"white" }} component="th" scope="row">
                   {row.firstName + " " + row.lastName}
                 </TableCell>
-                <TableCell style={{ width: 140 }} align="left">
+                <TableCell style={{ width: 140,color:"white" }} align="left">
                   {row.complaint}
                 </TableCell>
                 {/*<TableCell style={{ width: 140 }} align="right">
                 {row.accountCreated &&typeof(row.accountCreated) !== "string"  ?(new Date(row.accountCreated.seconds*1000)).toDateString():row.accountCreated}
                 </TableCell>*/}
                 
-                <TableCell style={{ width: 140 }} align="left">
+                <TableCell style={{ width: 140,color:"white" }} align="left">
                 {/*row.registeredOn &&typeof(row.registeredOn) !== "string"  ?(new Date(row.registeredOn.seconds*1000)).toDateString():row.accountCreated*/}
                 {row.screenTime && row.screenTime}
                 </TableCell>
@@ -296,7 +303,7 @@ export default function TeacherList({teachers}) {
                     // fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor: '#000000' /*"#60A1EC"*/,
+                     backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" /*"#60A1EC"*/,
                       color: "white",
                       width: "70%",
                       fontSize: "15px",
@@ -315,7 +322,7 @@ export default function TeacherList({teachers}) {
                     // fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor: '#000000' ,
+                     backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" ,
                       color: "white",
                       width: "70%",
                       fontSize: "15px",

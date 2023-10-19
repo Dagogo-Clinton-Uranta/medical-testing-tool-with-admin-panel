@@ -97,7 +97,7 @@ function TablePaginationActions(props) {
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor:'#000000'/* "#60A1EC"*/,
+    backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))",
     color: theme.palette.common.white,
     width:150
   },
@@ -132,7 +132,7 @@ export default function CJobList({jobs}) {
   const [jobList, setJobList] = useState(jobs);
   const [loading,setLoading] =useState(false)
 
-  console.log("all candidates ,are:",jobs)
+  console.log("all users are:",jobs)
   const [searched, setSearched] = useState("");
   const classes = useStyles();
   const requestSearch = (searchedVal) => {
@@ -201,7 +201,7 @@ export default function CJobList({jobs}) {
            
             variant="contained"
             style={{
-              backgroundColor: '#000000' "#60A1EC",
+             backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" "#60A1EC",
               color: "white",
               fontSize: "15px",
             }}
@@ -217,27 +217,32 @@ export default function CJobList({jobs}) {
       </div>*/}
       
       <br/>
-      <p style={{fontSize: '26px', marginLeft: '5px',marginBottom:"1rem", color: 'black',display:"flex",justifyContent:"space-between"}}><b>ALL CANDIDATES</b>   <Button
+     
+      <p style={{fontSize: '26px', marginLeft: '5px',marginBottom:"1rem",display:"flex",justifyContent:"space-between"}}>
+        <b>ALL CANDIDATES</b> 
+          <Button
                    
-                   type="button"
-                    // fullWidth
-                    variant="contained"
-                    style={{
-                      backgroundColor: '#000000' ,
-                      color: "white",
-                      width: "17%",
-
-                      fontSize: "15px",
-                    }}
-                    sx={{ mt: 7, mb: 2 }}
-                   
-                  >
-                    FILTER
-                  </Button></p><br/>
+              type="button"
+               // fullWidth
+               variant="contained"
+               style={{
+                backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" ,
+                 color: "white",
+                 width: "17%",
+                 fontSize: "15px",
+               }}
+               sx={{ mt: 7, mb: 2 }}
+               onClick={() => {navigate('/dashboard/add-candidate')}}
+             >
+               ADD CANDIDATE
+                  </Button>
+        </p>
+           
+                  <br/>
       <hr />
       <TableContainer component={Paper}>
-        <Table sx={{ maxWidth: 1500,tableLayout:"fixed" }} aria-label="custom pagination table">
-          <TableHead>
+        <Table sx={{ maxWidth: 1500,tableLayout:"fixed",backgroundImage:"linear-gradient(#5c7ef4, #5c7ef4)" }} aria-label="custom pagination table">
+          <TableHead  >
             <TableRow>
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell align="left">Email</StyledTableCell>
@@ -259,17 +264,17 @@ export default function CJobList({jobs}) {
               : jobList
             ).map((row) => (
               <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
+                <TableCell style={{ width: 140,color:"white" }} component="th" scope="row">
                   {row.firstName + " " + row.lastName}
                 </TableCell>
-                <TableCell style={{ width: 140 }} align="left">
+                <TableCell style={{ width: 140,color:"white" }} align="left">
                   {row.email}
                 </TableCell>
                 {/*<TableCell style={{ width: 140 }} align="right">
                 {row.accountCreated &&typeof(row.accountCreated) !== "string"  ?(new Date(row.accountCreated.seconds*1000)).toDateString():row.accountCreated}
                 </TableCell>*/}
                 
-                <TableCell style={{ width: 140 }} align="left">
+                <TableCell style={{ width: 140 ,color:"white"}} align="left">
                 {row.registeredOn &&typeof(row.registeredOn) !== "string"  ?(new Date(row.registeredOn.seconds*1000)).toDateString():row.accountCreated}
                 </TableCell>
 
@@ -281,7 +286,7 @@ export default function CJobList({jobs}) {
                     // fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor: '#000000',
+                     backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))",
                       color: "white",
                       width: "70%",
                       fontSize: "15px",
@@ -300,7 +305,7 @@ export default function CJobList({jobs}) {
                     // fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor: '#000000' ,
+                     backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" ,
                       color: "white",
                       width: "70%",
                       fontSize: "15px",

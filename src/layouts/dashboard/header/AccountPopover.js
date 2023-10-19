@@ -8,6 +8,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from 'src/redux/actions/auth.action';
 import { useNavigate } from 'react-router-dom';
+import randomGuy from 'src/assets/images/random-guy.jpg'
+import companyDefault from 'src/assets/images/companydefault.png'
 
 // ----------------------------------------------------------------------
 
@@ -50,7 +52,7 @@ export default function AccountPopover() {
           }),
         }}
       >
-        <Avatar src={user?.imageUrl} alt="photoURL" />
+        <Avatar src={companyDefault} alt="photoURL" />
       </IconButton>
       <ArrowDropDownIcon sx={{color: 'black'}} onClick={handleOpen}/>
       <Popover
@@ -69,6 +71,10 @@ export default function AccountPopover() {
             '& .MuiMenuItem-root': {
               typography: 'body2',
               borderRadius: 0.75,
+              display:"flex",
+              justifyContent:"center",
+              alignItems:"center",
+              
             },
           },
         }}
@@ -80,14 +86,18 @@ export default function AccountPopover() {
           alignItems="flex-start"
         >
           <Grid sx={{mt: 1, ml: 1}}>
-          <Avatar src={user?.imageUrl} alt="photoURL" />
+          <Avatar src={companyDefault/*user?user.imageUrl:randomGuy*/} alt="photoURL" />
           </Grid>
           <Box sx={{ my: 1.5, px: 1 }}>
-          <Typography variant="subtitle2" noWrap>
-            {user?.firstName + " " + user?.lastName}
+          <Typography variant="subtitle2" style={{color:"black"}} noWrap>
+            
+            
+            {user?user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1) + " " + user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1):"Examiner Ibara"}
+          
+          
           </Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-            {user?.email}
+            {user?user.email:'ut1@ibara.com'}
           </Typography>
         </Box>
         </Grid>
@@ -95,23 +105,19 @@ export default function AccountPopover() {
 
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        {/* <MenuItem sx={{ pt: 1 }}>
-          Accounts
+       <MenuItem onClick={() => dispatch(navigate('/dashboard/settings'))} sx={{ pt: 1 ,ml:2}}>
+          Settings
         </MenuItem>
-        <Divider />
-        <Stack sx={{color: '#828D9F' }}>
-          {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </Stack> */}
-
+      
+       
         <Divider sx={{ borderStyle: 'dashed' }} />
 
-        <MenuItem onClick={() => dispatch(logout(navigate))} sx={{ m: 1 }} >
-          Logout
+        <MenuItem  sx={{m: 1 ,padding:"1rem"}} onClick={() => dispatch(logout(navigate))} >
+      
+            Logout
+       
         </MenuItem>
+
       </Popover>
     </>
   );

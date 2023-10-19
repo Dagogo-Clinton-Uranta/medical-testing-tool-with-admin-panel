@@ -188,11 +188,35 @@ const [testTaken,setTestTaken] = useState(false);
    /*LOGIC FOR SETTING VIEW RESULTS FOR BLOOD INVESTIGATION RERUN - END*/ 
 
 
+   /*============= YUSUF MULTILINE ===============*/
+   const [text, setText] = useState('');
+   const [textInput, setTextInput] = useState([]);
+   const handleTextChange = (e) => {
+     setText(e.target.value);
+
+   };
+
+   const handleAddText = () => {
+     if (text.trim() !== '') {
+       const lines = text.split('\n').filter(line => line.trim() !== '');
+       setTextInput((prevInput) => [...prevInput, ...lines]);
+       setText('');
+     }
+
+     
+   };
+ /*============= YUSUF MULTILINE END ===============*/
 
 
   const submitPrescriptionResponse = (patientId,b1,b2,admittedPatients) => {
-    dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients))
+    handleAddText()
+    setTimeout(()=>{dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients))},100)
   }
+
+
+
+
+
 
   return (
     
@@ -245,7 +269,7 @@ const [testTaken,setTestTaken] = useState(false);
           </Typography>
           <br/>
          
-          <TextField
+          {/*<TextField
             name="prescription"
             placeholder=""
             fullWidth
@@ -266,7 +290,30 @@ const [testTaken,setTestTaken] = useState(false);
                 resize: 'vertical',
               },
             }}
-          />
+          />*/}
+
+       
+        { <div>
+               <textarea
+                 rows="13"
+                 cols="60"
+                 value={text}
+                 onChange={handleTextChange}
+                 placeholder="Enter your prescription..."
+                 style={{border: '1px solid black'}}
+                 onKeyDown={(e) => {
+                   if (e.key === 'Enter') {
+                     e.preventDefault();
+                     setText(text + '\n');
+                   }
+                 }}
+               />
+              {/* <br />
+               <button onClick={handleAddText} style={{border: '5px solid #eee', padding: '10px'}}>Add Text</button>
+                console.log("TEXT____", textInput)*/}
+             </div>
+           }
+
         </Grid>
         <div style={{ padding: '10px' }}>
             <br />
@@ -277,14 +324,14 @@ const [testTaken,setTestTaken] = useState(false);
                   fullWidth
                   variant="contained"
                   style={{
-                    backgroundColor:!state.prescription?'#4167a3':'#5B8DDE',
+                    backgroundColor:!textInput?'#4167a3':'#5B8DDE',
                     color: 'white',
                     fontSize: '15px',
                     padding: '4px',
                     height: '50px',
                   }}
-                  disabled={!state.prescription||loading}
-                  onClick={()=>{submitPrescriptionResponse(selectedPatient?.uid,prescriptionArray,selectedPatient?.complaintId,admittedPatients)}}
+                  disabled={!textInput||loading}
+                  onClick={()=>{submitPrescriptionResponse(selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients)}}
                 >
                   Submit
                 </Button>

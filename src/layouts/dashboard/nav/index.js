@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useNavigate } from 'react-router-dom';
 // @mui
 import { styled, alpha } from '@mui/material/styles';
 import { Box, Link, Button, Drawer, Typography, Avatar, Stack } from '@mui/material';
@@ -12,12 +12,16 @@ import Scrollbar from '../../../components/scrollbar';
 import NavSection from '../../../components/nav-section';
 //
 import navConfig from './config';
-import BONLOGO from '../../../assets/images/CMCNetwork-logo.png';
+import CMCLOGO from '../../../assets/images/CMCNetwork-logo.png';
+import { fontFamily } from '@mui/system';
+
+import {AiOutlineLock} from 'react-icons/ai'
 
 // ----------------------------------------------------------------------
 
 // const NAV_WIDTH = 280;
-const NAV_WIDTH = 230;
+const NAV_WIDTH = 0;
+
 
 const StyledAccount = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -36,7 +40,7 @@ Nav.propTypes = {
 
 export default function Nav({ openNav, onCloseNav }) {
   const { pathname } = useLocation();
-
+  const navigate = useNavigate()
   const isDesktop = useResponsive('up', 'lg');
 
   useEffect(() => {
@@ -53,16 +57,42 @@ export default function Nav({ openNav, onCloseNav }) {
         '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
       }}
     >
-      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>{/* <Logo /> */}</Box>
-      <Box sx={{ mb: 5, mx: 'auto', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
+        {/* <Logo /> */}
+      </Box>
+
+      <Box sx={{ mb: 5, mx: 2.5,display:'flex',justifyContent:"center" }}>
         <Link underline="none">
-          <img src={BONLOGO}  alt="Logo" />
+          {/* <StyledAccount>
+            <Avatar src={account.photoURL} alt="photoURL" />
+
+            <Box sx={{ ml: 2 }}>
+              <Typography variant="subtitle2" sx={{ color: '#FFFFFF' }}>
+                {account.displayName}
+              </Typography>
+
+              <Typography variant="body2" sx={{ color: 'red' }}>
+                {account.role}
+              </Typography>
+            </Box>
+          </StyledAccount> */}
+          <img src={CMCLOGO} onClick={()=>{navigate('/dashboard/home')}} />
         </Link>
       </Box>
 
       <NavSection data={navConfig} />
-
+      {/*<span style={{color:"white", 
+                    fontSize:"1.2rem",
+                   position:'relative',
+                   top:'-92px',
+                   left:'45%'
+                   
+                   }}><AiOutlineLock/>
+        </span>*/}
+     
       <Box sx={{ flexGrow: 1 }} />
+
+   
     </Scrollbar>
   );
 
@@ -75,6 +105,7 @@ export default function Nav({ openNav, onCloseNav }) {
       }}
     >
       {isDesktop ? (
+         <>
         <Drawer
           open
           variant="permanent"
@@ -83,13 +114,21 @@ export default function Nav({ openNav, onCloseNav }) {
               width: NAV_WIDTH,
               // bgcolor: 'background.default',
               // bgcolor: '#60A1EC',
-              bgcolor: '#000000',
+              bgcolor: 'black',
               borderRightStyle: 'dashed',
             },
           }}
         >
           {renderContent}
-        </Drawer>
+          <div style={{color:"white",
+                      backgroundColor:"black",
+                     margin:"0 auto",
+                     marginBottom:"1rem",
+                     fontWeight:"bold"
+                     }}> Version 1.0.12</div>
+        </Drawer>,
+        
+        </>
       ) : (
         <Drawer
           open={openNav}
@@ -102,6 +141,7 @@ export default function Nav({ openNav, onCloseNav }) {
           }}
         >
           {renderContent}
+          
         </Drawer>
       )}
     </Box>

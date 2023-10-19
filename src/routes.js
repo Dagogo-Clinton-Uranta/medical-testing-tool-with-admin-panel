@@ -25,6 +25,20 @@ import PatientExpanded from './pages/PatientExpanded';
 import AddComplaint from './pages/AddComplaint';
 import EditChapter from './pages/EditChapter';
 import EditCourse from './pages/EditCourse';
+import AddPatientBioData from './pages/AddPatientBioData';
+import AddPatientHistory from './pages/AddPatientHistory';
+import AddPatientArrival from './pages/AddPatientArrival';
+import AddPatientScreenTime from './pages/AddPatientScreenTime';
+import AddPatientRadiology from './pages/AddPatientRadiology';
+import AddPatientBloodInv from './pages/AddPatientBloodInv';
+import AddPatientECG from './pages/AddPatientECG';
+import AddPatientPrescription from './pages/AddPatientPrescription';
+import AddPatientReferral from './pages/AddPatientReferral';
+import AddConditionsBloodInv from './pages/AddConditionsBloodInv';
+import AddConditionsRadiology from './pages/AddCondiitonsRadiology';
+import AddConditionsReferral from './pages/AddCondiitonsReferral';
+import AddCandidate from './pages/AddCandidate';
+import SettingsPage from './pages/SettingsPage';
 
 
 export default function Router() {
@@ -50,6 +64,28 @@ export default function Router() {
          { path: 'edit-chapter', element: <EditChapter /> },
          { path: 'candidate-stats', element: <ContractorStatsPage /> },
          { path: 'patient-expanded', element: <PatientExpanded/> },
+
+
+         { path: 'candidate-list', element: <StudentListPage /> },
+         { path: 'add-patient-bio', element: <AddPatientBioData/> },
+         { path: 'add-patient-history', element: <AddPatientHistory/> },
+         { path: 'add-patient-arrival', element: <AddPatientArrival/> },
+         { path: 'add-patient-screen', element: <AddPatientScreenTime/> },
+         { path: 'add-patient-bloodinv', element: <AddPatientBloodInv/> },
+         { path: 'add-patient-radiology', element: <AddPatientRadiology/> },
+         { path: 'add-patient-ecg', element: <AddPatientECG/> },
+         { path: 'add-patient-prescription', element: <AddPatientPrescription/> },
+         { path: 'add-patient-referral', element: <AddPatientReferral/> },
+ 
+         { path: 'add-conditions-bloodinv', element: <AddConditionsBloodInv/> },
+         { path: 'add-conditions-radiology', element: <AddConditionsRadiology/> },
+         { path: 'add-conditions-referral', element: <AddConditionsReferral/> },
+ 
+         { path: 'add-candidate', element: <AddCandidate/> },
+ 
+         { path: 'settings', element: <SettingsPage/> },
+        
+        
       ],
     },
     {

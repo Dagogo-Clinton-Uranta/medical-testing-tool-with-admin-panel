@@ -1,5 +1,5 @@
 import { Container,Grid, TextField, Typography, TextareaAutosize, Button, Paper,Divider,Box} from '@mui/material';
-import { useRef, useState,useEffect} from 'react';
+import { useRef, useState} from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
 import UPLOADIMG from '../assets/images/upload.png';
 import { addTeacher} from 'src/redux/actions/group.action';
@@ -68,16 +68,6 @@ function PatientExpanded() {
     setTimeout(()=>{setLoading(false)},1800)
     }
   }
-
-
-
-
-  useEffect(() => {
-
-    if(user && !user.isExaminer){
-
-    navigate('/patient')
-    }},[])
  
 
 
@@ -85,7 +75,7 @@ function PatientExpanded() {
   const [patient,setPatient]=useState(allQuizzesOneStudent.filter((item)=>(item.patientId === location.state.patientId))[0])
   console.log("WHAT PATIENT TEST DO I GET",patient)
 
-
+  console.log("LOOK HERE --->",location)
 
   return (
     <>
@@ -100,20 +90,20 @@ function PatientExpanded() {
 
 
 
-    <h1 style={{position:"relative",fontWeight:"bold",marginBottom:"40px",fontSize:"30px"}}>RESPONSES FOR PATIENT - {patient && patient.firstName + " " + patient.lastName}</h1>
+    <h1 style={{position:"relative",fontWeight:"bold",marginBottom:"40px",fontSize:"25px"}}> { location.state && location.state.candidateName }</h1>
 
     <Grid item xs={12} sx={{ display: 'flex' }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Typography variant="h4" component="p">
-              VIEW DETAILS BELOW
+               Patient - {patient && patient.firstName + " " + patient.lastName}
               </Typography>
-              <div style={{height:"2px", width:"80%",borderBottom:"1px solid black",position:"absolute",left:"20rem",top:"18rem"}}></div>
+             {/* <div style={{height:"2px", width:"80%",borderBottom:"1px solid black",position:"absolute",left:"20rem",top:"18rem"}}></div>*/}
             </Box>
             <br/> <br/> <br/>
         </Grid>
    
 
-     <Grid container spacing={2}>
+     <Grid container spacing={2} style={{margin:"0 auto",backgroundColor:"#081B85",width:"70%",padding:"1rem",paddingBottom:"2.5rem",borderRadius:"3rem"}}>
 
 
        
@@ -132,6 +122,7 @@ function PatientExpanded() {
 
           <Grid item xs={7}>
             <TextField
+             style={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%"}}
             fullWidth
             placeholder=" "
             variant="outlined"
@@ -155,38 +146,7 @@ function PatientExpanded() {
 
 
        
-       <Grid container item xs={12} spacing={2}>
-          <Grid item xs={3}>
-            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
-             <div >
-              BLOOD INVESTIGATION CHOSEN
-             </div>
       
-            </Typography>
-          
-          </Grid>
-
-          <Grid item xs={7}>
-          <TextField
-            fullWidth
-            placeholder=" "
-            variant="outlined"
-            multiline
-            disabled
-            maxRows={2}
-            value= {patient && patient.chosenBloodInvestigation }
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#000000",
-            },
-          }}
-            
-            
-            />
-            
-            
-          </Grid>
-        </Grid>
 
 
 
@@ -194,7 +154,7 @@ function PatientExpanded() {
           <Grid item xs={3}>
             <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
              <div >
-             BLOOD INVESTIGATION RESPONSE
+             BLOOD INVESTIGATION 
              </div>
       
             </Typography>
@@ -203,13 +163,14 @@ function PatientExpanded() {
 
           <Grid item xs={7}>
             <TextField
+             style={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%"}}
             fullWidth
             placeholder=" "
             variant="outlined"
             multiline
             disabled
             maxRows={8}
-            value= {patient && patient.bloodInvestigationTest }
+            value= {patient && patient.chosenBloodInvestigationTests && patient.chosenBloodInvestigationTests.toString() }
             sx={{
               "& .MuiInputBase-input.Mui-disabled": {
                 WebkitTextFillColor: "#000000",
@@ -225,7 +186,7 @@ function PatientExpanded() {
 
 
    
-        <Grid container item xs={12} spacing={2}>
+       {/* <Grid container item xs={12} spacing={2}>
           <Grid item xs={3}>
             <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
              <div >
@@ -238,6 +199,7 @@ function PatientExpanded() {
 
           <Grid item xs={7}>
             <TextField
+             style={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%"}}
             fullWidth
             placeholder=" "
             variant="outlined"
@@ -256,14 +218,14 @@ function PatientExpanded() {
             
             
           </Grid>
-        </Grid>
+        </Grid>*/}
 
 
         <Grid container item xs={12} spacing={2}>
           <Grid item xs={3}>
             <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
              <div >
-             RADIOLOGY RESPONSE
+             RADIOLOGY 
              </div>
       
             </Typography>
@@ -272,13 +234,14 @@ function PatientExpanded() {
 
           <Grid item xs={7}>
             <TextField
+             style={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%"}}
             fullWidth
             placeholder=" "
             variant="outlined"
             multiline
             disabled
             maxRows={2}
-            value= {patient && patient.radiologyTest }
+            value= {patient && patient.chosenRadiologyTests && patient.chosenRadiologyTests.toString()}
             sx={{
               "& .MuiInputBase-input.Mui-disabled": {
                 WebkitTextFillColor: "#000000",
@@ -292,39 +255,6 @@ function PatientExpanded() {
           </Grid>
         </Grid>
 
-
-        <Grid container item xs={12} spacing={2}>
-          <Grid item xs={3}>
-            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
-             <div >
-             PRESCRIPTION WRITE UP
-             </div>
-      
-            </Typography>
-          
-          </Grid>
-
-          <Grid item xs={7}>
-            <TextField
-            fullWidth
-            placeholder=" "
-            variant="outlined"
-            multiline
-            disabled
-            rows={6}
-            value= {patient && patient.prescriptionWriteup }
-          
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "#000000",
-            },
-          }}
-            
-            />
-            
-            
-          </Grid>
-        </Grid>
 
 
         <Grid container item xs={12} spacing={2}>
@@ -340,6 +270,7 @@ function PatientExpanded() {
 
           <Grid item xs={7}>
             <TextField
+             style={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%"}}
             fullWidth
             placeholder=" "
             variant="outlined"
@@ -347,7 +278,7 @@ function PatientExpanded() {
             disabled
             
             maxRows={2}
-            value= {patient && patient.chosenReferral}
+            value= {patient && patient.chosenReferrals && patient.chosenReferrals.toString()}
             sx={{
               "& .MuiInputBase-input.Mui-disabled": {
                 WebkitTextFillColor: "#000000",
@@ -361,6 +292,60 @@ function PatientExpanded() {
         </Grid>
 
 
+        <Grid container item xs={12} spacing={2}>
+          <Grid item xs={3}>
+            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
+             <div >
+             PRESCRIPTION
+             </div>
+      
+            </Typography>
+          
+          </Grid>
+
+          <Grid item xs={7}>
+            <TextField
+             style={{backgroundColor:"#FFFFFF",borderRadius:"0.1rem",width:"100%"}}
+            fullWidth
+            placeholder=" "
+            variant="outlined"
+            multiline
+            disabled
+            rows={6}
+            value= {patient && patient.prescriptionResponseArray && patient.prescriptionResponseArray.toString() }
+          
+            sx={{
+              "& .MuiInputBase-input.Mui-disabled": {
+                WebkitTextFillColor: "#000000",
+            },
+          }}
+            
+            />
+            
+            
+          </Grid>
+        </Grid>
+
+
+        
+        <Grid container item xs={12} spacing={2}>
+          <Grid item xs={3}>
+            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
+             <div >
+             VEFIRICATION:
+             </div>
+      
+            </Typography>
+          
+          </Grid>
+
+          <Grid item xs={7}>
+          <p style={{fontSize:"25px"}}> {patient && (patient.overallGrade && Number(patient.overallGrade) >= 80 ? 'Successfully Treated':'Not Successfully Treated') } </p>
+            
+            
+          </Grid>
+        </Grid>
+
 
 
 
@@ -371,8 +356,8 @@ function PatientExpanded() {
   <div style={{ display: 'flex', justifyContent: 'center',gap:"1rem" }}>
  
   <Button  onClick={() => {navigate(-1) }} variant="contained" 
-  style={{ backgroundColor: "#000000"/*"#F97D0B"*/, paddingTop: '10px', paddingBottom: '10px', 
-  paddingRight: '30px', paddingLeft: '30px'}}
+  style={{ backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))"/*"#F97D0B"*/, paddingTop: '10px', paddingBottom: '10px', 
+  paddingRight: '30px', paddingLeft: '30px',width:"180px",borderRadius:"1rem"}}  
 >
     BACK
   </Button>

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
        myGroups: [], 
+       patientProcessSteps:{},
        allGroups: [], 
        allCategories:[],
        allSectionVideos:[],
@@ -38,6 +39,9 @@ const groupSlice = createSlice({
     saveAllGroup: (state, action) => {
         state.allGroups = action.payload;
     },
+    savePatientProcessSteps: (state, action) => {
+      state.patientProcessSteps = action.payload;
+  },
     saveAllTreatmentCategories: (state, action) => {
       state.allTreatmentCategories = action.payload;
   },
@@ -119,6 +123,7 @@ const { actions, reducer } = groupSlice;
 export const {
  saveMyGroup,
  saveAllGroup,
+ savePatientProcessSteps,
  saveAllTreatmentCategories,
  saveSectionVideos,
  saveCategoryVideos,
@@ -145,5 +150,3 @@ export const {
 } = actions;
 
 export default reducer;
-
-

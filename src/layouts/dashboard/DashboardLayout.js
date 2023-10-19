@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
 // @mui
 import { styled } from '@mui/material/styles';
 //
@@ -9,13 +8,19 @@ import Nav from './nav';
 
 // ----------------------------------------------------------------------
 
-const APP_BAR_MOBILE = 64;
+const APP_BAR_MOBILE = 54;
 const APP_BAR_DESKTOP = 92;
 
 const StyledRoot = styled('div')({
   display: 'flex',
   minHeight: '100%',
   overflow: 'hidden',
+  background: "linear-gradient(#5c7ef4, #acccf4)",
+  backgroundRepeat: "no-repeat",
+  backgroundAttachment: "fixed",
+  color:"white",
+  marginTop:"2rem"
+  
 });
 
 const Main = styled('div')(({ theme }) => ({
@@ -23,7 +28,6 @@ const Main = styled('div')(({ theme }) => ({
   overflow: 'auto',
   minHeight: '100%',
   paddingTop: APP_BAR_MOBILE + 24,
-  backgroundColor: 'white',
   paddingBottom: theme.spacing(10),
   [theme.breakpoints.up('lg')]: {
     paddingTop: APP_BAR_DESKTOP + 24,
@@ -36,13 +40,12 @@ const Main = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
-  const { user } = useSelector((state) => state.auth);
 
   return (
     <StyledRoot>
-      {<Header onOpenNav={() => setOpen(true)} /> }
+      <Header onOpenNav={() => setOpen(true)} />
 
-      {user && user.isExaminer &&  <Nav openNav={open} onCloseNav={() => setOpen(false)} /> }
+      {/*<Nav openNav={open} onCloseNav={() => setOpen(false)} />*/}
 
       <Main>
         <Outlet />

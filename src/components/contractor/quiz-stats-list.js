@@ -141,7 +141,7 @@ export default function QuizStatsList({student,allQuizzes}) {
 
 
   console.log("all responses for all patients are!:",jobList)
-  console.log("the candidate  is:",student)
+  console.log("the candidate  is-->:",student)
   const [searched, setSearched] = useState("");
   const classes = useStyles();
   const requestSearch = (searchedVal) => {
@@ -173,7 +173,7 @@ export default function QuizStatsList({student,allQuizzes}) {
     setPage(0);
   };
   const viewPatientExpandedFxn = (id) => {
-    navigate(`/dashboard/patient-expanded/`,{ state: { patientId:id } });
+    navigate(`/dashboard/patient-expanded/`,{ state: { patientId:id , candidateName:`${student.firstName + " " + student.lastName}`} });
   };
 
   const deleteJobFxn = (id) => {
@@ -244,11 +244,11 @@ export default function QuizStatsList({student,allQuizzes}) {
       
     */}
      <TableContainer component={Paper}>
-        <Table sx={{ maxWidth: 1500,tableLayout:"fixed" }} aria-label="custom pagination table">
+        <Table sx={{ maxWidth: 1500,tableLayout:"fixed",backgroundImage:"linear-gradient(#5c7ef4, #5c7ef4)" }} aria-label="custom pagination table">
           <TableHead>
             <TableRow>
               <StyledTableCell>Patient Name</StyledTableCell>
-              <StyledTableCell align="right">Grade</StyledTableCell>
+              <StyledTableCell align="right">Result</StyledTableCell>
               <StyledTableCell align="right">Taken On</StyledTableCell>
               <StyledTableCell align="right"></StyledTableCell>
               
@@ -269,19 +269,19 @@ export default function QuizStatsList({student,allQuizzes}) {
               : jobList
             ).map((row,index) => (
               <TableRow key={row && row.uid}>
-                <TableCell component="th" scope="row">
+                <TableCell style={{ width: 140,color:"white" }} component="th" scope="row">
                   {row && row.firstName + " " + " "+  row.lastName}
                 </TableCell>
-                <TableCell style={{ width: 140 }} align="right">
-                  {row &&row.intervention}
+                <TableCell style={{ width: 140,color:"white" }} align="right">
+                {row &&row.overallGrade && row.overallGrade < 80 ?"failed":"passed"}
                 </TableCell>
 
-                <TableCell style={{ width: 140 }} align="right">
+                <TableCell style={{ width: 140,color:"white" }} align="right">
                   {row && row.takenOn ? (new Date((row.takenOn.seconds)*1000)).toDateString():row && row.radiology}
                   
                 </TableCell>
 
-                <TableCell style={{ width: 140 }} align="right">
+                <TableCell style={{ width: 140,color:"white" }} align="right">
                   {row && row.resultPercentage > 50? ("pass" /*`${student.quizzesTaken[index].resultPercentage}%`*/):" "}
                 </TableCell>
 
@@ -301,7 +301,7 @@ export default function QuizStatsList({student,allQuizzes}) {
                     // fullWidth
                     variant="contained"
                     style={{
-                      backgroundColor: '#000000' /*"#60A1EC"*/,
+                      backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))",
                       color: "white",
                       width: "70%",
                       fontSize: "15px",
@@ -335,7 +335,7 @@ export default function QuizStatsList({student,allQuizzes}) {
             ))):
            
              <TableRow>
-            <TableCell style={{ width: 140 }} align="right">
+            <TableCell style={{ width: 140,color:"white" }} align="right">
                   No tests taken for this user
                 </TableCell>
                 </TableRow>

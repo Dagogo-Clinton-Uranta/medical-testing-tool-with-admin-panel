@@ -69,16 +69,6 @@ export default function CJobs() {
         colors: ['#000000', '#F97D0B', '#F97D0B', '#F97D0B', '#F97D0B', '#F97D0B', '#F97D0B']
       }
     });
-
-
-    const { user } = useSelector((state) => state.auth);
-
-    useEffect(() => {
-
-      if(user && !user.isExaminer){
-  
-      navigate('/patient')
-      }},[])
  
  
  
@@ -94,7 +84,7 @@ export default function CJobs() {
        }  
      }, [jobs])
 
-  console.log('ibara web data i: ', jobArr);
+  console.log('cmc user data is: ', jobArr);
 
   return (
       
@@ -103,7 +93,7 @@ export default function CJobs() {
        <h1 style={{position:"relative",fontWeight:"bold",left:"0px",marginBottom:"40px",fontSize:"30px"}}>DASHBOARD</h1>
       <Grid container spacing={2}>
         
-    <Grid item xs={12} md={8} lg={6}>
+   {/* <Grid item xs={12} md={8} lg={6}>
      
       <Paper
         sx={{
@@ -124,8 +114,9 @@ export default function CJobs() {
          
        </div>
       </Paper>
-    </Grid>
-    <Grid item xs={12} md={8} lg={6}>
+      </Grid>*/}
+
+    {/*<Grid item xs={12} md={8} lg={6}>
       <Paper
         sx={{
           p: 2,
@@ -144,7 +135,7 @@ export default function CJobs() {
        
        </div>
       </Paper>
-    </Grid>
+      </Grid> */}
    
     
   </Grid>

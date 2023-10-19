@@ -92,21 +92,11 @@ export default function ContractorStatsPage() {
 
   console.log('ibara users data is: ', jobArr);
 
-
-  const { user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-
-    if(user && !user.isExaminer){
-
-    navigate('/patient')
-    }},[])
-
   return (
       
         
         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-       <h1 style={{position:"relative",fontWeight:"bold",left:"0px",marginBottom:"40px",fontSize:"30px"}}>CANDIDATE RESPONSES</h1>
+       <h1 style={{position:"relative",fontWeight:"bold",left:"0px",marginBottom:"40px",fontSize:"25px"}}>CANDIDATE RESPONSES -  {student && student.firstName + " " +student.lastName  } </h1>
      
 
        {/*jobArr.length &&*/ userCourses ?

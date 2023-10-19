@@ -16,7 +16,7 @@ const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ 
 const navConfig = [
   {
     title: 'Dashboard',
-    path: '/dashboard/examiner',
+    path: '/dashboard/home',
     icon:<AiOutlineHome />
     // icon: icon('ic_analytics'),
   },
@@ -74,4 +74,3 @@ const navConfig = [
 ];
 
 export default navConfig;
-
