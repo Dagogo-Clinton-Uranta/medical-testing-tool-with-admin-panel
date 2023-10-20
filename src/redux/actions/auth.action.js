@@ -147,6 +147,8 @@ export const fetchExaminerData = (id, type, navigate, setLoading) => async (disp
   if (doc.exists) {
     // console.log("User Data:", doc.data());
     dispatch(storeUserData(doc.data()));
+    navigate('/dashboard/examiner', { replace: true });
+    
     if(type === "sigin"){
        notifySuccessFxn("Logged In");
       navigate('/dashboard/examiner', { replace: true });
@@ -193,19 +195,20 @@ export const uploadProfileImage = (profileData, file, userID, navigate, setLoadi
 
 export const updateProfile = (profileData, userID, file, navigate, setLoading, url) => async (dispatch) => {
   // return  
-  db.collection('employees').doc(userID).update({
-    paymentLink: profileData.paymentLink,
-    imageUrl: url,
+  db.collection('Admins').doc(userID).update({
+    successMark: profileData.successMark,
+    profileImage: url,
+    password:profileData.newPassword
   }).then((res)=>{
-       if(profileData?.password){
+       if(profileData?.newPassword){
         //update password start
         const user = auth.currentUser;
-        user.updatePassword(profileData.password)
+        user.updatePassword(profileData.newPassword)
           .then(() => {
             setLoading(false);
             console.log("Password updated successfully");
             notifySuccessFxn("Updated successfully");
-            navigate('/dashboard/home', { replace: true });
+            dispatch(fetchExaminerData(userID, "update", navigate, setLoading));
           })
           .catch((error) => {
             setLoading(false);
@@ -217,7 +220,7 @@ export const updateProfile = (profileData, userID, file, navigate, setLoading, u
         setLoading(false);
         console.error("No Password to update");
         notifySuccessFxn("Updated successfully");
-        navigate('/dashboard/home', { replace: true });
+        dispatch(fetchExaminerData(userID, "update", navigate, setLoading));
        }
      
   }).catch((err) => {

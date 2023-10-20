@@ -11,9 +11,11 @@ import users from 'src/_mock/user';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 
+import { updateProfile, uploadProfileImage } from 'src/redux/actions/auth.action';
+
 function SettingsPage() {
   const navigate = useNavigate();
-  const location = useLocation()
+ // const location = useLocation()
  // console.log("location is",location.state.levelName,location.state.uid)
 
  
@@ -29,15 +31,9 @@ function SettingsPage() {
 
  
   
- 
-
-  const { teachers } = useSelector((state) => state.jobs);
-
- const [teachersArr,setTeacherArr]=useState([...teachers.map((item)=>(item.firstName + " " + item.lastName))])
 
   const { user } = useSelector((state) => state.auth);
-  const { patientProcessSteps } = useSelector((state) => state.group);
-   console.log("patient process",patientProcessSteps)
+ 
 
   const { complaints } = useSelector((state) => state.jobs);
   const [complaintArr, setComplaintArr] = useState(complaints?complaints:[]/*teachers*/);
@@ -46,12 +42,18 @@ function SettingsPage() {
   const [lastName,setLastName] =useState('')
  
   const [email,setEmail]=useState('')
-  const [password,setPassword] =useState('')
+  const [oldPassword,setOldPassword] =useState('')
+  const [currentPassword,setCurrentPassword] =useState(user && user.password?user.password:'')
+  const [newPassword,setNewPassword] =useState('')
+  const [confirmNewPassword,setConfirmNewPassword] =useState('') // we'll use this later
+  const [profileImage,setProfileImage] = useState(user && user.profileImage?user.profileImage:'')
+  const [successMark,setSuccessMark] = useState(user && user.successMark?user.successMark:'')
+
+  console.log("our current password is",user.password)
 
 
-
-  const [selectedFile, setSelectedFile] = useState({selectedFile:patientProcessSteps &&patientProcessSteps.bloodInvAnswerImage?patientProcessSteps.bloodInvAnswerImage:[], selectedFileName:patientProcessSteps &&patientProcessSteps.bloodInvAnswerImage?patientProcessSteps.bloodInvAnswerImage.name: []});
-  const [file,setFile] = useState(patientProcessSteps && patientProcessSteps.bloodInvAnswerImage?patientProcessSteps.bloodInvAnswerImage:null)
+  const [selectedFile, setSelectedFile] = useState({selectedFile:[], selectedFileName:[]});
+  const [file,setFile] = useState()
 
 
   const handleselectedFile = event => {
@@ -68,20 +70,18 @@ function SettingsPage() {
 
 
   const addObject ={
-  ...patientProcessSteps,
-    firstName,
-    lastName,
-   email,
-   password
+  
+   newPassword,
+   successMark
     
   }
 
   const addCandidate = async(addObject,navigate,navigateUrl) => {
     
-    if(!firstName||!lastName ||!password||!email ){
+  
       notifyErrorFxn("Please make sure to fill in all fields.")
-    }
-    else{
+  
+  
 
     setLoading(true)
     dispatch(fetchAddCandidate(addObject,navigate,navigateUrl))
@@ -89,8 +89,32 @@ function SettingsPage() {
     // console.log("identity is",identity)
     // console.log("update this subject is updating.........")
     setTimeout(()=>{setLoading(false)},1800)
-    
-  } 
+
+  }
+
+
+  const settingsUpdate = (e) => {
+   
+  //   console.log("OLD SATE: ",state);
+   
+  //   state.imageUrl = selectedFile.selectedFile == "" ? user?.imageUrl : selectedFile.selectedFile;
+  //   return;
+
+  if(oldPassword && newPassword  && oldPassword !== currentPassword){
+    notifyErrorFxn('Please make sure your old password is correct!')
+  }
+  else{
+    setLoading(true);
+    const id = user.uid;
+    const imageUrl = user.profileImage;
+    if(selectedFile.selectedFile.length == 0){
+      // notifyErrorFxn("You have not uploaded Image");
+      dispatch(updateProfile(addObject, id, '', navigate, setLoading, imageUrl));
+    }else{
+      dispatch(uploadProfileImage(addObject, selectedFile.selectedFile, id, navigate, setLoading));
+    }
+   
+   }
   }
  
 
@@ -141,8 +165,8 @@ function SettingsPage() {
             multiline
             style={{backgroundColor:"#FFFFFF",borderRadius:"0.75rem"}}
             maxRows={2}
-            value= {firstName}
-            onChange = {(e)=>{setFirstName(e.target.value)}}
+            value= {oldPassword}
+            onChange = {(e)=>{setOldPassword(e.target.value)}}
             
             />
             
@@ -170,8 +194,8 @@ function SettingsPage() {
             variant="outlined"
             multiline
             maxRows={2}
-            value= {lastName}
-            onChange = {(e)=>{setLastName(e.target.value)}}
+            value= {newPassword}
+            onChange = {(e)=>{setNewPassword(e.target.value)}}
             
             />
             
@@ -213,10 +237,10 @@ function SettingsPage() {
             variant="outlined"
             multiline
             maxRows={2}
-            value= {password}
+            value= {successMark}
             onChange = {(e)=>{
              
-              setPassword(e.target.value)
+              setSuccessMark(e.target.value)
               }
             }
             
@@ -249,7 +273,7 @@ function SettingsPage() {
                     />
                   </Button>
 
-                  <p style={{color:"white"}}> {selectedFile && selectedFile.selectedFileName ?selectedFile.selectedFileName  :" "} </p>
+                  <p style={{color:"white"}}> {selectedFile && selectedFile.selectedFileName ?selectedFile.selectedFileName  :file} </p>
           </div>
        </Grid>
         </Grid>
@@ -266,7 +290,7 @@ function SettingsPage() {
     Cancel
   </Button>
  
-  <Button   variant="contained" onClick={() => {}}
+  <Button   variant="contained" onClick={() => {settingsUpdate()}}
   style={{ backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))"/*"#F97D0B"*/, paddingTop: '10px', paddingBottom: '10px', 
   paddingRight: '30px', paddingLeft: '30px',width:"180px",borderRadius:"1rem"}}  
 >
