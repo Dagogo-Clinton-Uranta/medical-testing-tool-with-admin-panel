@@ -1537,18 +1537,18 @@ db.collection("Complaints")
       complaint:stepsObject.complaint,
       treatment:{
         //ECG:stepsObject["ECG"],this is the name of the ecg,(there's no actual name for now) consider putting this field for consistency sakes
-        bloodInvestigation:stepsObject.bloodInvCategory,
+        bloodInvestigation:stepsObject.bloodInvCategory?stepsObject.bloodInvCategory:'',
         //referral:stepsObject.Referrals, consider putting this field for consistency sakes
-        radiology:stepsObject.radiologyCategory,
-        correctPrescriptionArray:stepsObject.prescription/*[stepsObject.prescription1,stepsObject.prescription2,stepsObject.prescription3,stepsObject.prescription4]*/,
+        radiology:stepsObject.radiologyCategory?stepsObject.radiologyCategory:'',
+        correctPrescriptionArray:stepsObject.prescription?stepsObject.prescription:[]/*[stepsObject.prescription1,stepsObject.prescription2,stepsObject.prescription3,stepsObject.prescription4]*/,
       
-        chosenBloodInvestigationArray:stepsObject.bloodInvTestArray,
-        chosenBloodInvestigationIdArray:stepsObject.bloodInvTestIdArray,
-        chosenRadiologyArray:stepsObject.radiologyTestArray,
-        chosenRadiologyIdArray:stepsObject.radiologyTestIdArray,
+        chosenBloodInvestigationArray:stepsObject.bloodInvTestArray?stepsObject.bloodInvTestArray:[],
+        chosenBloodInvestigationIdArray:stepsObject.bloodInvTestIdArray?stepsObject.bloodInvTestIdArray:[],
+        chosenRadiologyArray:stepsObject.radiologyTestArray?stepsObject.radiologyTestArray:[],
+        chosenRadiologyIdArray:stepsObject.radiologyTestIdArray?stepsObject.radiologyTestIdArray:[],
 
-        chosenReferralsArray:stepsObject.referralArray,
-        chosenReferralsIdArray:stepsObject.referralIdArray,
+        chosenReferralsArray:stepsObject.referralArray?stepsObject.referralArray:[],
+        chosenReferralsIdArray:stepsObject.referralIdArray?stepsObject.referralIdArray:[],
 
 
       },

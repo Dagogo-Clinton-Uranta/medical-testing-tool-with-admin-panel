@@ -255,7 +255,7 @@ const classes = useStyles()
                       <> 
                          &nbsp; 
                        {  referralArray.map((chipItem,index)=>(
-                      <Chip  style={{backgroundColor:"#081B85"}} label={chipItem} onClick={()=>{}} onDelete={()=>{handleDelete(chipItem,referralIdArray[index])}} />
+                      <Chip  style={{backgroundColor:"#081B85",color:"white"}} label={chipItem} onClick={()=>{}} onDelete={()=>{handleDelete(chipItem,referralIdArray[index])}} />
                       ))
                         }
         

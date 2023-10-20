@@ -474,7 +474,7 @@ console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
                {  bloodInv2.map((item,index)=>(
               <Chip label={item} onClick={handleClick} onDelete={()=>{handleDelete(item,bloodInv2IdArray[index])}} />
               ))
-                }
+                }  
 
               </>
               }

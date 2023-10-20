@@ -366,7 +366,7 @@ const handleDelete = (tbr,tbrId) => {
                        <> 
                           &nbsp; 
                         {  bloodInvTestArray.map((chipItem,index)=>(
-                       <Chip  style={{backgroundColor:"#081B85"}} label={chipItem} onClick={()=>{}} onDelete={()=>{handleDelete(chipItem,bloodInvTestIdArray[index])}} />
+                       <Chip  style={{backgroundColor:"#081B85",color:"white"}} label={chipItem} onClick={()=>{}} onDelete={()=>{handleDelete(chipItem,bloodInvTestIdArray[index])}} />
                        ))
                          }
          

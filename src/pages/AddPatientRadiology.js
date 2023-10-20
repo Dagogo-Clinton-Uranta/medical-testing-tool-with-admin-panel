@@ -359,7 +359,7 @@ console.log("patient process steps so far--->",patientProcessSteps)
                        <> 
                           &nbsp; 
                         {  radiologyTestArray.map((chipItem,index)=>(
-                       <Chip  style={{backgroundColor:"#081B85"}} label={chipItem} onClick={()=>{}} onDelete={()=>{handleDelete(chipItem,radiologyTestIdArray[index])}} />
+                       <Chip  style={{backgroundColor:"#081B85",color:"white"}} label={chipItem} onClick={()=>{}} onDelete={()=>{handleDelete(chipItem,radiologyTestIdArray[index])}} />
                        ))
                          }
          
