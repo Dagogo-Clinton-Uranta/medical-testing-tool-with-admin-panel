@@ -790,7 +790,9 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
     const userRef = db.collection('Candidates').doc(uid);
     const userSnapshot = await userRef.get();
     
+  
 
+  
   if (userSnapshot.exists) {
 
     console.log("user is",userSnapshot.data())
@@ -823,8 +825,6 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
       takenOn:new Date()
     })
    }
-
-
 
     await userRef.update({ response:[...candidateResponseArray]
     }).then(async(notUsing)=>{

@@ -1,5 +1,5 @@
 import { Container,Grid, TextField, Typography, TextareaAutosize, Button, Paper,Divider,Box} from '@mui/material';
-import { useRef, useState} from 'react';
+import { useRef, useState,useEffect} from 'react';
 import { useNavigate,useLocation, Link } from 'react-router-dom';
 import UPLOADIMG from '../assets/images/upload.png';
 import { addTeacher, fetchPatientProcessSteps} from 'src/redux/actions/group.action';
@@ -56,8 +56,9 @@ const prescriptionHandler = (prescriptionString)=>{
 
 
  /*============= YUSUF MULTILINE ===============*/
- const [text, setText] = useState('');
+ const [text, setText] = useState(patientProcessSteps && patientProcessSteps.prescription?patientProcessSteps.prescription.toString():'');
  const [textInput, setTextInput] = useState([]);
+ const [submit,setSubmit] = useState(false)
  const handleTextChange = (e) => {
    setText(e.target.value);
 
@@ -67,7 +68,9 @@ const prescriptionHandler = (prescriptionString)=>{
    if (text.trim() !== '') {
      const lines = text.split('\n').filter(line => line.trim() !== '');
      setTextInput((prevInput) => [...prevInput, ...lines]);
-     setText('');
+     setSubmit(true)
+     console.log("CURRENT TEXT INPUT--->>>",textInput)
+     
    }
 
    
@@ -103,22 +106,39 @@ const prescriptionHandler = (prescriptionString)=>{
     }
   ).then(()=>{
 
-    if(textInput.length >0){
-      dispatch(fetchPatientProcessSteps(addObject,navigate,navigateUrl))
-    }
+    setTimeout(
+      ()=>(
+       setSubmit(true)
+      //dispatch(fetchPatientProcessSteps(addObject,navigate,'/dashboard/add-patient-referral'))
+      )
+      ,1300)
+  
+   
+    console.log("THE CURRENT RECORDED PRESCRIPTION IS---->",textInput)
  
   })
 
-
-   
-      console.log("THE RECORDED PRESCRIPTION IS---->",textInput)
-  
+    
   
     
     setTimeout(()=>{setLoading(false)},1800)
     
    } 
   }
+
+
+  useEffect(()=>{
+  
+  if(submit)
+   { setTimeout(
+    ()=>(
+   
+    dispatch(fetchPatientProcessSteps(addObject,navigate,'/dashboard/add-patient-referral'))
+    )
+    ,1300)
+  }
+
+  },[submit])
  
 
 
@@ -199,6 +219,7 @@ const prescriptionHandler = (prescriptionString)=>{
                    if (e.key === 'Enter') {
                      e.preventDefault();
                      setText(text + '\n');
+                   
                    }
                  }}
                />

@@ -150,7 +150,7 @@ const [testTaken,setTestTaken] = useState(false);
   useEffect(() => {
    
     setTestTaken(false)
-    console.log("OUR STATE IS!:",state)
+    console.log("OUR PATIENT IS!:",selectedPatient)
    
 
    if(neverSubmitted===true && hasSubmittedBefore === true )
@@ -191,6 +191,8 @@ const [testTaken,setTestTaken] = useState(false);
    /*============= YUSUF MULTILINE ===============*/
    const [text, setText] = useState('');
    const [textInput, setTextInput] = useState([]);
+   const [submit,setSubmit] = useState(false)
+   const [secondSubmit,setSecondSubmit] = useState(false)
    const handleTextChange = (e) => {
      setText(e.target.value);
 
@@ -200,7 +202,15 @@ const [testTaken,setTestTaken] = useState(false);
      if (text.trim() !== '') {
        const lines = text.split('\n').filter(line => line.trim() !== '');
        setTextInput((prevInput) => [...prevInput, ...lines]);
-       setText('');
+       console.log("CURRENT TEXT INPUT--->>>",textInput)
+
+
+       
+          submitPrescription((user.uid,selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients))
+        // dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients)) 
+      
+
+       
      }
 
      
@@ -210,13 +220,54 @@ const [testTaken,setTestTaken] = useState(false);
 
   const submitPrescriptionResponse = (patientId,b1,b2,admittedPatients) => {
     handleAddText()
-    setTimeout(()=>{dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients))},100)
-  }
+
+    new Promise((resolve,reject)=>{
+      resolve(handleAddText());
+
+      setSubmit(true)
+    }
+  ).then(()=>{
+    setTimeout(
+      ()=>(
+       setSubmit(true)
+      // dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients)) 
+      )
+      ,1300)
+    }
+      )
+      }
+    //setTimeout(()=>{dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients))},1000)
+  
+  
+  
+useEffect(()=>{
+  if(submit === true){
+    setTimeout(
+      ()=>(
+     
+  submitPrescription((user.uid,selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients)),
+   setSecondSubmit(true)
+  )
+  ,1300)
+
+}
+},[submit])
 
 
 
+  
+useEffect(()=>{
+  if(secondSubmit === true){
+    setTimeout(
+      ()=>(
+     
+  submitPrescription((user.uid,selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients))
+   
+  )
+  ,1300)
 
-
+}
+},[secondSubmit])
 
   return (
     

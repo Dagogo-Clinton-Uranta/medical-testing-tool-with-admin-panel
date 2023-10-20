@@ -307,16 +307,16 @@ try{
     const patientsToRemoveFull = patientTimeArray.filter((item)=>(item.screenCountdown === 0))?patientTimeArray.filter((item)=>(item.screenCountdown === 0)):[]
 
 
-  let replacementArray = [...allPatients];
+  let replacementArray = [...admittedPatientArray];
   
 
     patientsToRemove.forEach((patient)=>{ 
       
       //I WANT TO GET ALL ITEMS NOT EQUAL TO ANY ITEM IN THE REMOVE ARRAY
       let indexToSplice = replacementArray.findIndex((admittedPatient)=>(admittedPatient.uid === patient))
-       
+      if(indexToSplice !== -1){ 
        replacementArray.splice(indexToSplice,1)
-
+      }
        console.log("OUR REPLACEMENT ARRAY IS GETTING SMALLER",replacementArray)
        
     })
@@ -369,9 +369,12 @@ try{
 
     patientsToRemove.forEach((patient)=>{   
 
+
       let indexToSplice = replacementArray2.findIndex((admittedPatient)=>(admittedPatient.uid === patient))
        
+      if(indexToSplice !== -1){
       replacementArray2.splice(indexToSplice,1)
+      }
     })
 
 
