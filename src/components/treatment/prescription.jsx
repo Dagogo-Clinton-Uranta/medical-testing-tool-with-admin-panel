@@ -195,18 +195,18 @@ const [testTaken,setTestTaken] = useState(false);
    const [secondSubmit,setSecondSubmit] = useState(false)
    const handleTextChange = (e) => {
      setText(e.target.value);
-
    };
 
    const handleAddText = () => {
      if (text.trim() !== '') {
        const lines = text.split('\n').filter(line => line.trim() !== '');
        setTextInput((prevInput) => [...prevInput, ...lines]);
-       console.log("CURRENT TEXT INPUT--->>>",textInput)
-
+      setSubmit(true)
+     
+      setText('')
 
        
-          submitPrescription((user.uid,selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients))
+         // submitPrescription((user.uid,selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients))
         // dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients)) 
       
 
@@ -219,24 +219,13 @@ const [testTaken,setTestTaken] = useState(false);
 
 
   const submitPrescriptionResponse = (patientId,b1,b2,admittedPatients) => {
-    handleAddText()
-
-    new Promise((resolve,reject)=>{
-      resolve(handleAddText());
-
-      setSubmit(true)
-    }
-  ).then(()=>{
-    setTimeout(
-      ()=>(
-       setSubmit(true)
-      // dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients)) 
-      )
-      ,1300)
-    }
-      )
+   
+       dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients)) 
+       console.log("CURRENT TEXT INPUT--->>>",textInput)
+       //setTimeout(()=>{dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients))},1000)
+  
       }
-    //setTimeout(()=>{dispatch(submitPrescription(user.uid,patientId,b1,b2,admittedPatients))},1000)
+   
   
   
   
@@ -244,30 +233,32 @@ useEffect(()=>{
   if(submit === true){
     setTimeout(
       ()=>(
-     
-  submitPrescription((user.uid,selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients)),
-   setSecondSubmit(true)
+        //submitPrescriptionResponse((user.uid,selectedPatient?.uid,textInput&&textInput,selectedPatient?.complaintId,admittedPatients)),
+        dispatch(submitPrescription(user.uid,selectedPatient?.uid,textInput&&textInput,selectedPatient?.complaintId,admittedPatients)),
+        setSubmit(false),
+        setTextInput('')   
   )
-  ,1300)
+  ,1500)
 
+ 
 }
 },[submit])
 
 
 
   
-useEffect(()=>{
+/*useEffect(()=>{
   if(secondSubmit === true){
     setTimeout(
       ()=>(
      
-  submitPrescription((user.uid,selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients))
+  submitPrescriptionResponse((user.uid,selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients))
    
   )
-  ,1300)
+  ,100)
 
 }
-},[secondSubmit])
+},[secondSubmit])*/
 
   return (
     
@@ -348,10 +339,11 @@ useEffect(()=>{
                <textarea
                  rows="13"
                  cols="60"
+                 
                  value={text}
-                 onChange={handleTextChange}
+                 onChange={(e)=>{handleTextChange(e)}}
                  placeholder="Enter your prescription..."
-                 style={{border: '1px solid black'}}
+                 style={{border: '1px solid black',maxWidth:"90%",fontFamily:"Arial",padding:"10px"}}
                  onKeyDown={(e) => {
                    if (e.key === 'Enter') {
                      e.preventDefault();
@@ -375,14 +367,14 @@ useEffect(()=>{
                   fullWidth
                   variant="contained"
                   style={{
-                    backgroundColor:!textInput?'#4167a3':'#5B8DDE',
+                    backgroundColor:!text.length?'#4167a3':'#5B8DDE',
                     color: 'white',
                     fontSize: '15px',
                     padding: '4px',
                     height: '50px',
                   }}
-                  disabled={!textInput||loading}
-                  onClick={()=>{submitPrescriptionResponse(selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients)}}
+                  disabled={!text.length||loading}
+                  onClick={()=>{handleAddText()/*submitPrescriptionResponse(selectedPatient?.uid,textInput,selectedPatient?.complaintId,admittedPatients)*/}}
                 >
                   Submit
                 </Button>

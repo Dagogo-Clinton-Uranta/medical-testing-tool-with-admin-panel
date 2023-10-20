@@ -56,7 +56,7 @@ const prescriptionHandler = (prescriptionString)=>{
 
 
  /*============= YUSUF MULTILINE ===============*/
- const [text, setText] = useState(patientProcessSteps && patientProcessSteps.prescription?patientProcessSteps.prescription.toString():'');
+ const [text, setText] = useState(patientProcessSteps && patientProcessSteps.prescription?patientProcessSteps.prescription.map((data) =>( data+'\n')).join(''):'');
  const [textInput, setTextInput] = useState([]);
  const [submit,setSubmit] = useState(false)
  const handleTextChange = (e) => {
@@ -70,7 +70,7 @@ const prescriptionHandler = (prescriptionString)=>{
      setTextInput((prevInput) => [...prevInput, ...lines]);
      setSubmit(true)
      console.log("CURRENT TEXT INPUT--->>>",textInput)
-     
+     //setText('')
    }
 
    
@@ -211,6 +211,7 @@ const prescriptionHandler = (prescriptionString)=>{
                <textarea
                  rows="14"
                  cols="60"
+                 defaultValue={patientProcessSteps && patientProcessSteps.prescription?patientProcessSteps.prescription.map((data) =>( data+'\n')):''}
                  value={text}
                  onChange={handleTextChange}
                  placeholder="Enter your prescription..."

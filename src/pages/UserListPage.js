@@ -89,8 +89,8 @@ export default function CJobs() {
   return (
       
         
-        <Container maxWidth="lg" sx={{ mt: 8, mb: 4 }}>
-       <h1 style={{position:"relative",fontWeight:"bold",left:"0px",marginBottom:"40px",fontSize:"30px"}}>DASHBOARD</h1>
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      
       <Grid container spacing={2}>
         
    {/* <Grid item xs={12} md={8} lg={6}>
