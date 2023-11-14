@@ -76,7 +76,7 @@ export default function Header({ onOpenNav }) {
         </IconButton>
         <Typography variant="h4" sx={{color: '#000000', fontSize: '36px' }}>
        
-        <Link to={"/dashboard/home"}>
+        <Link to={"/dashboard/examiner"}>
         <img  style={{height:"6rem"}} src={ibaraLogo} />
       
         </Link>

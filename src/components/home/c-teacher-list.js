@@ -263,7 +263,7 @@ export default function TeacherList({teachers}) {
               <StyledTableCell>Name</StyledTableCell>
               <StyledTableCell align="left">Complaint</StyledTableCell>
               <StyledTableCell align="left">Screen Time</StyledTableCell>
-              
+              <StyledTableCell align="left">Wait Time</StyledTableCell>
               {/*<StyledTableCell align="right">Industry</StyledTableCell>
               <StyledTableCell align="center">State</StyledTableCell>
               <StyledTableCell align="right"></StyledTableCell>*/}
@@ -293,6 +293,11 @@ export default function TeacherList({teachers}) {
                 <TableCell style={{ width: 140,color:"white" }} align="left">
                 {/*row.registeredOn &&typeof(row.registeredOn) !== "string"  ?(new Date(row.registeredOn.seconds*1000)).toDateString():row.accountCreated*/}
                 {row.screenTime && row.screenTime}
+                </TableCell>
+
+                <TableCell style={{ width: 140,color:"white" }} align="left">
+                {/*row.registeredOn &&typeof(row.registeredOn) !== "string"  ?(new Date(row.registeredOn.seconds*1000)).toDateString():row.accountCreated*/}
+                {row.waitTime && row.waitTime}
                 </TableCell>
 
                
