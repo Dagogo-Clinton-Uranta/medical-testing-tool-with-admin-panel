@@ -127,11 +127,17 @@ const handleClosePdf = () => {setOpenPdf(false)};
 
     dispatch(fetchAllTreatmentCategories());
     dispatch(fetchAllTreatmentTests());
-  }, [])
+  }, [selectedPatient])
 
   const { allTreatmentCategories,allTreatmentTests } = useSelector((state) => state.patient);
   const [allTreatmentCategories2,setAllTreatmentCategories2] = useState(allTreatmentCategories && [{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
   const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
+
+  useEffect(()=>{
+
+    setAllTreatmentCategories2( [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'}, ...allTreatmentCategories])
+    setAllTreatmentTests2( [{title:'',uid:'',treatmentCategoryId:'first'}, ...allTreatmentTests])
+  },[allTreatmentCategories,allTreatmentTests])
 
 
   const radiology1Setup = (e)=>{

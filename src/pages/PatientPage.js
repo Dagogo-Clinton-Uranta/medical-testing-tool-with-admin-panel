@@ -341,7 +341,7 @@ console.log("selected patient is ---->",selectedPatient)
             <Grid item xs={12} sm={7.0} sx={{ border: '0px solid green' }}>
               <Grid container spacing={2}>
                 {/* Image 1 */}
-                <Grid item xs={2.2} style={{/* backgroundColor: '#D7DBA5',*/ height: '150px', borderRadius: '9px', cursor: 'pointer',/* border: selectedTreatment === 1 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''*/}} 
+                <Grid item xs={2.2} style={{/* backgroundColor: '#D7DBA5',*/ height: '150px'}} 
                 onClick={() => {
                  if(selectedBed){
                   setSelectedTreatment(1);
@@ -352,7 +352,7 @@ console.log("selected patient is ---->",selectedPatient)
                   <center>
                     {' '}
                     
-                    <img src={IMG1} alt="Image 1" style={{opacity:!bloodInvClicked?(showPic===true?"1":"0.4"):1, marginTop: '12%', marginRight: '10%' }} />
+                    <img src={IMG1} alt="Image 1" style={{opacity:!bloodInvClicked?(showPic===true?"1":"0.4"):1, marginTop: '12%', marginRight: '10%', borderRadius: '50%', cursor: 'pointer',border: selectedTreatment === 1 ? '4.5px solid #4C4E37' : selectedBed != null ? '0px solid #4C4E37' : '' }} />
                   </center>
 
 
@@ -362,7 +362,7 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 2 */}
-                <Grid item xs={2.2} style={{ /*backgroundColor: '#5B8DDE',*/ height: '150px', borderRadius: '9px', cursor: 'pointer',/* border: selectedTreatment === 2 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''*/}} 
+                <Grid item xs={2.2} style={{ /*backgroundColor: '#5B8DDE',*/ height: '150px'}} 
                 onClick={() => {
                  if(selectedBed){
                   setSelectedTreatment(2);
@@ -370,7 +370,7 @@ console.log("selected patient is ---->",selectedPatient)
                  }
                 }}>
                   <center>
-                    <img src={IMG2} alt="Image 2" style={{opacity:!radiologyClicked?(blinkRadiology===true?"1":"0.4"):1, marginTop: '12%', marginRight: '10%' }} />
+                    <img src={IMG2} alt="Image 2" style={{opacity:!radiologyClicked?(blinkRadiology===true?"1":"0.4"):1, marginTop: '12%', marginRight: '10%', borderRadius: '50%', cursor: 'pointer', border: selectedTreatment === 2 ? '4.5px solid #4C4E37' : selectedBed != null ? '0px solid #4C4E37' : '' }} />
                     </center>
 
                   <Typography variant="subtitle1" style={{ textAlign: 'center', marginTop: '35%' }}>
@@ -379,7 +379,7 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 3 */}
-                <Grid item xs={2.2} style={{ /*backgroundColor: '#00B8D4',*/ height: '150px', borderRadius: '9px', cursor: 'pointer'/*, border: selectedTreatment === 3 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''*/}} 
+                <Grid item xs={2.2} style={{ /*backgroundColor: '#00B8D4',*/ height: '150px'}} 
                    onClick={() => {
                     if(selectedBed){
                      setSelectedTreatment(3);
@@ -387,7 +387,7 @@ console.log("selected patient is ---->",selectedPatient)
                    }}>
                  <center>
                     {' '}
-                    <img src={IMG4} alt="Image 3" style={{ marginTop: '12%', marginRight: '10%' }} />
+                    <img src={IMG4} alt="Image 3" style={{ marginTop: '12%', marginRight: '10%' , borderRadius: '50%', cursor: 'pointer', border: selectedTreatment === 3 ? '4.5px solid #4C4E37' : selectedBed != null ? '0px solid #4C4E37' : '' }} />
                   </center>
                   <Typography variant="subtitle1" style={{ textAlign: 'center', marginTop: '35%' }}>
                   ECG
@@ -395,14 +395,14 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 4 */}
-                <Grid item xs={2.2} style={{ /*backgroundColor:'#A160E4',*/ height: '150px', borderRadius: '9px',  cursor: 'pointer'/*, border: selectedTreatment === 4 ? '4.5px solid #4C4E37' :( selectedBed != null ? '2.5px solid #4C4E37' : '')*/}} 
+                <Grid item xs={2.2} style={{ /*backgroundColor:'#A160E4',*/ height: '150px'}} 
                    onClick={() => {
                     if(selectedBed){
                      setSelectedTreatment(4);
                     }
                    }}>
                   <center>
-                    <img src={IMG3} alt="Image 4" style={{ marginTop: '12%', marginRight: '10%' }} />
+                    <img src={IMG3} alt="Image 4" style={{ marginTop: '12%', marginRight: '10%', borderRadius: '50%', cursor: 'pointer', border: selectedTreatment === 4 ? '4.5px solid #4C4E37' : selectedBed != null ? '0px solid #4C4E37' : ''  }} />
                   </center>
                   <Typography variant="subtitle1" style={{ textAlign: 'center', marginTop: '35%' }}>
                      PRESCRIPTIONS  &nbsp;&nbsp;&nbsp;
@@ -410,14 +410,14 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 5 */}
-                <Grid item xs={2.2} style={{/* backgroundColor: '#E5EEF9',*/ height: '150px', borderRadius: '9px',  cursor: 'pointer'/*, border: selectedTreatment === 5 ? '4.5px solid #4C4E37' :( selectedBed != null ? '2.5px solid #4C4E37' : '')*/}} 
+                <Grid item xs={2.2} style={{/* backgroundColor: '#E5EEF9',*/ height: '150px'}} 
                   onClick={() => {
                     if(selectedBed){
                      setSelectedTreatment(5);
                     }
                    }}>
                  <center>
-                    <img src={IMG5} alt="Image 5" style={{ marginTop: '12%', marginRight: '10%' }} />
+                    <img src={IMG5} alt="Image 5" style={{ marginTop: '12%', marginRight: '10%' , borderRadius: '50%',  cursor: 'pointer', border: selectedTreatment === 5 ? '4.5px solid #4C4E37' :( selectedBed != null ? '0px solid #4C4E37' : '') }} />
                   </center>
                   <Typography variant="subtitle1" style={{ textAlign: 'center', marginTop: '35%' }}>
                     REFERRALS

@@ -181,7 +181,7 @@ const [trigger,setTrigger] = useState(true)
     console.log("OUR ISSUE FOR BLOOD INV IS!:")
     dispatch(fetchAllTreatmentCategories());
     dispatch(fetchAllTreatmentTests());
-  }, []);
+  }, [selectedPatient]);
 
 
 
@@ -287,17 +287,17 @@ const [trigger,setTrigger] = useState(true)
 
 
   const { allTreatmentCategories,allTreatmentTests } = useSelector((state) => state.patient);
-  const [allTreatmentCategories2,setAllTreatmentCategories2] = useState(allTreatmentCategories && [{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
-  const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
+  const [allTreatmentCategories2,setAllTreatmentCategories2] = useState([{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
+  const [allTreatmentTests2,setAllTreatmentTests2] = useState([{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
   
- /* useEffect(()=>{
+  useEffect(()=>{
 
-    setAllTreatmentTests2( [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentCategories])
-    setAllTreatmentCategories2( [{title:'',uid:'',treatmentCategoryId:'first'},...allTreatmentTests])
-  },[])*/
+    setAllTreatmentCategories2( [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'}, ...allTreatmentCategories])
+    setAllTreatmentTests2( [{title:'',uid:'',treatmentCategoryId:'first'}, ...allTreatmentTests])
+  },[allTreatmentCategories,allTreatmentTests])
 
 
-console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
+console.log("OUR TREATMENT CATEGORIES 2--->",allTreatmentCategories2)
 
   const handleDelete = (tbr,tbrId) => {
     
@@ -432,7 +432,7 @@ console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
                 style={{ minHeight: '50px', fontSize: '17px', outline: '1px solid #eee' }}
                 required
               >
-             {  allTreatmentCategories2.filter((item)=>(item.treatmentId === "7aHB3TreYQYh3bzBS65K"|| item.treatmentId ==='first' )).map((prop)=>(
+             {  allTreatmentCategories2.filter((item)=>( item.treatmentId ==='first' || item.treatmentId === "7aHB3TreYQYh3bzBS65K" )).map((prop)=>(
 
                  <option value={prop.uid}>{prop.title}</option>
                    
@@ -456,7 +456,7 @@ console.log("OUR TREATMENT CATEGORIES --->",allTreatmentCategories)
 
                 defaultValue={'halo'}
               >
-                {  allTreatmentTests2.filter((item)=>(item.treatmentCategoryId === state.bloodInv1 || item.treatmentCategoryId ==='first')).map((prop)=>(
+                {  allTreatmentTests2.filter((item)=>( item.treatmentCategoryId ==='first' || item.treatmentCategoryId === state.bloodInv1 )).map((prop)=>(
 
                      <option value={prop.uid}>{prop.title}</option>
                        

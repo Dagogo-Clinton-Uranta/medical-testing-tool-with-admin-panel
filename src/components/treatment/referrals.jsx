@@ -200,7 +200,7 @@ const [testTaken,setTestTaken] = useState(false);
     
     dispatch(fetchAllTreatmentCategories());
     dispatch(fetchAllTreatmentTests());
-  }, []);
+  }, [selectedPatient]);
 
   /*THIS USE EFFECT IS SO THAT WE CAN RESET THE SELECTIONS WHEN THE PATIENT IS CHANGED */
   useEffect(()=>{
@@ -214,6 +214,12 @@ const [testTaken,setTestTaken] = useState(false);
   const [allTreatmentCategories2,setAllTreatmentCategories2] = useState(allTreatmentCategories && [{title:'',uid:'',treatmentId:'first'},...allTreatmentCategories])
   const [allTreatmentTests2,setAllTreatmentTests2] = useState(allTreatmentTests && [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'},...allTreatmentTests])
   
+
+  useEffect(()=>{
+
+   // setAllTreatmentCategories2( [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'}, ...allTreatmentCategories])
+    setAllTreatmentTests2( [{title:'',uid:'',treatmentCategoryId:'first',treatmentId:'first'}, ...allTreatmentTests])
+  },[allTreatmentCategories,allTreatmentTests])
 
  /* useEffect(()=>{
 
