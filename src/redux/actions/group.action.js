@@ -992,6 +992,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
       complaintId:updateObject.complaintId,
       complaint:updateObject.complaint,
       screenTime:updateObject.screenTime,
+      waitTime:updateObject.waitTime,
     }
   ).then((snapshot) => {
      //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
