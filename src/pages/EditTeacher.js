@@ -11,6 +11,7 @@ import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 import users from 'src/_mock/user';
 
 import { updateTeacher} from 'src/redux/actions/group.action';
+import { getComplaints } from 'src/redux/actions/job.action';
 
 function EditTeacher() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function EditTeacher() {
   const [lastName,setLastName] =useState(teacherInfo.lastName)
   const [icon,setIcon]=useState(teacherInfo.icon && teacherInfo.icon)
   const [age,setAge]=useState(teacherInfo.age && teacherInfo.age)
-  const [complaint,setComplaint] =useState(teacherInfo.complaint)
+  const [complaint,setComplaint] =useState(teacherInfo.complaint && teacherInfo.complaint)
   const [complaintId,setComplaintId] =useState(teacherInfo.complaintId ? teacherInfo.complaintId:'')
 
   
@@ -55,6 +56,7 @@ function EditTeacher() {
   useEffect(()=>{
 
     console.log("OUR UPDATE OBJECT IS--->",updateObject)
+    dispatch(getComplaints())
  
    },[])
 
@@ -379,13 +381,16 @@ function EditTeacher() {
           value={complaint}
           label="complaint"
           onChange={(event) => {
-            setComplaint(event.target.value.complaint);
-            setComplaintId(event.target.value.uid);
+            setComplaint(event.target.value);
+          const complaintIndex =  complaintArr.map((object)=>(object.complaint)).indexOf(event.target.value)
+
+            setComplaintId(complaintArr.map((object)=>(object.uid))[complaintIndex]  );
+           console.log("complaintId is" ,complaintId)
           }}
         >
-       {complaintArr.map((item)=>(
+       {complaintArr.map((object)=>(object.complaint)).map((item,index)=>(
 
-            <MenuItem value={item}>{item.complaint}</MenuItem>
+            <MenuItem value={item}>{item}</MenuItem>
             
        )
        )}
