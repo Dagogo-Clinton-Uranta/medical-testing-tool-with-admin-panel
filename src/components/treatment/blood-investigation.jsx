@@ -387,7 +387,7 @@ console.log("OUR TREATMENT CATEGORIES 2--->",allTreatmentCategories2)
               <Grid item xs style={{ border: '0px solid red', display: 'flex', alignItems: 'center' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <Typography gutterBottom variant="subtitle1" component="div" style={mystyle}>
-                    <b>{selectedPatient && selectedPatient?.firstName + ' ' + ' ' + selectedPatient && selectedPatient?.lastName}</b>
+                    <b>{selectedPatient && (selectedPatient.firstName + ' ' + ' ' +  selectedPatient.lastName)}</b>
                   </Typography>
                   &nbsp; &nbsp; &nbsp;
                   <Divider
