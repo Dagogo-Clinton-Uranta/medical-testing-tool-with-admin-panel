@@ -10,6 +10,7 @@ import users from 'src/_mock/user';
 
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { signCandidateUp } from 'src/redux/actions/auth.action';
 
 function AddCandidate() {
   const navigate = useNavigate();
@@ -37,6 +38,8 @@ function AddCandidate() {
 
   const { user } = useSelector((state) => state.auth);
   const { patientProcessSteps } = useSelector((state) => state.group);
+  //const {signCandidateUp} = useSelector((state) => state.auth);
+
    console.log("patient pp",patientProcessSteps)
 
   const { complaints } = useSelector((state) => state.jobs);
@@ -51,7 +54,7 @@ function AddCandidate() {
 
 
   const addObject ={
-  ...patientProcessSteps,
+  
     firstName,
     lastName,
    email,
@@ -67,7 +70,7 @@ function AddCandidate() {
     else{
 
     setLoading(true)
-    dispatch(fetchAddCandidate(addObject,navigate,navigateUrl))
+    dispatch(signCandidateUp(addObject,navigate,navigateUrl))
    
     // console.log("identity is",identity)
     // console.log("update this subject is updating.........")
@@ -174,14 +177,14 @@ function AddCandidate() {
             
             fullWidth
             style={{backgroundColor:"#FFFFFF",borderRadius:"0.75rem"}}
-            placeholder=" Add age"
+            placeholder=" Add email"
             variant="outlined"
             multiline
             maxRows={2}
             value= {email}
             onChange = {(e)=>{
-              if(Number(e.target.value) ||e.target.value=== ''){
-              setEmail(e.target.value)}
+              
+              setEmail(e.target.value)
               }
             }
             

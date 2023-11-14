@@ -7,6 +7,7 @@ import { fetchAllTreatmentCategories, fetchAllTreatmentTests, getAdmittedPatient
 import { fetchAllCategories,fetchAllGroupTreatmentCategories } from './group.action';
 
 
+
 export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) => {
   fb.auth().signInWithEmailAndPassword(user.email, user.password)
   .then((userCredential) => {
@@ -64,8 +65,13 @@ export const signup = (user, navigate, setLoading) => async (dispatch) => {
   
     fb.auth().createUserWithEmailAndPassword(
       user.email,
-      user.password
+      user.passwordb
   ).then((res)=>{
+
+   /* fb.auth().sendEmailVerification(user.email) YOU STOPPED HERE - 21 OCT 2023, WHAT DO I NEED TO PASS INTO  THIS ? */
+    
+    //fb.auth().sendPasswordResetEmail(email)
+
     return db.collection('Candidates').doc(res.user.uid).set({
       uid: res.user.uid,
       email: user.email,
@@ -89,6 +95,54 @@ export const signup = (user, navigate, setLoading) => async (dispatch) => {
     setLoading(false);
   })
   }
+
+
+
+  export const signCandidateUp = (user, navigate, setLoading) => async (dispatch) => {
+    var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    var today  = new Date();
+    
+      fb.auth().createUserWithEmailAndPassword(
+        user.email,
+        user.password
+    ).then(async(res)=>{
+   
+         fb.auth().sendPasswordResetEmail(user.email)
+
+    return res
+    }
+
+    )
+    .then((res)=>{
+      return db.collection('Candidates').doc(res.user.uid).set({
+        uid: res.user.uid,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+       /* age: '25',
+        gender: 'Male',
+        complaint: 'Malu',
+        isAdmitted: false,*/
+        password: user.password,
+        registeredOn: today.toLocaleDateString("en-US", options),
+
+
+      })
+    }).then(() => {
+      notifySuccessFxn(`Registered Candidate ${user.firstName + " " + user.lastName} ✔`);
+      navigate('/dashboard/examiner', { replace: true });
+    }).catch((err) => {
+      console.error("Error signing candidate up: ", err);
+      var errorMessage = err.message;
+      notifyErrorFxn(errorMessage);
+      dispatch(signupFailed({ errorMessage }));
+      setLoading(false);
+    })
+    }
+
+
+
+
 
 export const uploadImage = (user, file, navigate, setLoading) => async (dispatch) => {
   const imageName = uuidv4() + '.' + file?.name?.split('.')?.pop();

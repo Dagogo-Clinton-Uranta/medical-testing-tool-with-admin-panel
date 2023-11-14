@@ -341,7 +341,7 @@ console.log("selected patient is ---->",selectedPatient)
             <Grid item xs={12} sm={7.0} sx={{ border: '0px solid green' }}>
               <Grid container spacing={2}>
                 {/* Image 1 */}
-                <Grid item xs={2.2} style={{ backgroundColor: '#D7DBA5', height: '150px', borderRadius: '9px', cursor: 'pointer', border: selectedTreatment === 1 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
+                <Grid item xs={2.2} style={{/* backgroundColor: '#D7DBA5',*/ height: '150px', borderRadius: '9px', cursor: 'pointer',/* border: selectedTreatment === 1 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''*/}} 
                 onClick={() => {
                  if(selectedBed){
                   setSelectedTreatment(1);
@@ -362,7 +362,7 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 2 */}
-                <Grid item xs={2.2} style={{ backgroundColor: '#5B8DDE', height: '150px', borderRadius: '9px', cursor: 'pointer', border: selectedTreatment === 2 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
+                <Grid item xs={2.2} style={{ /*backgroundColor: '#5B8DDE',*/ height: '150px', borderRadius: '9px', cursor: 'pointer',/* border: selectedTreatment === 2 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''*/}} 
                 onClick={() => {
                  if(selectedBed){
                   setSelectedTreatment(2);
@@ -379,7 +379,7 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 3 */}
-                <Grid item xs={2.2} style={{ backgroundColor: '#00B8D4', height: '150px', borderRadius: '9px', cursor: 'pointer', border: selectedTreatment === 3 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
+                <Grid item xs={2.2} style={{ /*backgroundColor: '#00B8D4',*/ height: '150px', borderRadius: '9px', cursor: 'pointer'/*, border: selectedTreatment === 3 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''*/}} 
                    onClick={() => {
                     if(selectedBed){
                      setSelectedTreatment(3);
@@ -395,7 +395,7 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 4 */}
-                <Grid item xs={2.2} style={{ backgroundColor:'#A160E4', height: '150px', borderRadius: '9px',  cursor: 'pointer', border: selectedTreatment === 4 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
+                <Grid item xs={2.2} style={{ /*backgroundColor:'#A160E4',*/ height: '150px', borderRadius: '9px',  cursor: 'pointer'/*, border: selectedTreatment === 4 ? '4.5px solid #4C4E37' :( selectedBed != null ? '2.5px solid #4C4E37' : '')*/}} 
                    onClick={() => {
                     if(selectedBed){
                      setSelectedTreatment(4);
@@ -410,7 +410,7 @@ console.log("selected patient is ---->",selectedPatient)
                 </Grid>
                 &nbsp;&nbsp;&nbsp;
                 {/* Image 5 */}
-                <Grid item xs={2.2} style={{ backgroundColor: '#E5EEF9', height: '150px', borderRadius: '9px',  cursor: 'pointer', border: selectedTreatment === 5 ? '4.5px solid #4C4E37' : selectedBed != null ? '2.5px solid #4C4E37' : ''}} 
+                <Grid item xs={2.2} style={{/* backgroundColor: '#E5EEF9',*/ height: '150px', borderRadius: '9px',  cursor: 'pointer'/*, border: selectedTreatment === 5 ? '4.5px solid #4C4E37' :( selectedBed != null ? '2.5px solid #4C4E37' : '')*/}} 
                   onClick={() => {
                     if(selectedBed){
                      setSelectedTreatment(5);
