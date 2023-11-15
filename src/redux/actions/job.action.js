@@ -1,5 +1,6 @@
+import { notifyErrorFxn, notifySuccessFxn } from "src/utils/toast-fxn";
 import { db } from "../../config/firebase";
-import { fetchJobs,fetchTeachers,fetchComplaints,fetchCourses, fetchSingleJob,fetchSingleStudent,saveUserCourses,saveAllLessonsOneStudent,saveAllQuizzesOneStudent } from "../reducers/job.slice";
+import { fetchJobs,fetchTeachers,fetchComplaints,fetchCourses,fetchDeleteTrigger ,fetchSingleJob,fetchSingleStudent,saveUserCourses,saveAllLessonsOneStudent,saveAllQuizzesOneStudent,isItLoading } from "../reducers/job.slice";
 import { useDispatch, useSelector } from "react-redux";
 
 export const getJobs = (uid) => async (dispatch) => {
@@ -23,6 +24,13 @@ export const getTeachers = ( ) => async (dispatch) => {
         var errorMessage = error.message;
         console.log('Error fetching patient', errorMessage);
 });
+
+};
+
+
+export const updateFetchedTeachers = (id) => async (dispatch) => {
+   
+        dispatch(fetchDeleteTrigger(id));
 
 };
 
@@ -106,6 +114,23 @@ export const getSingleJob = (id) => async (dispatch) => {
 });
 
 };
+
+export const deleteSingleJob = (id) => async (dispatch) => {
+dispatch(isItLoading(true))
+var job = db.collection("Patients").doc(id);
+
+job.delete().then(() => {
+ console.log("employee deleted")
+
+ dispatch(isItLoading(false))
+ notifySuccessFxn("Patient Deleted Successfully")
+ dispatch(getTeachers())
+}).catch((error) => {
+console.log("Error deleting document:", error);
+});
+
+}
+
 
 
 export const getSingleStudent = (id) => async (dispatch) => {

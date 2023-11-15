@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   jobs: [],
   teachers: [],
+  deleteTrigger:false,
   complaints:[],
   courses:[],
   userCourses:[],
@@ -12,6 +13,7 @@ const initialState = {
   allLessonsOneStudent:[],
   error: '',
   message: '',
+  isLoading: false,
 };
 
 const jobSlice = createSlice({
@@ -28,6 +30,11 @@ const jobSlice = createSlice({
         state.error = '';
         state.message = '';
       },
+
+      fetchDeleteTrigger:(state, action)=>{
+        state.deleteTrigger = action.payload;
+      },
+
       fetchComplaints: (state, action) => {
         state.complaints = action.payload;
         state.error = '';
@@ -55,6 +62,10 @@ const jobSlice = createSlice({
       fetchSingleStudent: (state, action) => {
         state.student = action.payload;
       },
+      isItLoading: (state, action) => {
+        state.isLoading = action.payload;
+    },
+      
 
 
     initiatePending: (state) => {
@@ -76,6 +87,8 @@ export const {
  fetchJobs,
  fetchTeachers,
  fetchComplaints,
+ fetchDeleteTrigger,
+ isItLoading,
  fetchSingleJob,
  saveAllLessonsOneStudent,
  saveAllQuizzesOneStudent,

@@ -21,7 +21,7 @@ import { Button, Grid, makeStyles } from "@material-ui/core";
 import { Link, NavLink, useNavigate} from "react-router-dom";
 //import SearchBar from "material-ui-search-bar";
 //import useRequest from "../../hooks/use-request";
-import { fetchTeachers } from "../../redux/actions/job.action";
+import { fetchTeachers, getTeachers } from "../../redux/actions/job.action";
 import Skeleton from '@mui/material/Skeleton';
 import {Typography,CardMedia,} from '@material-ui/core';
 //import CoolerBoxIMG from '../../assets/images/save-money.png';
@@ -33,6 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { deleteSingleJob } from "../../redux/actions/job.action";
 import {fetchTeacherInfo} from 'src/redux/actions/group.action'
+import { isItLoading } from "src/redux/reducers/job.slice";
 
 function TablePaginationActions(props) {
   const theme = useTheme();
@@ -174,11 +175,11 @@ export default function TeacherList({teachers}) {
   const deleteTeacherFxn = (id) => {
    const preserveId = id
     
-  if(window.confirm("are you sure you want to delete this user?")){
+  if(window.confirm("are you sure you want to delete this patient?")){
    
-    //dispatch(deleteSingleJob(id)); 
+    dispatch(deleteSingleJob(id)); 
     
-    notifySuccessFxn("Employee Successfully Deleted!");
+   // notifySuccessFxn("Patient Successfully Deleted!");
     
    setTimeout(function(){window.location.reload()},3000);
      
@@ -200,6 +201,14 @@ export default function TeacherList({teachers}) {
   //   }
   // });
 
+  const { isLoading} = useSelector((state) => state.jobs);
+
+
+  useEffect(() => {
+    dispatch(getTeachers());  
+   
+    console.log("DELETE TRIGGER HAS BEEN CALLED!")
+   }, [isLoading])
 
 
   return (
@@ -268,6 +277,7 @@ export default function TeacherList({teachers}) {
               <StyledTableCell align="center">State</StyledTableCell>
               <StyledTableCell align="right"></StyledTableCell>*/}
               <StyledTableCell align="center">Action</StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
              
             </TableRow>
           </TableHead>
@@ -321,7 +331,7 @@ export default function TeacherList({teachers}) {
                 </TableCell>
 
 
-                {/*<TableCell style={{ width: 180 }} align="right">
+              <TableCell style={{ width: 180 }} align="right">
                   <Button
                     type="submit"
                     // fullWidth
@@ -333,11 +343,12 @@ export default function TeacherList({teachers}) {
                       fontSize: "15px",
                     }}
                     sx={{ mt: 7, mb: 2 }}
-                    onClick={console.log("i am supposed to delete");() => deleteJobFxn(row.id)}
+                    onClick={() => deleteTeacherFxn(row.uid)}
                   >
                     DELETE
                   </Button>
-                </TableCell>*/}
+                </TableCell>
+
               </TableRow>
             ))}
 

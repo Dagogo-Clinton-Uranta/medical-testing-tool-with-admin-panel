@@ -18,7 +18,7 @@ const theme = createTheme();
 
 export default function TeacherListPage() {
   const dispatch = useDispatch();
-  const { teachers } = useSelector((state) => state.jobs);
+  const { teachers,deleteTrigger ,isLoading} = useSelector((state) => state.jobs);
   const [teacherArr, setTeacherArr] = useState([]/*teachers*/);
   const navigate = useNavigate()
 
@@ -48,8 +48,9 @@ export default function TeacherListPage() {
  
  useEffect(() => {
    dispatch(getTeachers());  
-   setTimeout(setTeacherArr(teachers), 1000);
-  }, [])
+   setTeacherArr(teachers)
+   console.log("DELETE TRIGGER HAS BEEN CALLED!")
+  }, [deleteTrigger,isLoading])
 
 
   useEffect(() => {
@@ -58,7 +59,7 @@ export default function TeacherListPage() {
        }  
      }, [teachers])
 
-  console.log('IBARA PATIENT data IS: ', teacherArr);
+  console.log('IBARA PATIENT data IS: ', teachers);
 
   return (
       
