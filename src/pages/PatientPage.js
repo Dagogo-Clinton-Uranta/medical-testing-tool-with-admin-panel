@@ -26,6 +26,7 @@ import Radiology from 'src/components/treatment/radiology';
 import ECG from 'src/components/treatment/ecg';
 import Referrals from 'src/components/treatment/referrals';
 import Countdown from 'react-countdown';
+import Header from 'src/layouts/dashboard/patientheader';
 
 export default function PatientPage() {
   const theme = useTheme();
@@ -230,11 +231,12 @@ console.log("selected patient is ---->",selectedPatient)
     }
   };
   
-
+  const [open, setOpen] = useState(false);
 
   return (
     <>
-      <Container maxWidth="xl" sx={{ marginTop:"5%" }}>
+     <Header onOpenNav={() => setOpen(true)} /> 
+      <Container maxWidth="xl" sx={{ marginTop:"9%" }}>
         <ToastContainer
           position="top-right"
           autoClose={1000}
