@@ -115,7 +115,7 @@ export const getSingleJob = (id) => async (dispatch) => {
 
 };
 
-export const deleteSingleJob = (id) => async (dispatch) => {
+export const deleteSingleJob = (id,navigate) => async (dispatch) => {
 dispatch(isItLoading(true))
 var job = db.collection("Patients").doc(id);
 
@@ -123,9 +123,13 @@ job.delete().then(() => {
  console.log("employee deleted")
 
  dispatch(isItLoading(false))
- notifySuccessFxn("Patient Deleted Successfully")
+ 
  dispatch(getTeachers())
-}).catch((error) => {
+}).then(()=>{
+    setTimeout(navigate('/dashboard/patient-list'),1000);
+notifySuccessFxn("Patient Deleted Successfully")}
+ )
+.catch((error) => {
 console.log("Error deleting document:", error);
 });
 

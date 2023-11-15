@@ -11,7 +11,7 @@ import { notifyErrorFxn, notifySuccessFxn } from 'src/utils/toast-fxn';
 import users from 'src/_mock/user';
 
 import { updateTeacher} from 'src/redux/actions/group.action';
-import { getComplaints } from 'src/redux/actions/job.action';
+import { deleteSingleJob, getComplaints } from 'src/redux/actions/job.action';
 
 function EditTeacher() {
   const navigate = useNavigate();
@@ -43,6 +43,19 @@ function EditTeacher() {
   
   console.log("TYPE OF SCREEN TIME-->",typeof(screenTime))
 
+  const deleteTeacherFxn = (id) => {
+    const preserveId = id
+     
+   if(window.confirm("are you sure you want to delete this patient?")){
+    
+     dispatch(deleteSingleJob(id,navigate)); 
+     
+    // notifySuccessFxn("Patient Successfully Deleted!");
+    //navigate('/dashboard/patient-list')
+    setTimeout(function(){window.location.reload()},2000);
+      
+   }
+ }
   
 
   useEffect(() => {
@@ -138,6 +151,24 @@ function EditTeacher() {
      
      
   </div>*/}
+
+               <Button
+                    type="submit"
+                    // fullWidth
+                    variant="contained"
+                    style={{
+                      backgroundColor: "#000000",
+                      color: "white",
+                      width: "130px",
+                      fontSize: "15px",
+                      paddingTop: '10px',
+                       paddingBottom: '10px'
+                    }}
+                    sx={{ mt: 7, mb: 2 }}
+                    onClick={() => deleteTeacherFxn(uid,navigate)}
+                  >
+                    DELETE
+                  </Button>
            
           </Grid>
    

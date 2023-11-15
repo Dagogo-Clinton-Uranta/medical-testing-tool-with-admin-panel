@@ -180,8 +180,8 @@ export default function TeacherList({teachers}) {
     dispatch(deleteSingleJob(id)); 
     
    // notifySuccessFxn("Patient Successfully Deleted!");
-    
-   setTimeout(function(){window.location.reload()},3000);
+   navigate('/dashboard/patient-list')
+   //setTimeout(function(){window.location.reload()},3000);
      
   }
 }
@@ -277,7 +277,7 @@ export default function TeacherList({teachers}) {
               <StyledTableCell align="center">State</StyledTableCell>
               <StyledTableCell align="right"></StyledTableCell>*/}
               <StyledTableCell align="center">Action</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
+              {/*<StyledTableCell align="center"></StyledTableCell>*/}
              
             </TableRow>
           </TableHead>
@@ -331,7 +331,7 @@ export default function TeacherList({teachers}) {
                 </TableCell>
 
 
-              <TableCell style={{ width: 180 }} align="right">
+              {/*<TableCell style={{ width: 180 }} align="right">
                   <Button
                     type="submit"
                     // fullWidth
@@ -347,7 +347,7 @@ export default function TeacherList({teachers}) {
                   >
                     DELETE
                   </Button>
-                </TableCell>
+                </TableCell>*/}
 
               </TableRow>
             ))}

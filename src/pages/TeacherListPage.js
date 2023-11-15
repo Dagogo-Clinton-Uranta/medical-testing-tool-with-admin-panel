@@ -70,7 +70,7 @@ export default function TeacherListPage() {
 
        {teacherArr && teacherArr.length ?
            
-           <CTeacherList teachers={teachers} />
+           <CTeacherList teachers={teacherArr} />
            :
            <center>
            <Box sx={{ width: 300 }}>
