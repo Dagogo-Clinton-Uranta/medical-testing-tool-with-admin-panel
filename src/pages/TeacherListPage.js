@@ -44,22 +44,26 @@ export default function TeacherListPage() {
       navigate('/patient')
       }},[]) 
  
- 
+     
  
  useEffect(() => {
    dispatch(getTeachers());  
    setTeacherArr(teachers)
-   console.log("DELETE TRIGGER HAS BEEN CALLED!")
-  }, [deleteTrigger,isLoading])
+  
+  }, [])
 
 
   useEffect(() => {
     if(teacherArr.length === 0 ){
-      setTeacherArr(teachers);
-       }  
+     setTeacherArr([teachers]);
+
+     console.log('IBARA PATIENT data IS: ', teachers);
+       }
+       
+       
      }, [teachers])
 
-  console.log('IBARA PATIENT data IS: ', teachers);
+ 
 
   return (
       
@@ -68,10 +72,8 @@ export default function TeacherListPage() {
        {/*<h1 style={{position:"relative",fontWeight:"bold",left:"0px",marginBottom:"40px",fontSize:"30px"}}>STUDENT DASHBOARD</h1>*/}
       
 
-       {teacherArr && teacherArr.length ?
+       {isLoading ?
            
-           <CTeacherList teachers={teacherArr} />
-           :
            <center>
            <Box sx={{ width: 300 }}>
            <Skeleton />
@@ -79,6 +81,8 @@ export default function TeacherListPage() {
            <Skeleton animation={false} />
          </Box>
          </center>
+           :
+          <CTeacherList teachers={teachers} />
       }
         </Container>
      

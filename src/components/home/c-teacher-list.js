@@ -208,13 +208,13 @@ export default function TeacherList({teachers}) {
     dispatch(getTeachers());  
    
     console.log("DELETE TRIGGER HAS BEEN CALLED!")
-   }, [isLoading])
+   }, [])
 
 
   return (
     <>
         {
-          teachers ? 
+        
           <>
        
 
@@ -282,13 +282,75 @@ export default function TeacherList({teachers}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
+            {rowsPerPage > 0 && teacherList.length > 0
               ? teacherList.slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage
-                )
-              : teacherList
-            ).map((row) => (
+                ).map((row) => (
+                  <TableRow key={row.id}>
+                    <TableCell style={{ width: 140,color:"white" }} component="th" scope="row">
+                      {row.firstName + " " + row.lastName}
+                    </TableCell>
+                    <TableCell style={{ width: 140,color:"white" }} align="left">
+                      {row.complaint}
+                    </TableCell>
+                    {/*<TableCell style={{ width: 140 }} align="right">
+                    {row.accountCreated &&typeof(row.accountCreated) !== "string"  ?(new Date(row.accountCreated.seconds*1000)).toDateString():row.accountCreated}
+                    </TableCell>*/}
+                    
+                    <TableCell style={{ width: 140,color:"white" }} align="left">
+                    {/*row.registeredOn &&typeof(row.registeredOn) !== "string"  ?(new Date(row.registeredOn.seconds*1000)).toDateString():row.accountCreated*/}
+                    {row.screenTime && row.screenTime}
+                    </TableCell>
+    
+                    <TableCell style={{ width: 140,color:"white" }} align="left">
+                    {/*row.registeredOn &&typeof(row.registeredOn) !== "string"  ?(new Date(row.registeredOn.seconds*1000)).toDateString():row.accountCreated*/}
+                    {row.waitTime && row.waitTime}
+                    </TableCell>
+    
+                   
+    
+                    <TableCell style={{ width: 180 }} align="right">
+                      <Button
+                        type="submit"
+                        // fullWidth
+                        variant="contained"
+                        style={{
+                         backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" /*"#60A1EC"*/,
+                          color: "white",
+                          width: "70%",
+                          fontSize: "15px",
+                        }}
+                        sx={{ mt: 7, mb: 2 }}
+                        onClick={() => viewTeachersFxn(row.uid.trim())}
+                      >
+                       VIEW
+                      </Button>
+                    </TableCell>
+    
+    
+                  {/*<TableCell style={{ width: 180 }} align="right">
+                      <Button
+                        type="submit"
+                        // fullWidth
+                        variant="contained"
+                        style={{
+                         backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" ,
+                          color: "white",
+                          width: "70%",
+                          fontSize: "15px",
+                        }}
+                        sx={{ mt: 7, mb: 2 }}
+                        onClick={() => deleteTeacherFxn(row.uid)}
+                      >
+                        DELETE
+                      </Button>
+                    </TableCell>*/}
+    
+                  </TableRow>
+                ))
+              :(teacherList && teacherList.length > 0 ?
+                teacherList.map((row) => (
               <TableRow key={row.id}>
                 <TableCell style={{ width: 140,color:"white" }} component="th" scope="row">
                   {row.firstName + " " + row.lastName}
@@ -350,7 +412,17 @@ export default function TeacherList({teachers}) {
                 </TableCell>*/}
 
               </TableRow>
-            ))}
+            )):
+
+            <TableRow >
+            <TableCell style={{ color:"white" }} colSpan={5}  scope="row">
+              No patients available, please add patients
+            </TableCell>
+           
+        
+          </TableRow>
+            
+            )}
 
             {/*emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
@@ -382,14 +454,9 @@ export default function TeacherList({teachers}) {
       </TableContainer>
      
           </>
-          :
-          <center>
-          <Box sx={{ width: 300 }}>
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
-        </Box>
-        </center>
+        
+              
+
         }
 
     </>

@@ -16,11 +16,16 @@ export const getJobs = (uid) => async (dispatch) => {
 };
 
 export const getTeachers = ( ) => async (dispatch) => {
+    /*dispatch(isItLoading(true))*/
     db.collection('Patients').get().then((snapshot) => {
         const allTeachers = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data() }));
         // console.log('Jobs: ', jobs);
         dispatch(fetchTeachers(allTeachers));
-}).catch((error) => {
+}).then(()=>{
+
+    dispatch(isItLoading(false))
+})
+.catch((error) => {
         var errorMessage = error.message;
         console.log('Error fetching patient', errorMessage);
 });
