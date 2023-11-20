@@ -191,7 +191,7 @@ export default function CJobList({jobs}) {
   return (
     <>
         {
-          jobs ? 
+         
           <>
        
 
@@ -248,21 +248,20 @@ export default function CJobList({jobs}) {
               <StyledTableCell align="left">Email</StyledTableCell>
               <StyledTableCell align="left">Registered</StyledTableCell>
               
-              {/*<StyledTableCell align="right">Industry</StyledTableCell>
-              <StyledTableCell align="center">State</StyledTableCell>
+             <StyledTableCell align="right"></StyledTableCell>
+               {/*<StyledTableCell align="center">State</StyledTableCell>
               <StyledTableCell align="right"></StyledTableCell>*/}
               <StyledTableCell align="center">Action</StyledTableCell>
              
             </TableRow>
           </TableHead>
           <TableBody>
-            {(rowsPerPage > 0
+            {rowsPerPage > 0 && jobList.length > 0
               ? jobList.slice(
                   page * rowsPerPage,
                   page * rowsPerPage + rowsPerPage
                 )
-              : jobList
-            ).map((row) => (
+            .map((row) => (
               <TableRow key={row.id}>
                 <TableCell style={{ width: 140,color:"white" }} component="th" scope="row">
                   {row.firstName + " " + row.lastName}
@@ -273,12 +272,16 @@ export default function CJobList({jobs}) {
                 {/*<TableCell style={{ width: 140 }} align="right">
                 {row.accountCreated &&typeof(row.accountCreated) !== "string"  ?(new Date(row.accountCreated.seconds*1000)).toDateString():row.accountCreated}
                 </TableCell>*/}
-                
+
+             
                 <TableCell style={{ width: 140 ,color:"white"}} align="left">
                 {row.registeredOn &&typeof(row.registeredOn) !== "string"  ?(new Date(row.registeredOn.seconds*1000)).toDateString():row.accountCreated}
                 </TableCell>
 
-               
+                <TableCell style={{ width: 140,color:"white" }} align="left">
+                
+                </TableCell>
+                
 
                 <TableCell style={{ width: 180 }} align="right">
                   <Button
@@ -317,7 +320,78 @@ export default function CJobList({jobs}) {
                   </Button>
                 </TableCell>*/}
               </TableRow>
-            ))}
+            )):
+            jobList && jobList.length > 0 ?
+            jobList.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell style={{ width: 140,color:"white" }} component="th" scope="row">
+                  {row.firstName + " " + row.lastName}
+                </TableCell>
+                <TableCell style={{ width: 140,color:"white" }} align="left">
+                  {row.email}
+                </TableCell>
+                {/*<TableCell style={{ width: 140 }} align="right">
+                {row.accountCreated &&typeof(row.accountCreated) !== "string"  ?(new Date(row.accountCreated.seconds*1000)).toDateString():row.accountCreated}
+                </TableCell>*/}
+
+              
+                
+                <TableCell style={{ width: 140 ,color:"white"}} align="left">
+                {row.registeredOn &&typeof(row.registeredOn) !== "string"  ?(new Date(row.registeredOn.seconds*1000)).toDateString():row.accountCreated}
+                </TableCell>
+
+                <TableCell style={{ width: 140,color:"white" }} align="left">
+                
+                </TableCell>
+
+                <TableCell style={{ width: 180 }} align="right">
+                  <Button
+                    type="submit"
+                    // fullWidth
+                    variant="contained"
+                    style={{
+                     backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))",
+                      color: "white",
+                      width: "70%",
+                      fontSize: "15px",
+                    }}
+                    sx={{ mt: 7, mb: 2 }}
+                    onClick={() => viewStudentFxn(row.uid.trim())}
+                  >
+                    {"VIEW"}
+                  </Button>
+                </TableCell>
+
+
+                {/*<TableCell style={{ width: 180 }} align="right">
+                  <Button
+                    type="submit"
+                    // fullWidth
+                    variant="contained"
+                    style={{
+                     backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))" ,
+                      color: "white",
+                      width: "70%",
+                      fontSize: "15px",
+                    }}
+                    sx={{ mt: 7, mb: 2 }}
+                    onClick={console.log("i am supposed to delete");() => deleteJobFxn(row.id)}
+                  >
+                    DELETE
+                  </Button>
+                </TableCell>*/}
+              </TableRow>
+            )):
+            
+
+            <TableRow >
+            <TableCell style={{ color:"white" }} colSpan={5}  scope="row">
+              No candidates available, please add candidates
+            </TableCell>
+           
+        
+          </TableRow>
+            }
 
             {/*emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
@@ -349,14 +423,7 @@ export default function CJobList({jobs}) {
       </TableContainer>
      
           </>
-          :
-          <center>
-          <Box sx={{ width: 300 }}>
-          <Skeleton />
-          <Skeleton animation="wave" />
-          <Skeleton animation={false} />
-        </Box>
-        </center>
+        
         }
 
     </>

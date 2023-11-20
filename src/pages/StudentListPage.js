@@ -17,7 +17,7 @@ const theme = createTheme();
 
 export default function StudentListPage() {
   const dispatch = useDispatch();
-  const { jobs } = useSelector((state) => state.jobs);
+  const { jobs,isLoading } = useSelector((state) => state.jobs);
  
   const [jobArr, setJobArr] = useState(jobs);
   const navigate = useNavigate()
@@ -101,10 +101,8 @@ export default function StudentListPage() {
        {/*<h1 style={{position:"relative",fontWeight:"bold",left:"0px",marginBottom:"40px",fontSize:"30px"}}>STUDENT DASHBOARD</h1>*/}
       
 
-       {jobArr.length ?
+       {isLoading ?
            
-           <CJobList jobs={jobs} />
-           :
            <center>
            <Box sx={{ width: 300 }}>
            <Skeleton />
@@ -112,6 +110,8 @@ export default function StudentListPage() {
            <Skeleton animation={false} />
          </Box>
          </center>
+         :
+         <CJobList jobs={jobs} />
       }
         </Container>
      

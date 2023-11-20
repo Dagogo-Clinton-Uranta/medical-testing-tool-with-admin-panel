@@ -66,7 +66,7 @@ export default function Router() {
          { path: 'patient-expanded', element: <PatientExpanded/> },
 
 
-         { path: 'candidate-list', element: <StudentListPage /> },
+         
          { path: 'add-patient-bio', element: <AddPatientBioData/> },
          { path: 'add-patient-history', element: <AddPatientHistory/> },
          { path: 'add-patient-arrival', element: <AddPatientArrival/> },
