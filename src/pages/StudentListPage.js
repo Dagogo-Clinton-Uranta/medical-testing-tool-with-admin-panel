@@ -9,6 +9,7 @@ import CJobList from "../components/home/c-job-list";
 import { getJobs } from "../redux/actions/job.action";
 import {Skeleton} from '@mui/material';
 import ReactApexChart from 'react-apexcharts';
+import { fetchJobs } from "src/redux/reducers/job.slice";
 
 
 const theme = createTheme();

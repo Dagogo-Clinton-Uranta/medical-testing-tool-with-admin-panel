@@ -16,7 +16,7 @@ export const getJobs = (uid) => async (dispatch) => {
 };
 
 export const getTeachers = ( ) => async (dispatch) => {
-    /*dispatch(isItLoading(true))*/
+    dispatch(isItLoading(true))
     db.collection('Patients').get().then((snapshot) => {
         const allTeachers = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data() }));
         // console.log('Jobs: ', jobs);

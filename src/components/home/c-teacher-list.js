@@ -352,7 +352,7 @@ export default function TeacherList({teachers}) {
               :(teacherList && teacherList.length > 0 ?
                 teacherList.map((row) => (
               <TableRow key={row.id}>
-                <TableCell style={{ width: 140,color:"white" }} component="th" scope="row">
+                <TableCell style={{ width: 140,color:"white"}} component="th" scope="row">
                   {row.firstName + " " + row.lastName}
                 </TableCell>
                 <TableCell style={{ width: 140,color:"white" }} align="left">

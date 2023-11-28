@@ -88,8 +88,8 @@ const PatientDetails = () => {
             
             { (!selectedPatient.chosenBloodInvestigationTests && !selectedPatient.chosenRadiologyTests && !selectedPatient.prescriptionResponseArray && !selectedPatient.chosenReferrals && !selectedPatient.ecgPassed && !selectedPatient.isAdmitted) && 
              (
-             selectedPatient.aboutIssue?
-             selectedPatient.aboutIssue:
+             selectedPatient.history?
+             selectedPatient.history:
              'pturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis '
              )
             }
