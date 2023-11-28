@@ -76,20 +76,22 @@ const PatientDetails = () => {
 
        </Grid>
      </Grid>
-     <div style={{padding: '10px'}}>
+
+     <Grid  xs={12}  container>
+     <div style={{padding: '10px', width:"100%"}}>
      <center>
      {(selectedPatient.chosenBloodInvestigationTests || selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray || selectedPatient.chosenReferrals||selectedPatient.ecgPassed||selectedPatient.isAdmitted) &&
               <b>Actions List</b>
             }
 
 
-           <div style={{ marginTop: '10px', minHeight: '250px', minWidth:"100%",border: '0px solid red',display:"grid" , gridTemplateColumns:( (selectedPatient.chosenBloodInvestigationTests||selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray||selectedPatient.chosenReferrals||selectedPatient.isAdmitted)?"1fr 1fr" :"1fr"),gap:"1rem"}}>
+           <div style={{ marginTop: '10px', minHeight: '250px', minWidth:"100%",textAlign:"left",border: '0px solid red',display:"grid" , gridTemplateColumns:( (selectedPatient.chosenBloodInvestigationTests||selectedPatient.chosenRadiologyTests || selectedPatient.prescriptionResponseArray||selectedPatient.chosenReferrals||selectedPatient.isAdmitted)?"1fr 1fr" :"1fr"),gap:"1rem"}}>
 
             
             { (!selectedPatient.chosenBloodInvestigationTests && !selectedPatient.chosenRadiologyTests && !selectedPatient.prescriptionResponseArray && !selectedPatient.chosenReferrals && !selectedPatient.ecgPassed && !selectedPatient.isAdmitted) && 
              (
              selectedPatient.history?
-             selectedPatient.history:
+            <div style={{display:"flex",justifyContent:"center",alignItems:"flex-start"}}>{ selectedPatient.history} </div>:
              'pturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis '
              )
             }
@@ -266,6 +268,7 @@ const PatientDetails = () => {
        </Grid>
      </div>
    </Grid>
+ </Grid>
    )}
    </>
   );
