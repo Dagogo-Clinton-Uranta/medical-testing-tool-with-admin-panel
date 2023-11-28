@@ -204,11 +204,11 @@ export default function TeacherList({teachers}) {
   const { isLoading} = useSelector((state) => state.jobs);
 
 
-  useEffect(() => {
+  /*useEffect(() => {
     dispatch(getTeachers());  
    
     console.log("DELETE TRIGGER HAS BEEN CALLED!")
-   }, [])
+   }, [])*/
 
 
   return (
