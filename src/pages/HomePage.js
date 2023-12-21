@@ -1,11 +1,13 @@
 import { Button, TextField, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import React from 'react';
+import React, { useRef } from 'react';
 import LOGO from '../assets/images/ibara_logo.png';
 import BACKGROUND_IMG from '../assets/images/background.png';
 
 const HomePage = () => {
   const navigate = useNavigate();
+  const myRef = useRef(null)
+  const executeScroll = () => myRef.current.scrollIntoView({behavior:"smooth"})   
 
   return (
     <div>
@@ -40,7 +42,7 @@ const HomePage = () => {
             >
               About Us
             </h5>
-            <h5 style={{ fontSize: '20px', color: 'white' }}>Contact Us</h5>
+            <h5 onClick={executeScroll} style={{ fontSize: '20px', color: 'white' }}>Contact Us</h5>
           </div>
         </div>
         <div style={{ marginRight: '5%' }}>
@@ -160,7 +162,7 @@ const HomePage = () => {
           <div style={{width: '70%', marginTop: '60px', marginLeft: '50px'}}>
             {' '}
             <h1>Get in touch.</h1>
-            <p>
+            <p ref={myRef}>
               Fill the contact form and one of our customer service representatives will get in touch with you, usually
               within 24 hours
             </p>
