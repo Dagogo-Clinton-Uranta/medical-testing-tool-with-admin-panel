@@ -156,6 +156,18 @@ const HomePage = () => {
           </h3>
         </div>
       </div>
+      <Grid container spacing={2} sx={{ p: 5, background: '#F3F4F5',display:"flex" ,justifyContent:"center"}}>
+        <div style={{width: '60%', marginTop: '20px'}}>
+            {' '}
+            <center><h1>About Us.</h1></center>
+            <p>
+            Ibara is a comprehensive platform designed for medical and allied medical students, as well as doctors in 
+            training. It offers practical clinical tutorials, facilitates personal practice, and enables seamless exam 
+            administration. Ibara serves as a valuable tool for tutorials, self-learning, and efficient exam management.
+            </p>
+          </div>
+      </Grid>
+
       <Grid container spacing={2} sx={{ p: 5, background: '#eee' }}>
         <Grid item xs={6} sx={{ mt: 4 }}>
           {/* Left Side */}
