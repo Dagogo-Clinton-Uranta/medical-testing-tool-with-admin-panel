@@ -5,8 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 //import { fetchCandidateData } from 'src/redux/actions/auth.action';
 // @mui
 import { useTheme, styled } from '@mui/material/styles';
-import { fetchMyTransactions } from 'src/redux/actions/transaction.action';
-import { getStudents } from 'src/redux/actions/student.action';
+
 import WaitingRoom from 'src/components/patient/waiting-room';
 import PatientDetails from 'src/components/patient/patient-details';
 import IMG1 from '../assets/images/blood-investigation.png';
@@ -18,7 +17,7 @@ import HospitalBed from 'src/components/patient/hospital-bed';
 import EmptyPane from 'src/components/patient/empty-pane';
 import { refreshCountdown ,getAllPatients,removePatient, reset, refreshWaitdown, enterPatient } from 'src/redux/actions/patient.action';
 import { ToastContainer } from 'react-toastify';
-import {CSSTransition,TransitionGroup} from 'react-transition-group';
+
 
 import BloodInvestigation from 'src/components/treatment/blood-investigation';
 import Prescription from 'src/components/treatment/prescription';
@@ -56,14 +55,17 @@ const [radiologyClicked,setRadiologyClicked] = useState(false)
 
   const { user } = useSelector((state) => state.auth);
 
+  // THE PATIENTS TO WHICH ENTER THE WAITING ROOM ARE SAVED UNDER PATIENT TIMERS OBJECT AND
+  //ARE PERIODICALLY UPDATED ACCORDING TO THEIR WAIT TIME
+
   const { selectedPatient, allPatients,patients,patientTimers ,waitTimers,admittedPatients, isLoading } = useSelector((state) => state.patient);
-  console.log("PATIENTS TIMERS IS---->",patientTimers)
+ 
 
 
 
   window.onload = function(){
     dispatch(getAllPatients());
-    console.log("I JUST RELOADED NOW")
+   
   }
 
 
@@ -74,28 +76,19 @@ const [radiologyClicked,setRadiologyClicked] = useState(false)
 
     navigate('/dashboard/examiner')
     }
-   //   dispatch(getAllPatients(patientTimers?patientTimers:[]));
-   //   dispatch(getWaitingRoomPatients());
-   //   dispatch(getAdmittedPatients());
-   //   dispatch(fetchAllTreatmentCategories());
-   //   dispatch(fetchAllTreatmentTests());
-   // dispatch(fetchCandidateData(user?.uid));
+ 
   }, [patients]);
 
-console.log("selected patient is ---->",selectedPatient)
-
-
-  /*const previousValue = useRef(null);
-  previousValue.current = selectedPatient;*/
-
-  /*useEffect(() => {
-      previousValue.current = selectedPatient;
-  }, [selectedPatient]);*/
 
 
 
   useEffect(() => {
 
+
+    //VARIABLE TIMES RUN (AND TIMES RUN RADIOLOGY), 
+    //ARE TO KEEP TRACK OF HOW LONG THE BLOOD INVESTIGATION AND RADIOLOGY ICONS HAVE FLASHED, B4 STOPPING THE NOTIFICATIONS
+    // stop the blinking after 27 times run 
+    
     let timesRun = 0;
     let timesRunRadiology = 0;
 
@@ -113,27 +106,20 @@ console.log("selected patient is ---->",selectedPatient)
 
    const candidateResponseArray =user && user.response? user.response:[]
 
-   const particularPatientPosition = selectedPatient && candidateResponseArray && candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(selectedPatient.id):-1
+   const particularPatientPosition = selectedPatient && candidateResponseArray && candidateResponseArray.length > 0 ?
+                                       candidateResponseArray.map((item)=>(item.patientId)).indexOf(selectedPatient.id):-1
   
 
-  if(particularPatientPosition !== -1 && candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true)
+  if(particularPatientPosition !== -1 && 
+    candidateResponseArray[particularPatientPosition] && 
+    candidateResponseArray[particularPatientPosition].bloodInvestigationPassed === true)
   {
      
 
 
-     // stop the blinking after 27 times run
-     
-
-    /* if(previousValue.current !==  selectedPatient){
-      timesRun = 27;
-  }*/
-   
-
-
      interval = setInterval(() => {
   
-    
-    //console.log("i have run blood inv now",timesRun)
+  
     timesRun += 1;
    
     if(timesRun >= 27){
@@ -147,28 +133,25 @@ console.log("selected patient is ---->",selectedPatient)
 
     }, 800);
 
- // return () => clearInterval(interval);
+
     
   }
 
 
 
-  if(particularPatientPosition !== -1 && candidateResponseArray[particularPatientPosition] && candidateResponseArray[particularPatientPosition].radiologyPassed === true)
+  if(particularPatientPosition !== -1 &&
+     candidateResponseArray[particularPatientPosition] && 
+     candidateResponseArray[particularPatientPosition].radiologyPassed === true)
   {
    
    
-    /* if(previousValue.current !==  selectedPatient){
-      timesRunRadiology = 27;
-  }*/
-
+  
 
      intervalRadiology = 
       
       setInterval(() => {
       
 
-    
-    //("i have run radiology now",timesRunRadiology,blinkRadiology)
     timesRunRadiology += 1;
 
      if(timesRunRadiology >= 27 ){
@@ -184,23 +167,18 @@ console.log("selected patient is ---->",selectedPatient)
     }
     , 800);
 
-   
-   
- // return () => clearInterval(intervalRadiology);
     
   }
  
 
   return () => {clearInterval(intervalRadiology); clearInterval(interval)}
  
-
-
   }, [selectedPatient]);
 
 
 
   const handleSelectBed = (bedNum) => {
-    //console.log(`Selected Bed is: ${bedNum}`);
+   
     setSelectedBed(bedNum);
   };
 
@@ -211,7 +189,7 @@ console.log("selected patient is ---->",selectedPatient)
       [e.target.name]: value,
     });
 
-    //console.log("state IS:",state)
+   
   };
 
   const renderContent = (selectedTreatment, state, setState, handleChange, selectedPatient) => {
@@ -330,9 +308,7 @@ console.log("selected patient is ---->",selectedPatient)
                 }}
               >
                   {renderContent(selectedTreatment, state, setState, handleChange, selectedPatient)}
-                 {/* <Referrals state={state} setState={setState} handleChange={handleChange} /> */}
-                {/* {selectedTreatment === 1 ?  <BloodInvestigation state={state} setState={setState} handleChange={handleChange} /> : 
-                selectedTreatment === 2 ? <Prescription state={state} handleChange={handleChange} /> : selectedPatient ? <PatientDetails /> : <EmptyPane title={'Action Pane'} />}  */}
+                
               </Paper>
             </Grid>
 
@@ -342,6 +318,7 @@ console.log("selected patient is ---->",selectedPatient)
 
             <Grid item xs={12} sm={7.0} sx={{ border: '0px solid green' }}>
               <Grid container spacing={2}>
+               
                 {/* Image 1 */}
                 <Grid item xs={2.2} style={{/* backgroundColor: '#D7DBA5',*/ height: '150px'}} 
                 onClick={() => {
@@ -442,18 +419,7 @@ console.log("selected patient is ---->",selectedPatient)
                   })}
                 </Grid>
 
-                {/* <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <HospitalBed bedNum={1} />
-                <HospitalBed bedNum={2} />
-                <HospitalBed bedNum={3} />
-                <HospitalBed bedNum={4} />
-                <HospitalBed bedNum={5} />
-                <HospitalBed bedNum={6} />
-                <HospitalBed bedNum={7} />
-                <HospitalBed bedNum={8} />
-                <HospitalBed bedNum={9} />
-                <HospitalBed bedNum={10} />
-              </Grid> */}
+              
               </Grid>
              
               <Button

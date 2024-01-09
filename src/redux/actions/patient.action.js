@@ -36,7 +36,7 @@ export const getAllPatients = () => async (dispatch) => {
 
 
     const currentTimeArray = sessionStorage.getItem("patientTimers")!==null? JSON.parse(sessionStorage.getItem("patientTimers")):[]
-    console.log("current time array AT BEGINNING",currentTimeArray)
+  
    
   
     if(waitTimeArray.length >0 )
@@ -98,9 +98,9 @@ export const getWaitingRoomPatients = (existingTimes) => async (dispatch) => {
 export const refreshCountdown = (originalArray) => async (dispatch) => {
  
 
-   // const ourIndex = originalArray.map((item)=>(item.id)).indexOf(id)
+  
   let newTimeArray = [...originalArray]
-  //newTimeArray[ourIndex] = {id:id,firstName:originalArray[ourIndex].firstName,lastName:originalArray[ourIndex].lastName, screenCountdown:newTime}
+
   
   let newMutable = []
 
@@ -114,15 +114,14 @@ export const refreshCountdown = (originalArray) => async (dispatch) => {
 
 
 
-  console.log("new PATIENT TIMERS array to be updated is--->",newMutable)
+ 
  
 
-  //INSTEAD OF OG ARRAY TRY DELTA FUNCTION OF ONTICK OR STH
    
   sessionStorage.setItem("patientTimers", `${JSON.stringify(newMutable)}`);
 
   const currentTimeArray = sessionStorage.getItem("patientTimers")!==null &&   JSON.parse(sessionStorage.getItem("patientTimers"))
-  console.log(" current Time array-->",currentTimeArray)
+ 
    
   dispatch(fetchPatientTimers(currentTimeArray))
 
@@ -133,10 +132,9 @@ export const refreshCountdown = (originalArray) => async (dispatch) => {
 export const refreshWaitdown = (originalArray) => async (dispatch) => {
  
 
-  // const ourIndex = originalArray.map((item)=>(item.id)).indexOf(id)
+  
  let newTimeArray = [...originalArray]
- //newTimeArray[ourIndex] = {id:id,firstName:originalArray[ourIndex].firstName,lastName:originalArray[ourIndex].lastName, screenCountdown:newTime}
- 
+
  let newMutable = []
 
   newTimeArray.forEach((item,index)=>{ 
@@ -149,21 +147,21 @@ export const refreshWaitdown = (originalArray) => async (dispatch) => {
 
 
 
- console.log("new  ARRAY OF INCOMING PATIENTS IS--->",newMutable)
+
 
 
 
  sessionStorage.setItem("waitTimers", `${JSON.stringify(newMutable)}`);
 
  const waitTimeArray = sessionStorage.getItem("waitTimers")!==null &&   JSON.parse(sessionStorage.getItem("waitTimers"))
- console.log(" wait Time array-->",waitTimeArray)
+
   
  dispatch(fetchWaitTimers(waitTimeArray))
 
 }
 
 export const getAdmittedPatients = () => async (dispatch) => {
- //dispatch(setIsLoading(true));
+
   db.collection('Patients')
     .where('isAdmitted', '==', true)
     .where('waitElapsed', '==', true)
@@ -171,17 +169,17 @@ export const getAdmittedPatients = () => async (dispatch) => {
     .then((snapshot) => {
       const patients = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       dispatch(fetchAdmittedPatients(patients));
-      //dispatch(setIsLoading(false));
+    
     })
     .catch((error) => {
       var errorMessage = error.message;
       console.log('Error fetching patients', errorMessage);
-     // dispatch(setIsLoading(false));
+    
     });
 };
 
 export const admitPatients = (uid, setLoading, navigate) => async (dispatch) => {
- // setLoading(true);
+
   // Check if the user already has a bed number
   const userRef = db.collection('Patients').doc(uid);
   const userSnapshot = await userRef.get();
@@ -190,9 +188,9 @@ export const admitPatients = (uid, setLoading, navigate) => async (dispatch) => 
     const userData = userSnapshot.data();
     
     if (userData.bedNumber && userData.isAdmitted !== null) {
-      console.log('User is already admitted.');
+     
       notifyErrorFxn("User is already admitted");
-     // setLoading(false);
+    
       return;
     }
 
@@ -221,25 +219,25 @@ export const admitPatients = (uid, setLoading, navigate) => async (dispatch) => 
     if (!occupiedBedNumbers.includes(i)) {
       // Found an available bed number
       await userRef.update({ bedNumber: i, isAdmitted: true });
-      console.log(`Admitted user with bed number ${i}`);
+     
       notifySuccessFxn(`Admitted patient`);
       dispatch(setSelectedPatient(null));
       dispatch(getAdmittedPatients());
       dispatch(getWaitingRoomPatients());
-     // setLoading(false);
+     
       break;
     }
   }
   
- // setLoading(false);
+
 };
 
 
 
 
 export const dischargePatients = (uid, setLoading, navigate) => async (dispatch) => {
-  console.log('Discharge FUNCTIONALITY CHECKERs.');
-  //setLoading(true);
+
+ 
   // Check if the user already has a bed number
   const userRef = db.collection('Patients').doc(uid);
   const userSnapshot = await userRef.get();
@@ -249,9 +247,9 @@ export const dischargePatients = (uid, setLoading, navigate) => async (dispatch)
      userData = userSnapshot.data();
     
     if (!userData.bedNumber && userData.isAdmitted !== null) {
-      console.log('User is not really admitted,please admit first.');
+    
       notifyErrorFxn("User is not admitted,please admit first.");
-      //setLoading(false);
+     
       return;
     }
 
@@ -270,7 +268,7 @@ export const dischargePatients = (uid, setLoading, navigate) => async (dispatch)
     const patientData = patientDoc.data();
     if (patientData.bedNumber === userData.bedNumber) {
       dischargeBedNumbers.push(patientData.bedNumber);
-      console.log('I HAVE FOUND THE BED TO DISCHARGE.');
+     
     }
   });
   
@@ -285,12 +283,12 @@ export const dischargePatients = (uid, setLoading, navigate) => async (dispatch)
       dispatch(setSelectedPatient(null));
       dispatch(getAdmittedPatients());
       dispatch(getWaitingRoomPatients());
-      //setLoading(false);
+      
       break;
     }
   }
   
-  //setLoading(false);
+  
 };
 
 export const removePatient = (id,firstName,lastName, patientTimers,selectedPatientId,admittedPatientArray,waitingRoomPatientArray,allPatients) => async (dispatch) => {
@@ -312,12 +310,12 @@ try{
 
     patientsToRemove.forEach((patient)=>{ 
       
-      //I WANT TO GET ALL ITEMS NOT EQUAL TO ANY ITEM IN THE REMOVE ARRAY
+      //GETTING ALL ITEMS NOT EQUAL TO ANY ITEM IN THE REMOVE ARRAY
       let indexToSplice = replacementArray.findIndex((admittedPatient)=>(admittedPatient.uid === patient))
       if(indexToSplice !== -1){ 
        replacementArray.splice(indexToSplice,1)
       }
-       console.log("OUR REPLACEMENT ARRAY IS GETTING SMALLER",replacementArray)
+    
        
     })
 
@@ -330,7 +328,7 @@ try{
 
     if(patientsToRemove.length > 0){
 
-      /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond */
+      /*PERSISTING PATIENTS REMOVED STATE IN THE DATABASE*/
       patientsToRemove.forEach((patient)=>{
       const userRef = db.collection('Patients').doc(patient);
 
@@ -340,18 +338,14 @@ try{
         elapsed:true
       })
      })
-      /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond  -END*/
+      /*PERSISTING PATIENTS REMOVED STATE IN THE DATABASE -END*/
 
      
-     /*if(patientsToRemoveFull.length > 0){ 
-      patientsToRemoveFull.forEach((item)=>{*/
+     
        
       notifyInfoFxn(` patient ${firstName} ${lastName}'s time has elapsed `)
     
-    /*   }
-      )
-    }*/
-    
+  
      dispatch(fetchAdmittedPatients(patientReplacementArray))
     
     }
@@ -385,7 +379,7 @@ try{
 
     if(patientsToRemove.length > 0){
      
-      /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond */
+      /*PERSISTING PATIENTS REMOVED STATE IN THE DATABASE */
       patientsToRemove.forEach((patient)=>{
         const userRef = db.collection('Patients').doc(patient);
   
@@ -395,19 +389,11 @@ try{
           elapsed:true
         })
        })
-      /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond  -END*/
+      /*PERSISTING PATIENTS REMOVED STATE IN THE DATABASE  -END*/
 
 
      
-     /* if(patientsToRemove.length > 0){ 
-        patientsToRemove.forEach((item)=>{
-          if(item.screenCountdown === 0){
-        notifyInfoFxn(` patient ${item.firstName} ${item.lastName}'s time has elapsed `)
-          } 
-         }
-        )
-      }*/
-
+    
       dispatch(fetchPatients(patientReplacementArray2))
    
     }
@@ -418,13 +404,7 @@ try{
     dispatch(setSelectedPatient(null))
   }
 
-  console.log('REMOVAL OF PATIENT');
-
-  /*if(all patients have their timers elapsed ){*/
-    
-    /*batch update all patients as admitted null and elapsed true */
-    /*there may be no point to this because different students deal with the same patient */
- /* }*/
+ 
 
 }catch (error) {
   console.log('Error removing the patients:', error);
@@ -448,12 +428,14 @@ export const enterPatient = (id,firstName,lastName, waitTimers,selectedPatientId
 
       const patientTimeArray = sessionStorage.getItem("waitTimers")!==null? JSON.parse(sessionStorage.getItem("waitTimers")):[]
       
-      //IS IT SUPPOSED TO CATCH STUFF THAT ARE LESS THAN ZERO ? IT WORKS , SO LEAVE IT AS SUCH FOR NOW
-      const patientsToAdd = patientTimeArray.filter((item)=>(item.waitCountdown <= 0))?patientTimeArray.filter((item)=>(item.waitCountdown <= 0)).map((patient)=>(patient.id)):[]
+   
+      const patientsToAdd = patientTimeArray.filter((item)=>(item.waitCountdown <= 0))?
+                            patientTimeArray.filter((item)=>(item.waitCountdown <= 0))
+                            .map((patient)=>(patient.id)):[]
 
      
 
-      /*===not waittimers(below) , but the full array of patients ===*/
+    
    
       let replacementArray = [];
       let replacementPatientTimers = []
@@ -484,14 +466,14 @@ export const enterPatient = (id,firstName,lastName, waitTimers,selectedPatientId
      
       const patientIdToChange = waitTimers.map((item)=>(item.id)).indexOf(id)
 
-      console.log("-----OUR PATIENTS DUE NEXT TO ENTER ARE-->",patientAdditionArray)
+    
   
      
 
 
       if(patientAdditionArray.length > 0){
   
-        /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond */
+        /*UPDATING THE WAIT ELAPSED FIELD IN THE DB SO THAT IT WILL PERSIST IF SOMEONE REFRESHES */
         patientsToAdd.forEach((patient)=>{
         const userRef = db.collection('Patients').doc(patient);
   
@@ -499,8 +481,8 @@ export const enterPatient = (id,firstName,lastName, waitTimers,selectedPatientId
          waitElapsed:true
         })
       })
-        /*i have to make this 1 call to the database, so that when they refresh screen, it will correspond  -END*/
-    console.log("LATEST NUMBER-(PATIENT ID TO CHANGE) I HAVE IS--->",patientIdToChange)
+        /*UPDATING THE WAIT ELAPSED FIELD IN THE DB SO THAT IT WILL PERSIST IF SOMEONE REFRESHES   -END*/
+   
        
        if(patientAdditionArray.length )
        { 
@@ -541,13 +523,8 @@ export const enterPatient = (id,firstName,lastName, waitTimers,selectedPatientId
   
  dispatch(fetchWaitTimers(waitTimeArray))
   
-    console.log('PATIENTS TO STILL TRACK',patientsToStillTrack);
+   
   
-    /*if(all patients have their timers elapsed ){*/
-      
-      /*batch update all patients as admitted null and elapsed true */
-      /*there may be no point to this because different  MEDICAL CANDIDATES deal with the same patient */
-   /* }*/
   
   }catch (error) {
     console.log('Error adding  patient TO THE WAITING ROOM:', error);
@@ -595,7 +572,7 @@ export const reset = (uid,existingTimes) => async (dispatch) => {
    
   }
 
-/*resetting ALL the tests submitted END */
+/*resetting ALL the tests submitted -->END */
     
     
 
@@ -635,35 +612,6 @@ export const reset = (uid,existingTimes) => async (dispatch) => {
     dispatch(setIsLoading(false));
   }
 
-
-/*  db.collection('Patients')
-  .where('isAdmitted', 'in',[true,false])
-  .get()
-  .then(async(snapshot) => {
-    const patients = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-    const patientTimers = snapshot.docs.map((doc) => ({ id: doc.id,
-                                                       firstName:doc.data().firstName,
-                                                       lastName:doc.data().lastName,
-                                                       screenCountdown:doc.data().screenTime*60*1000 }));
-
-    dispatch(fetchAllPatients(patients));
-
- 
-    dispatch(fetchPatientTimers(patientTimers))
-  
-    
-  dispatch(setIsLoading(false));
-
- 
-  })
-  .catch((error) => {
-    var errorMessage = error.message;
-    console.log('Error fetching patients', errorMessage);
-   
-  });*/
-
-
- 
 };
 
 
@@ -674,7 +622,7 @@ export const fetchAllTreatmentTests = (chosenSection)=> async(dispatch) =>{
   var categories = db.collection("TreatmentTests");
   categories.get().then((snapshot) => {
     const groupMembers = snapshot.docs.map((doc) => ({ ...doc.data() }));
-    console.log("ALL Treatments tests ARE :",groupMembers)
+   
     if (groupMembers.length) {
     dispatch(saveAllTreatmentTests(groupMembers))
 
@@ -696,7 +644,7 @@ export const fetchAllTreatmentTests = (chosenSection)=> async(dispatch) =>{
   var categories = db.collection("TreatmentCategory");
   categories.get().then((snapshot) => {
     const groupMembers = snapshot.docs.map((doc) => ({ ...doc.data() }));
-    console.log("ALL Treatments categories ARE :",groupMembers)
+ 
     if (groupMembers.length) {
     dispatch(saveAllTreatmentCategories(groupMembers))
 

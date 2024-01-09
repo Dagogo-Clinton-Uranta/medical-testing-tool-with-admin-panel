@@ -8,7 +8,7 @@ import { setSelectedPatient,fetchAdmittedPatients } from "../reducers/patient.sl
 export const getCandidates = (uid) => async (dispatch) => {
     db.collection('Candidates').get().then((snapshot) => {
         const cand = snapshot.docs.map((doc) => ({id: doc.id, ...doc.data() }));
-        console.log("Candidates Data: ", cand);
+       
         dispatch(fetchCandidates(cand));
     }).catch((error) => {
         var errorMessage = error.message;
@@ -21,7 +21,7 @@ export const getSingleCandidate = (id) => async (dispatch) => {
 
     cand.get().then((doc) => {
     if (doc.exists) {
-        console.log("Single Candidate data:", doc.data());
+       
         dispatch(fetchSingleCandidate(doc.data()));
     } else {
         console.log("No such document!");
@@ -45,8 +45,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
 
     const particularPatientPosition =  candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(patientId):-1
-    console.log("particular patients position",particularPatientPosition)
-
+    
     if(particularPatientPosition !== -1){
 
       candidateResponseArray[particularPatientPosition] = {
@@ -92,7 +91,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
    
       const complaintToCheck = db.collection('Complaints').doc(redoResponseArray[particularPatientPositionAlso].chosenComplaintId);
      const complaintSnapshot = await complaintToCheck.get();
-    //console.log("radiology complaint is",complaintSnapshot.data())
+    
    
 
    
@@ -108,18 +107,16 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
    const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
   
   
-   console.log("ISSUES WITH BLOOD INV NO MORE") /*<----THE BUG IS BETWEEN LINE 98 AND 117*/
    if(patientIdToChange !== -1){
      patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenBloodInvestigationTests:b2}
     
      
    }else{
-     console.log("WE CANT FIND THIS GUY, TO UPDATE HIS BLOOD INV")
+     console.log(" CANT FIND THIS CANDIDATE, TO UPDATE HIS BLOOD INV")
    }
    
    dispatch(fetchAdmittedPatients(patientReplacementArray));
 
-   console.log("halo, blood inv IS HERE AND WE'RE ABOUT TO SET FOR BLOOD INV 100% !!--->",patientIdToChange)
 
    /*======adding blood investigations to particular admitted patient END ===== */
    redoResponseArray[particularPatientPositionAlso] = {
@@ -147,7 +144,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
        const patientIdToChange = patientReplacementArray.map((item)=>(item.uid)).indexOf(patientId)
       
-       console.log("halo blood inv HERE OKAI!!---->",patientIdToChange)
+     
 
        if(patientIdToChange !== -1){
          patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenBloodInvestigationTests:b2}
@@ -225,7 +222,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
           
          
        }else{
-         console.log("we cant find this guy to update his blood inv")
+         console.log("we cant find this CANDIDATE to update his blood inv")
        }
  
        dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -310,13 +307,11 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
   if (userSnapshot.exists) {
 
-  //  console.log("user in question is",userSnapshot.data())
-   // console.log("our inputs are",patientId,b1,b2,b3,b4)
-
+ 
     const candidateResponseArray = userSnapshot.data().response?userSnapshot.data().response:[]
 
     const particularPatientPosition =  candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(patientId):-1
-    //console.log("particular patients position",particularPatientPosition)
+    
 
 
    if(particularPatientPosition !== -1){
@@ -364,7 +359,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
 
    const complaintToCheck = db.collection('Complaints').doc(redoResponseArray[particularPatientPositionAlso].chosenComplaintId);
   const complaintSnapshot = await complaintToCheck.get();
- //console.log("radiology complaint is",complaintSnapshot.data())
+
 
 
 
@@ -391,7 +386,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
      patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],chosenRadiologyTests:b2}
    
    }else{
-     console.log("we cant find this guy to update his radiology")
+     console.log(" cant find this candidate to update his radiology")
    }
 
    dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -482,7 +477,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
      
     
   }else{
-    console.log("we cant find this guy to update his radiology")
+    console.log(" cant find this gcandidate to update his radiology")
   }
 
   dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -571,12 +566,12 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
 
   if (userSnapshot.exists) {
 
-    console.log("user is",userSnapshot.data())
+   
 
     const candidateResponseArray = userSnapshot.data().response?userSnapshot.data().response:[]
 
     const particularPatientPosition =  candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(patientId):-1
-    console.log("particular patients position",particularPatientPosition)
+   
    
     //const particularPatientResponse = userSnapshot.data().response.filter((item)=>{item.patientId === patientId})
 
@@ -616,7 +611,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
    
       const complaintToCheck = db.collection('Complaints').doc(redoResponseArray[particularPatientPositionAlso].chosenComplaintId);
      const complaintSnapshot = await complaintToCheck.get();
-    //console.log("radiology complaint is",complaintSnapshot.data())
+   
    
    
     
@@ -625,7 +620,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
 
    
       let correctAnswers= ['4NLkZix4e6t8gjCkZHmG'] 
-      //console.log ("what we are sending treatment tests to search is",correctAnswers)
+     
  
     await  db.collection('TreatmentTests')
      .where('uid', 'in', correctAnswers)
@@ -666,7 +661,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
          patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],ecgPassed:true}
        
        }else{
-         console.log("we cant find this guy to update his ecg")
+         console.log(" cant find this candidate to update his ecg")
        }
  
        dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -727,7 +722,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
         patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],ecgPassed:true}
       
       }else{
-        console.log("we cant find this guy to update his ecg")
+        console.log(" cant find this candidate to update his ecg")
       }
 
       dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -795,12 +790,12 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
   
   if (userSnapshot.exists) {
 
-    console.log("user is",userSnapshot.data())
+    
 
     const candidateResponseArray = userSnapshot.data().response?userSnapshot.data().response:[]
 
     const particularPatientPosition =  candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(patientId):-1
-    console.log("particular patients position",particularPatientPosition)
+    
    
     //const particularPatientResponse = userSnapshot.data().response.filter((item)=>{item.patientId === patientId})
 
@@ -838,7 +833,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
    
       const complaintToCheck = db.collection('Complaints').doc(redoResponseArray[particularPatientPositionAlso].chosenComplaintId);
      const complaintSnapshot = await complaintToCheck.get();
-    //console.log("radiology complaint is",complaintSnapshot.data())
+    
    
    
     
@@ -865,7 +860,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
          patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],prescriptionResponseArray:b1}
           
        }else{
-         console.log("we cant find this guy to update his prescription")
+         console.log(" cant find this candidate to update his prescription")
        }
  
        dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -899,7 +894,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
               patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],prescriptionResponseArray:b1}
                
             }else{
-              console.log("we cant find this guy to update his prescription")
+              console.log(" cant find this candidate to update his prescription")
             }
       
             dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -931,7 +926,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
          patientReplacementArray[patientIdToChange] = {...patientReplacementArray[patientIdToChange],prescriptionResponseArray:b1}
           
        }else{
-         console.log("we cant find this guy to update his prescription")
+         console.log("cant find this candidate to update his prescription")
        }
  
        dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -980,7 +975,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
 
   if (userSnapshot.exists) {
 
-    console.log("user is",userSnapshot.data())
+  
 
 
     const candidateResponseArray = userSnapshot.data().response?userSnapshot.data().response:[]
@@ -988,7 +983,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
 
 
     const particularPatientPosition =  candidateResponseArray.length > 0 ? candidateResponseArray.map((item)=>(item.patientId)).indexOf(patientId):-1
-    console.log("particular patients position",particularPatientPosition)
+    
 
     if(particularPatientPosition !== -1){
 

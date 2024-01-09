@@ -13,7 +13,7 @@ export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) 
   .then((userCredential) => {
     // Signed in
     var user = userCredential.user;
-    console.log('Signed In user is: ', user.email);
+    
      dispatch(fetchCandidateData(user.uid/*"ADq0LNbilFVUdDl8WrLIbOeP8xl2"*/, "sigin", navigate, setLoading));
     
        dispatch(getAllPatients());
@@ -26,7 +26,7 @@ export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) 
     setLoading(false);
     var errorCode = error.code;
     var errorMessage = error.message;
-   // alert(errorMessage);
+  
      notifyErrorFxn(error.message);
     console.log('Error Code is: ', errorCode, + ' Msg is: ', errorMessage);
     dispatch(loginFailed(errorMessage));
@@ -40,7 +40,7 @@ export const signExaminerIn = (user, navigate, setLoading) => async (dispatch) =
   .then((userCredential) => {
     // Signed in
     var user = userCredential.user;
-    console.log('Signed In user is: ', user.email);
+   
      dispatch(fetchExaminerData(user.uid/*"iu2Nxs2jksaxYl1FAEsR4Rl7MwD3"*/, "sigin", navigate, setLoading));
      dispatch(fetchAllCategories())
     dispatch(fetchAllGroupTreatmentCategories())
@@ -119,10 +119,7 @@ export const signup = (user, navigate, setLoading) => async (dispatch) => {
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
-       /* age: '25',
-        gender: 'Male',
-        complaint: 'Malu',
-        isAdmitted: false,*/
+       
         password: user.password,
         registeredOn: today.toLocaleDateString("en-US", options),
 
@@ -165,7 +162,7 @@ export const uploadImage = (user, file, navigate, setLoading) => async (dispatch
         .child(imageName)
         .getDownloadURL()
         .then(url => {
-          console.log('Image URL: ', url);
+         // console.log('Image URL: ', url);
           dispatch(signup(user, file, navigate, setLoading, url));
         });
     }
@@ -177,7 +174,7 @@ export const fetchCandidateData = (id, type, navigate, setLoading) => async (dis
   var user = db.collection("Candidates").doc(id);
   user.get().then((doc) => {
   if (doc.exists) {
-    // console.log("User Data:", doc.data());
+    
     dispatch(storeUserData(doc.data()));
     if(type === "sigin"){
       // notifySuccessFxn("Logged In😊");
@@ -199,7 +196,7 @@ export const fetchExaminerData = (id, type, navigate, setLoading) => async (disp
   var user = db.collection("Admins").doc(id);
   user.get().then((doc) => {
   if (doc.exists) {
-    // console.log("User Data:", doc.data());
+  
     dispatch(storeUserData(doc.data()));
     navigate('/dashboard/examiner', { replace: true });
     
@@ -239,7 +236,7 @@ export const uploadProfileImage = (profileData, file, userID, navigate, setLoadi
         .child(imageName)
         .getDownloadURL()
         .then(url => {
-          console.log('Image URL: ', url);
+          
           dispatch(updateProfile(profileData, userID, file, navigate, setLoading, url));
         });
     }
@@ -260,7 +257,7 @@ export const updateProfile = (profileData, userID, file, navigate, setLoading, u
         user.updatePassword(profileData.newPassword)
           .then(() => {
             setLoading(false);
-            console.log("Password updated successfully");
+            
             notifySuccessFxn("Updated successfully");
             dispatch(fetchExaminerData(userID, "update", navigate, setLoading));
           })
@@ -290,7 +287,7 @@ export const logout = (navigate) => async (dispatch) => {
     dispatch(clearUser());
     dispatch(clearGroup());
     navigate('/home', { replace: true });
-    console.log('logout successful!');
+   
   }).catch((error) => {
     // An error happened.
     console.log('logout failed response: ', error.message);

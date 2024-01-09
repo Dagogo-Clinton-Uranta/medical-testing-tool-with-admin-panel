@@ -21,18 +21,7 @@ export default function CJobs() {
   const [jobArr, setJobArr] = useState(jobs);
   const navigate = useNavigate()
 
-  //const { userDetails, error,message, isLoading } = useSelector((state) => state.loggedIn);
-    
-   /* useEffect(() => {
-      console.log(userDetails)
-     if(userDetails === '' ){
-       
-        navigate('/login')
-        
-      }
-       
-       
-    }, [])*/
+  
 
     const [state, setState] = useState({
       series: [{
@@ -84,7 +73,7 @@ export default function CJobs() {
        }  
      }, [jobs])
 
-  console.log('cmc user data is: ', jobArr);
+  
 
   return (
       
@@ -93,49 +82,7 @@ export default function CJobs() {
       
       <Grid container spacing={2}>
         
-   {/* <Grid item xs={12} md={8} lg={6}>
-     
-      <Paper
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          height: 350,
-          border: '2px dashed grey',
-          borderRadius: '15px'
-        }}
-      >
-        
-       <div>
-       <Typography color="textPrimary" variant="p" component="p">
-        <b>NEW CANDIDATES</b>
-      </Typography>
-       <ReactApexChart options={state.options} series={state.series} type="bar" height={250} />
-         
-       </div>
-      </Paper>
-      </Grid>*/}
-
-    {/*<Grid item xs={12} md={8} lg={6}>
-      <Paper
-        sx={{
-          p: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          height: 350,
-          border: '2px dashed grey',
-          borderRadius: '15px'
-        }}
-      >
-       <div>
-       <Typography color="textPrimary" variant="p" component="p">
-        <b>CANDIDATE TESTS</b>
-      </Typography>
-       <ReactApexChart options={state.options} series={state.series} type="bar" height={250} />
-       
-       </div>
-      </Paper>
-      </Grid> */}
+  
    
     
   </Grid>

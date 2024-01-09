@@ -64,7 +64,7 @@ const SessionQuizletCard = ({data,index}) => {
     if (window.confirm("Are you sure you want to delete this Quiz?")){
   
        setDeleting(true)
-       dispatch(deleteQuiz(uid))
+       //dispatch(deleteQuiz(uid))
     }
   }
 

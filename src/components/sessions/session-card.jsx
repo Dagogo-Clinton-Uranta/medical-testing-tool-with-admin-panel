@@ -4,7 +4,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Divider, Chip, Grid, Paper, Typography, Box, Avatar, Button, ButtonBase, Stack, 
   ToggleButton, ToggleButtonGroup, Hidden  } from '@mui/material';
 import { useDispatch,useSelector } from 'react-redux';
-import {fetchLessonInfo,deleteLesson} from 'src/redux/actions/group.action'
+import {fetchLessonInfo} from 'src/redux/actions/group.action'
 
 import { useNavigate } from 'react-router-dom';
 
@@ -86,7 +86,7 @@ const removeLesson = (uid)=>{
   if (window.confirm("Are you sure you want to delete this lesson?")){
 
      setDeleting(true)
-     dispatch(deleteLesson(uid))
+    // dispatch(deleteLesson(uid))
   }
 }
   

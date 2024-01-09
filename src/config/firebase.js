@@ -16,29 +16,6 @@ const firebaseConfig = {
 };
 
 
-/*THIS IS JUST TO TEST, ABOVE IS THE ORIGINAL */
-/*const firebaseConfig = {
-  apiKey: "AIzaSyA6wRcGrtQ1yQ6VSZ7Y3y4dVG1pf92Rx7Q",
-  authDomain: "ibara-substitute-db.firebaseapp.com",
-  projectId: "ibara-substitute-db",
-  storageBucket: "ibara-substitute-db.appspot.com",
-  messagingSenderId: "583816383054",
-  appId: "1:583816383054:web:fa0dfd20213d00feee511f",
-  measurementId: "G-WRDH7CGN4N"
-};*/
-
-
-/*3rd databse cuz the 1st two are filling up 
-const firebaseConfig = {
-  apiKey: "AIzaSyBTSpuiuXf0oj_-axh5jscLQaEtAH5xBEY",
-  authDomain: "ibara-sub-3.firebaseapp.com",
-  projectId: "ibara-sub-3",
-  storageBucket: "ibara-sub-3.appspot.com",
-  messagingSenderId: "129815972516",
-  appId: "1:129815972516:web:c55364946ab9ad4fa8f431",
-  measurementId: "G-6WY4C2S815"
-};*/
-
 
 // Initialize Firebase
 export const fb = firebase.initializeApp(firebaseConfig);

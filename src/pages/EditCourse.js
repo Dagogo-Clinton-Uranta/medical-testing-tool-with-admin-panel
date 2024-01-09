@@ -2,7 +2,11 @@ import { Container,Grid, TextField, Typography, TextareaAutosize, Button, Paper,
 import { useRef, useState,useEffect } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
 import UPLOADIMG from '../assets/images/upload.png';
-import { uploadUserSettings,updateSubject,updateSubjectNow,updateChapter} from 'src/redux/actions/group.action';
+import { uploadUserSettings,
+         updateSubject,
+         //updateSubjectNow,
+         updateChapter
+        } from 'src/redux/actions/group.action';
 import { getTeachers } from 'src/redux/actions/job.action';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
@@ -64,10 +68,9 @@ function EditCourse() {
 
   const updateThisSubject = async(identity,updateObject) => {
     setLoading(true)
-    dispatch(updateSubjectNow(identity,updateObject))
+    //dispatch(updateSubjectNow(identity,updateObject))
    
-    // console.log("identity is",identity)
-    // console.log("update this subject is updating.........")
+   
     setTimeout(()=>{setLoading(false)},1800)
     
   }
@@ -209,97 +212,12 @@ function EditCourse() {
 
 
 
-       {/* <Grid container item xs={12} spacing={2}>
-          <Grid item xs={3}>
-            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
-             <div >
-             CLASS
-             </div>
-      
-            </Typography>
-          
-          </Grid>
-
-          <Grid item xs={7}>
-            <TextField
-            fullWidth
-            placeholder=" change class"
-            variant="outlined"
-            multiline
-            Rows={8}
-            value= {subLevel}
-
-            onChange = {(e)=>{setSubLevel(e.target.value)}}
-            
-            />
-            
-            
-          </Grid>
-        </Grid>*/}
 
 
 
-        {/*<Grid container item xs={12} spacing={2}>
-          <Grid item xs={3}>
-            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
-             <div >
-             IMAGE URL
-             </div>
-      
-            </Typography>
-          
-          </Grid>
-
-          <Grid item xs={7}>
-            <TextField
-            fullWidth
-            placeholder=" e.g www.amazons3.com/image.jpeg"
-            variant="outlined"
-            multiline
-            Rows={8}
-            value= {subjectImageUrl}
-
-            onChange = {(e)=>{setSubjectImageUrl(e.target.value)}}
-            
-            />
-            
-            
-          </Grid>
-        </Grid>*/}
 
 
-       {/* <Grid container item xs={12} spacing={2}>
-          <Grid item xs={3}>
-            <Typography  style={{display:"flex",alignItems:"center",justifyContent:"center"}}variant="p" component="p">
-             <div >
-             INSTRUCTOR
-             </div>
-      
-            </Typography>
-          
-          </Grid>
-
-          <Grid item xs={7}>
-          
-         <Select
-         style={{width:"100%"}}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={instructor ? instructor:" "}
-          label="Instructor"
-          onChange={(e) => {
-            setInstructor(e.target.value);
-          }}
-        > 
-        
-        {teachersArr.length>0 && teachersArr.map((item)=>(
-          <MenuItem value={item}>{item}</MenuItem>
-      ))}
-        </Select>
-            
-            
-          </Grid>
-        </Grid>*/}
+       
         {/* upload section */}
         
 

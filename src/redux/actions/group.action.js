@@ -21,7 +21,7 @@ export const uploadUserSettings = (groupData = 0, file = 0, user = 0) => async (
    /*LOGIC T0 RUN IF WE HAVE A PICTURE */
 
   const imageName = uuidv4() + '.' + file?.name?.split('.')?.pop();
-  console.log('File Name: ', imageName);
+  
   const uploadTask = storage.ref(`profile_images/${imageName}`).put(file);
   uploadTask.on(
     "state_changed",
@@ -41,7 +41,7 @@ export const uploadUserSettings = (groupData = 0, file = 0, user = 0) => async (
         .child(imageName)
         .getDownloadURL()
         .then(url => {
-          console.log('Image URL: ', url);
+         
           //dispatch(createGroup(groupData, user, file, navigate, setLoading, url));
  
   
@@ -56,10 +56,10 @@ export const uploadUserSettings = (groupData = 0, file = 0, user = 0) => async (
     
      user.updatePassword(groupData.newPassword).then(() => {
        // Update successful.
-       console.log("PASSWORD UPDATE WENT WELL")
+       console.log("PASSWORD UPDATE WAS SUCCESSFUL")
      }).catch((error) => {
        // An error ocurred
-       console.log("PASSWORD UPDATE FAILED HORRIBLY!")
+       console.log("PASSWORD UPDATE FAILED")
      });
 
     
@@ -129,10 +129,10 @@ if(file.length === 0 && groupData.newPassword){
 
     user.updatePassword(groupData.newPassword).then(() => {
       // Update successful.
-      console.log("PASSWORD UPDATE WENT WELL")
+      console.log("PASSWORD UPDATE WAS SUCCESSFUL")
     }).catch((error) => {
       // An error ocurred
-      console.log("PASSWORD UPDATE FAILED HORRIBLY!")
+      console.log("PASSWORD UPDATE FAILED ")
     });
    
     //UPDATING USER INFORMATION
@@ -159,66 +159,16 @@ if(file.length === 0 && groupData.newPassword){
 
 }
 
-export const fetchMyGroups = (coolers) => async (dispatch) => {
-  console.log("Clicked...");
-  dispatch(isItLoading(true));
-  if (coolers.length) {
-    const chunkSize = 10;
-    const chunks = coolers.reduce((acc, _, i) => (i % chunkSize ? acc : [...acc, coolers.slice(i, i + chunkSize)]), []);
-    const promises = chunks.map((chunk) => {
-      return db
-        .collection("groups")
-        .where("groupId", "in", chunk)
-        .get()
-        .then((snapshot) => snapshot.docs.map((doc) => ({ ...doc.data() })));
-    });
-    Promise.all(promises)
-      .then((results) => {
-        const myGroups = results.flat();
-        console.log("My Groups Data:", myGroups);
-        dispatch(saveMyGroup(myGroups));
-        dispatch(isItLoading(false));
-      })
-      .catch((error) => {
-        console.log("Error getting document:", error);
-        dispatch(isItLoading(false));
-      });
-  } else {
-    dispatch(saveMyGroup(coolers));
-    dispatch(isItLoading(false));
-  }
-};
 
 
 
 
 
-export const fetchGroups = (adminID) => async (dispatch) => {
-  dispatch(isItLoading(true));
-  db.collection("groups")
-  .where('admin', '==', adminID)
-   .get()
-   .then((snapshot) => {
-     const allGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
-   if (allGroups.length > 0) {
-     dispatch(isItLoading(false));
-     console.log("All Groups Data:", allGroups);
-     dispatch(saveAllGroup(allGroups));
-   } else {
-       dispatch(isItLoading(false));
-       dispatch(saveAllGroup(allGroups));
-       console.log("No groups!");
-   }
- }).catch((error) => {
-   console.log("Error getting document:", error);
-   dispatch(isItLoading(false));
- });
- };
 
 
  export const fetchVideoSection = (chosenSection)=> async(dispatch) =>{
 
-  //dispatch(isItLoading(true));
+  
   db.collection("TreatmentCategory")
   .where('treatmentId', '==', chosenSection)
    .get()
@@ -236,17 +186,17 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
 
    if (allSectionVids.length > 0) {
-     //dispatch(isItLoading(false));
-     console.log("ALL treatment tests for this TREATMENT:", sortedSectionVids);
+ 
+   
      dispatch(saveCategoryVideos(sortedSectionVids));
    } else {
-      // dispatch(isItLoading(false));
+     
       dispatch(saveCategoryVideos(sortedSectionVids));
-       console.log("No TREATMENT tests for this TREATMENT!");
+       
    }
  }).catch((error) => {
    console.log("Error getting document:", error);
-   dispatch(isItLoading(false));
+   
  });
  };
 
@@ -256,7 +206,7 @@ export const fetchGroups = (adminID) => async (dispatch) => {
   var categories = db.collection("TreatmentTests");
   categories.get().then((snapshot) => {
     const groupMembers = snapshot.docs.map((doc) => ({ ...doc.data() }));
-    console.log("ALL Treatments tests ARE :",groupMembers)
+   
     if (groupMembers.length) {
     dispatch(saveAllTreatmentCategories(groupMembers))
 
@@ -272,7 +222,6 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
 
 
-  //dispatch(isItLoading(true));
   db.collection("TreatmentCategory")
    .get()
    .then((snapshot) => {
@@ -289,13 +238,13 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
 
    if (allSectionVids.length > 0) {
-     //dispatch(isItLoading(false));
-     console.log("ALL treatment tests for this TREATMENT:", sortedSectionVids);
+     
+     
      dispatch(saveCategoryVideos(sortedSectionVids));
    } else {
-      // dispatch(isItLoading(false));
+     
       dispatch(saveCategoryVideos(sortedSectionVids));
-       console.log("No TREATMENT tests for this TREATMENT!");
+     
    }
  }).catch((error) => {
    console.log("Error getting document:", error);
@@ -312,7 +261,7 @@ export const fetchGroups = (adminID) => async (dispatch) => {
   var categories = db.collection("TreatmentTests");
   categories.get().then((snapshot) => {
     const groupMembers = snapshot.docs.map((doc) => ({ ...doc.data() }));
-    console.log("ALL Treatments tests ARE :",groupMembers)
+   
     if (groupMembers.length) {
     dispatch(saveAllTreatmentCategories(groupMembers))
 
@@ -346,12 +295,12 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
    if (allSectionVids.length > 0) {
      //dispatch(isItLoading(false));
-     console.log("ALL treatment tests for this TREATMENT:", sortedSectionVids);
+   
      dispatch(saveCategoryVideos(sortedSectionVids));
    } else {
       // dispatch(isItLoading(false));
       dispatch(saveCategoryVideos(sortedSectionVids));
-       console.log("No TREATMENT tests for this TREATMENT!");
+      
    }
  }).catch((error) => {
    console.log("Error getting document:", error);
@@ -382,7 +331,7 @@ export const fetchGroups = (adminID) => async (dispatch) => {
    } else {
       // dispatch(isItLoading(false));
       dispatch(saveCategoryChapters(allSectionChapters));
-       console.log("No treatment tests for this treatment category!");
+      
    }
  }).catch((error) => {
    console.log("Error getting treatment tests:", error);
@@ -394,45 +343,12 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
 
 
- export const fetchChapterSessions = (chosenChapter)=> async(dispatch) =>{
 
-  //dispatch(isItLoading(true));
-  db.collection("boneCourses")
-  .where('chapterId', '==', chosenChapter)
-   .get()
-   .then((snapshot) => {
-     const allChapterSessions = snapshot.docs.map((doc) => ({ ...doc.data() }));
-     const sortFunction = (array)=>{
-      if (array.length){
-       
-        return  array.sort((a,b)=>(Number(a.lessonNumber) - Number(b.lessonNumber) ))
-       }else{
-        return []
-       }
-     }
-     
-     const sortedChapterSessions = sortFunction(allChapterSessions)
-
-
-   if (allChapterSessions.length > 0) {
-     //dispatch(isItLoading(false));
-     console.log("ALL sessions FROM DATABASE(FOR THIS CHAPTER):", sortedChapterSessions);
-     dispatch(saveChapterSessions(sortedChapterSessions));
-   } else {
-      // dispatch(isItLoading(false));
-      dispatch(saveChapterSessions(sortedChapterSessions));
-       console.log("No sections for this category!");
-   }
- }).catch((error) => {
-   console.log("Error getting document:", error);
-   dispatch(isItLoading(false));
- });
- };
 
 
  export const fetchChapterQuizzes = (chosenChapter)=> async(dispatch) =>{
 
-  //dispatch(isItLoading(true));
+
   db.collection("quizzes")
   .where('chapterId', '==', chosenChapter)
    .get()
@@ -452,12 +368,12 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
    if (allChapterQuizzes.length > 0) {
      //dispatch(isItLoading(false));
-     console.log("ALL quizzes FROM DATABASE(FOR THIS CHAPTER):", sortedChapterQuizzes);
+  
      dispatch(saveChapterQuizzes(sortedChapterQuizzes));
    } else {
       // dispatch(isItLoading(false));
       dispatch(saveChapterQuizzes([]));
-       console.log("No quizzes for this chapter!");
+      
    }
  }).catch((error) => {
    console.log("Error getting QUIZZES:", error);
@@ -472,7 +388,7 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
  export const fetchSubjectInfo = (uid) =>async (dispatch) => {
   db.collection("TreatmentCategory").doc(uid).get().then((doc) => {
-  console.log()
+
   
     dispatch(saveSubjectInfo(doc.data()))
  }).catch((error) => {
@@ -483,7 +399,7 @@ export const fetchGroups = (adminID) => async (dispatch) => {
 
 export const fetchChapterInfo = (uid) =>async (dispatch) => {
   db.collection("TreatmentTests").doc(uid).get().then((doc) => {
-  console.log("FRESHLY FETCHED FROM CHAPTERZ",doc.data())
+ 
   
     dispatch(saveChapterInfo(doc.data()))
  }).catch((error) => {
@@ -494,7 +410,7 @@ export const fetchChapterInfo = (uid) =>async (dispatch) => {
 
 export const fetchLessonInfo = (uid) =>async (dispatch) => {
   db.collection("Complaints").doc(uid).get().then((doc) => {
-  console.log()
+
   
     dispatch(saveLessonInfo(doc.data()))
  }).catch((error) => {
@@ -529,7 +445,7 @@ export const fetchTeacherInfo = (uid) =>async (dispatch) => {
 
 export const fetchComplaintInfo = (uid) =>async (dispatch) => {
   db.collection("Complaints").doc(uid).get().then((doc) => {
-  console.log()
+
   
     dispatch(saveComplaintInfo(doc.data()))
  }).catch((error) => {
@@ -539,31 +455,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
 };
 
 
- export const updateSubjectNow = (uid,updateObject) => async (dispatch) => {
- 
-  db.collection("sections").doc(uid).update({
-      body:updateObject.body,
-      category:updateObject.category,
-      title:updateObject.title,
-      //subLevel:updateObject.level,
-      instructor:updateObject.instructor,
-      subjectImageUrl:updateObject.subjectImageUrl
-      
-    }).then((snapshot) => {
-    
-     notifySuccessFxn("updated Subject successfully")
-     console.log("subject/ section has been updated oo ");
 
- }).catch((error) => {
-   console.log("Error updating subject:", error);
-   notifyErrorFxn(error)
-
-
- });
-
-
-
- };
 
 
 
@@ -586,7 +478,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
   uid:doc.id
    })
 
-  console.log("the new  Candidate's id is",doc.id)
+ 
   dispatch(getJobs())
    notifySuccessFxn(`new Candidate: ${addObject.firstName + " " + addObject.lastName} added!`)
    setTimeout(()=>{navigate('/dashboard/candidate-list')},1000)
@@ -632,12 +524,12 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
 
       }
     ).then((doc) => {
-       //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+      
        db.collection("Patients").doc(doc.id).update({
       uid:doc.id
        })
   
-      console.log("the new  Patient's id is",doc.id)
+     
       dispatch(getTeachers())
        notifySuccessFxn(`new Patient ${addObject.firstName + " " + addObject.lastName} added!`)
        setTimeout(()=>{navigate('/dashboard/patient-list')},1000)
@@ -709,7 +601,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
       uid:doc.id
        })
   
-      console.log("the new  Complaints id is",doc.id)
+     
       dispatch(getTeachers())
       // notifySuccessFxn(`new Complaint ${addObject.complaint} added!`)
        setTimeout(()=>{navigate('/dashboard/complaint-list')},1000)
@@ -783,7 +675,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
         uid:doc.id
 
        }])))
-      console.log("the documents id is",doc.id)
+     
        notifySuccessFxn(` ${addObject.title} added!`)
   
    }).catch((error) => {
@@ -800,86 +692,6 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
 
 
 });
-
-
-
-
-
- /* const imageName = uuidv4() + '.' + addObject.answerImage?.name?.split('.')?.pop();
-  console.log('File Name: ', imageName);
-
-  const uploadTask = storage.ref(`treatment_images/${imageName}`).put(addObject.answerImage);
-  uploadTask.on(
-    "state_changed",
-    snapshot => {
-      const progress = Math.round(
-        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-      );
-     
-    },
-    error => {
-      console.log(error);
-    },
-    () => {
-      storage
-        .ref("treatment_images")
-        .child(imageName)
-        .getDownloadURL()
-        .then(url => {
-
-
-          db.collection("TreatmentTests")
-  .where("title", "==", addObject.title)
-  .where("treatmentCategoryId", "==", addObject.treatmentCategoryId)
-  .get()
-  .then((snapshot) => {
-    const existingSubject = snapshot.docs.map((doc) => ({ ...doc.data() }));
-  if (existingSubject.length) {
-   
-    notifyErrorFxn(`This test already exists,consider changing the subject name`)
-
-  } else {
-     
-    
-    db.collection("TreatmentTests").add(
-      {
-        body:addObject.body?addObject.body:"lorem ipsum",
-        title:addObject.title,
-        treatmentId:addObject.treatmentId,
-        treatmentCategoryId:addObject.treatmentCategoryId,
-        specific:addObject.specific?addObject.specific:"lorem ipsum",
-        responseTime:addObject.response,
-        answerImage:url
-      }
-    ).then((doc) => {
-      
-       db.collection("TreatmentTests").doc(doc.id).update({
-      uid:doc.id
-       })
-  
-      console.log("the documents id is",doc.id)
-       notifySuccessFxn(` ${addObject.title} added!`)
-  
-   }).catch((error) => {
-     console.log(`Error adding ${addObject.title} :`, error);
-     notifyErrorFxn(error)
-  
-  
-   });
-
-  }
-}).catch((error) => {
-  console.log("Error adding treatment test OUTSIDE ERROR:", error);
-  notifyErrorFxn(error)
-
-
-});
-        });
-    }
-  );*/
-
-
-
 
 
 
@@ -948,7 +760,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
 
        }])))
     
-     console.log("the documents id is",doc.id)
+    
       notifySuccessFxn(` ${addObject.title} added!`)
     
     })
@@ -995,7 +807,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
       waitTime:updateObject.waitTime,
     }
   ).then((snapshot) => {
-     //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   
      dispatch(getTeachers())
      notifySuccessFxn("updated Patient successfully")
      setTimeout(()=>{navigate('/dashboard/patient-list')},1000)
@@ -1010,7 +822,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
 
 
  export const updateSubject = (uid,updateObject) => async (dispatch) => {
-  console.log("I have reached the subject again land")
+ 
   db.collection("sections").doc(uid).update(
     {
       body:updateObject.body,
@@ -1020,7 +832,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
       uid:uid
     }
   ).then((snapshot) => {
-     //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   
    
      notifySuccessFxn("updated Subject successfully")
 
@@ -1062,12 +874,12 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
         chapterNumber:addObject.chapterNumber
       }
     ).then((doc) => {
-       //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+     
        db.collection("chapters").doc(doc.id).update({
       uid:doc.id
        })
   
-      console.log("the documents id is",doc.id)
+     
        notifySuccessFxn(`new chapter ${addObject.title} added!`)
   
    }).catch((error) => {
@@ -1104,7 +916,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
     
     }
   ).then((snapshot) => {
-     //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+     
    
      notifySuccessFxn("updated treatment successfully")
 
@@ -1120,7 +932,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
  export const updateChapterWithImage = (uid,updateObject,file) => async (dispatch) => {
 
   const imageName = uuidv4() + '.' + file?.name?.split('.')?.pop();
-  console.log('File Name: ', imageName);
+ // console.log('File Name: ', imageName);
 
   const uploadTask = storage.ref(`treatment_images/${imageName}`).put(file);
   uploadTask.on(
@@ -1175,7 +987,7 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
     
     }
   ).then((snapshot) => {
-     //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
+   
      
      notifySuccessFxn("updated  Complaint successfully")
 
@@ -1189,227 +1001,18 @@ export const fetchComplaintInfo = (uid) =>async (dispatch) => {
 
 
 
- export const deleteLesson = (uid) => async (dispatch) => {
-  let chapterId
- let itemToBeDeleted = db.collection("boneCourses").doc(uid)
-
- 
-
-
- await itemToBeDeleted.get().then((doc) => {
-  if (doc.exists) {
-     chapterId = doc.data().chapterId
-      dispatch(fetchChapterSessions(doc.data().chapterId));
-      //dispatch(savePresentOpenSessions(null))
-   
-      itemToBeDeleted.delete()
-    
-  } else {
-    notifyErrorFxn("Problem Deleting Lesson, please try again")
-  }
-})
-   
-  .then((snapshot) => {
-    dispatch(fetchChapterSessions(chapterId));
-     notifySuccessFxn("deleted successfully")
-  
-
- }).catch((error) => {
-   console.log("Error deleting lesson:", error);
-   notifyErrorFxn(error)
-
-
- });
- };
-
- export const deleteQuiz = (uid) => async (dispatch) => {
-  let chapterId
- let itemToBeDeleted = db.collection("quizzes").doc(uid)
-
- 
-
-
- await itemToBeDeleted.get().then((doc) => {
-  if (doc.exists) {
-     chapterId = doc.data().chapterId
-      dispatch(fetchChapterSessions(doc.data().chapterId));
-      //dispatch(savePresentOpenSessions(null))
-   
-      itemToBeDeleted.delete()
-    
-  } else {
-    notifyErrorFxn("Problem Deleting Quiz, please try again")
-  }
-})
-   
-  .then((snapshot) => {
-    dispatch(fetchChapterSessions(chapterId));
-     notifySuccessFxn("deleted Quiz successfully")
-  
-
- }).catch((error) => {
-   console.log("Error deleting lesson:", error);
-   notifyErrorFxn(error)
-
-
- });
- };
-
-
-
- export const addLesson = (addObject) => async (dispatch) => {
-
-
-  db.collection("boneCourses")
-  .where("title", "==", addObject.title)
-  .where("category", "==", addObject.category)
-  .where("section", "==", addObject.subject)
-  .get()
-  .then((snapshot) => {
-    const existingLesson = snapshot.docs.map((doc) => ({ ...doc.data() }));
-  if (existingLesson.length) {
-   
-    notifyErrorFxn(`This lesson already exists,consider changing the lesson name`)
-
-  } else {
-     
-    
-    db.collection("boneCourses").add(
-      {
-        body:addObject.body,
-        category:addObject.category,
-        title:addObject.title,
-        chapterId:addObject.chapterId,
-        duration:addObject.duration,
-        section:addObject.subject,
-        lessonUrl:addObject.lessonUrl,
-        lessonNumber:addObject.lessonNumber
-      }
-    ).then((doc) => {
-       //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
-       db.collection("boneCourses").doc(doc.id).update({
-      uid:doc.id
-       })
-  
-      console.log("the documents id is",doc.id)
-       notifySuccessFxn(`new lesson ${addObject.title} added!`)
-  
-   }).catch((error) => {
-     console.log("Error adding lesson:", error);
-     notifyErrorFxn(error)
-  
-  
-   });
 
 
 
 
 
-  }
-}).catch((error) => {
-  console.log("Error adding chapter:", error);
-  notifyErrorFxn(error)
-
-
-});
-
- };
-
-
- export const addQuiz = (addObject) => async (dispatch) => {
-
-
-  db.collection("quizzes")
-  .where("title", "==", addObject.title)
-  .where("chapterId", "==", addObject.chapterId)
-  .get()
-  .then((snapshot) => {
-    const existingQuiz = snapshot.docs.map((doc) => ({ ...doc.data() }));
-  if (existingQuiz.length) {
-   
-    notifyErrorFxn(`This quiz already exists,consider changing the quiz name`)
-
-  } else {
-     
-    
-    db.collection("quizzes").add(
-      {
-        body:addObject.body,
-        level:addObject.level,
-        title:addObject.title,
-        chapterId:addObject.chapterId,
-
-        subject:addObject.subject,
-        quizFileUrl:addObject.quizFileUrl,
-        lessonNumber:addObject.lessonNumber,
-
-       questionsArray:addObject.questionsArray
-      }
-
-    ).then((doc) => {
-       //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
-       db.collection("quizzes").doc(doc.id).update({
-      uid:doc.id
-       })
-  
-      console.log("the quiz's id is",doc.id)
-       notifySuccessFxn(`new quiz ${addObject.title} added!`)
-  
-   }).catch((error) => {
-     console.log("Error adding quiz:", error);
-     notifyErrorFxn(error)
-  
-  
-   });
 
 
 
 
-
-  }
-}).catch((error) => {
-  console.log("Error adding chapter:", error);
-  notifyErrorFxn(error)
-
-
-});
-
- };
 
 
  
-
- export const updateQuiz = (uid,updateObject) => async (dispatch) => {
- 
-  db.collection("quizzes").doc(uid).update(
-    {
-     
-      quizFileUrl:updateObject.quizFileUrl,
-      title:updateObject.title,
-      subject:updateObject.subject,
-      
-      body:updateObject.body,
-      lessonNumber:updateObject.lessonNumber,
-      question:updateObject.question,
-      correctAnswer:updateObject.correctAnswer,
-      optionsArray:updateObject.optionsArray,
-
-      chapterId:updateObject.chapterId,
-      quizFileUrl:updateObject.quizFileUrl
-    
-    }
-  ).then((snapshot) => {
-     //const publicGroups = snapshot.docs.map((doc) => ({ ...doc.data() }));
-     
-     notifySuccessFxn("updated Quiz successfully")
-
- }).catch((error) => {
-   console.log("Error updating quiz:", error);
-   notifyErrorFxn("Problem Updating quiz, please try again")
-
-
- });
- };
 
 
 
@@ -1502,7 +1105,7 @@ export const fetchFinalProcessAndSubmit = (stepsObject,navigate,navigateUrl) => 
         uid:doc.id
          })
     
-        console.log("the new  Patient's id is",doc.id)
+        
        
          //notifySuccessFxn(`new Patient ${stepsObject.firstName + " " + stepsObject.lastName} added!`)
          //setTimeout(()=>{navigate('/dashboard/patient-list')},1000)
@@ -1537,9 +1140,9 @@ db.collection("Complaints")
         
       complaint:stepsObject.complaint,
       treatment:{
-        //ECG:stepsObject["ECG"],this is the name of the ecg,(there's no actual name for now) consider putting this field for consistency sakes
+        
         bloodInvestigation:stepsObject.bloodInvCategory?stepsObject.bloodInvCategory:'',
-        //referral:stepsObject.Referrals, consider putting this field for consistency sakes
+       
         radiology:stepsObject.radiologyCategory?stepsObject.radiologyCategory:'',
         correctPrescriptionArray:stepsObject.prescription?stepsObject.prescription:[]/*[stepsObject.prescription1,stepsObject.prescription2,stepsObject.prescription3,stepsObject.prescription4]*/,
       
@@ -1566,7 +1169,7 @@ db.collection("Complaints")
         complaintId:doc.id
          })
   
-      console.log("the new  Complaints id is",doc.id)
+      
       dispatch(getTeachers())
        //notifySuccessFxn(`new Complaint ${stepsObject.complaint} added!`)
       
@@ -1603,7 +1206,7 @@ db.collection("Complaints")
 /*stepsObject.bloodInvTestIdArray.forEach((item,index)=>{*/
 
   const bloodInvImageName = uuidv4() + '.' + stepsObject.bloodInvAnswerImage?.name?.split('.')?.pop();
-  console.log('blood inv File Name: ', bloodInvImageName);
+ 
 
   const uploadTask1 = storage.ref(`treatment_images/${bloodInvImageName}`).put(stepsObject.bloodInvAnswerImage);
   uploadTask1.on(
@@ -1623,7 +1226,7 @@ db.collection("Complaints")
         .child(bloodInvImageName)
         .getDownloadURL()
         .then(url => {
-          console.log('blood inv Image URL is: ', url);
+       
           stepsObject.bloodInvTestIdArray.forEach((item)=>{
           db.collection("TreatmentTests").doc(item).update({
             answerImage:url
@@ -1639,7 +1242,7 @@ db.collection("Complaints")
 /*stepsObject.radiologyTestIdArray.forEach((item,index)=>{*/
 
   const radiologyImageName = uuidv4() + '.' + stepsObject.radiologyAnswerImage?.name?.split('.')?.pop();
-  console.log(' radiology File Name: ', radiologyImageName);
+
 
   const uploadTask2 = storage.ref(`treatment_images/${radiologyImageName}`).put(stepsObject.radiologyAnswerImage);
   uploadTask2.on(
@@ -1673,7 +1276,7 @@ db.collection("Complaints")
 //ecg image logic
 
 const ecgImageName = uuidv4() + '.' + stepsObject.ecgAnswerImage?.name?.split('.')?.pop();
-console.log(' radiology File Name: ', ecgImageName);
+
 
 const uploadTask3 = storage.ref(`treatment_images/${ecgImageName}`).put(stepsObject.ecgAnswerImage);
 uploadTask3.on(
@@ -1693,7 +1296,7 @@ uploadTask3.on(
       .child(ecgImageName)
       .getDownloadURL()
       .then(url => {
-        console.log('ecg Image URL is: ', url);
+       
 
 
         db.collection('TreatmentTests')
@@ -1760,7 +1363,8 @@ export const fetchAllCategories = () => async (dispatch) => {
   var categories = db.collection("Treatments");
   categories.get().then((snapshot) => {
     const groupMembers = snapshot.docs.map((doc) => ({ ...doc.data() }));
-    console.log("ALL Treatments ARE:",groupMembers)
+  
+    
     if (groupMembers.length) {
     dispatch(saveCategories(groupMembers));
   } else {
@@ -1780,16 +1384,13 @@ export const fetchAllCategories = () => async (dispatch) => {
 
 
 export const updateVideoAndUserWatchlists = (userId,videoId) => async (dispatch) => {
-  console.log('about to add title',videoId.trim())
+ 
 
 
   db.collection("courses").doc(videoId.trim()).update({
     watched:firebase.firestore.FieldValue.arrayUnion(userId)
   }).then((docRef) => {
-    console.log(" course Document updated is: ", docRef);
-    
-    //dispatch(fetchWatchListData)
-    //dispatch(playlistUpdate(true));
+   
   })
   .catch((error) => {
     console.error("Error adding USER to  VIDEO watch List: ", error);
@@ -1806,7 +1407,7 @@ export const updateVideoAndUserWatchlists = (userId,videoId) => async (dispatch)
   watched:firebase.firestore.FieldValue.arrayUnion(videoId),
   currentlyWatching:firebase.firestore.FieldValue.arrayUnion(videoId)
 }).then((docRef) => {
-  console.log("user Document updated is: ", docRef);
+  
   
   //dispatch(fetchWatchListData)
   //dispatch(playlistUpdate(true));

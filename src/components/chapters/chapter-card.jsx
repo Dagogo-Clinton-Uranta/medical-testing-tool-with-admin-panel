@@ -4,7 +4,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import { Divider, Chip, Grid, Paper, Typography, Box, Avatar, Button, ButtonBase, Stack, 
   ToggleButton, ToggleButtonGroup, Hidden  } from '@mui/material';
 import { useDispatch,useSelector } from 'react-redux';
-import {fetchChapterSessions, fetchChapterQuizzes,fetchChapterInfo} from 'src/redux/actions/group.action'
+import {fetchChapterQuizzes,fetchChapterInfo} from 'src/redux/actions/group.action'
 
 import { useNavigate } from 'react-router-dom';
 
@@ -106,7 +106,7 @@ const ChapterCard = ({data,index,user}) => {
       console.log("ID BEING PASSED IN IS",id)
  if(!dropDown){
       setLoading(true)
-      dispatch(fetchChapterSessions(id))
+     // dispatch(fetchChapterSessions(id))
       dispatch(fetchChapterQuizzes(id))
       dispatch(savePresentOpenSessions(id))
       console.log(" CHAPTER SESSIONS", sessionsData)

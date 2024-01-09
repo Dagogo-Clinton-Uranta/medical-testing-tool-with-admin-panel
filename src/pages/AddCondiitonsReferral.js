@@ -304,7 +304,7 @@ const { categoryVideos,allTreatmentCategories,subjectInfo } = useSelector((state
     Back
   </Button>
  
-  <Button   variant="contained" onClick={() => {if(!title){notifySuccessFxn("Please make sure to fill in all fields.")  }else{navigate('/dashboard/examiner');notifySuccessFxn("submitted Successfully!")} }}
+  <Button   variant="contained" onClick={() => {if(!title){notifyErrorFxn("Please make sure to fill in all fields.")  }else{navigate('/dashboard/examiner');notifySuccessFxn("submitted Successfully!")} }}
   style={{ backgroundImage:"linear-gradient(rgba(8, 27, 133, 1), rgba(8, 27, 133, 0.9))"/*"#F97D0B"*/, paddingTop: '10px', paddingBottom: '10px', 
   paddingRight: '30px', paddingLeft: '30px',width:"180px",borderRadius:"1rem"}}  
 >
