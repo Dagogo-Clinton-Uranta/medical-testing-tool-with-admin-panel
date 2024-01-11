@@ -82,8 +82,7 @@ const [file,setFile] = useState('')
     setLoading(true)
     dispatch(addSubject(addObject))
    
-    // console.log("identity is",identity)
-    // console.log("update this subject is updating.........")
+   
     setTimeout(()=>{setLoading(false)},1800)
     }
   }

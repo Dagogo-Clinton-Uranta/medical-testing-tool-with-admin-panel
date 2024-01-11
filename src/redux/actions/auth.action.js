@@ -171,11 +171,16 @@ export const uploadImage = (user, file, navigate, setLoading) => async (dispatch
 
 
 export const fetchCandidateData = (id, type, navigate, setLoading) => async (dispatch) => {
-  var user = db.collection("Candidates").doc(id);
-  user.get().then((doc) => {
-  if (doc.exists) {
+  var user = db.collection("Candidates").where('uid' ,"==", id);
+  user.get().then((snapshot) => {
+  
     
-    dispatch(storeUserData(doc.data()));
+      const docsFound = snapshot.docs.map((doc) => ({...doc.data()}));
+
+  
+    if (docsFound.length) {
+    
+    dispatch(storeUserData(docsFound[0]));
     if(type === "sigin"){
       // notifySuccessFxn("Logged In😊");
       navigate('/entry', { replace: true });
@@ -193,11 +198,16 @@ return user;
 
 
 export const fetchExaminerData = (id, type, navigate, setLoading) => async (dispatch) => {
-  var user = db.collection("Admins").doc(id);
-  user.get().then((doc) => {
-  if (doc.exists) {
+ 
+  var user = db.collection("Admins").where('uid' ,"==", id);
+  user.get().then((snapshot) => {
+ 
+    const docsFound = snapshot.docs.map((doc) => ({...doc.data()}));
+
+    if (docsFound.length) {
   
-    dispatch(storeUserData(doc.data()));
+    dispatch(storeUserData(docsFound[0]));
+
     navigate('/dashboard/examiner', { replace: true });
     
     if(type === "sigin"){

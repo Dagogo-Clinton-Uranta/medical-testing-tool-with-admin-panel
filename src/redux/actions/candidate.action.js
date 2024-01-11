@@ -151,7 +151,7 @@ export const submitBloodInvestigation =  (uid,patientId,b1,b2,b3,b4,b5) =>async 
         
          
        }else{
-         console.log("WE CANT FIND THIS GUY, TO UPDATE HIS BLOOD INV")
+         console.log("WE CANT FIND THIS candidate, TO UPDATE HIS BLOOD INV")
        }
  
        dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -477,7 +477,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
      
     
   }else{
-    console.log(" cant find this gcandidate to update his radiology")
+    console.log(" cant find this candidate to update his radiology")
   }
 
   dispatch(fetchAdmittedPatients(patientReplacementArray));
@@ -563,7 +563,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
     const userRef = db.collection('Candidates').doc(uid);
     const userSnapshot = await userRef.get();
     
-
+      
   if (userSnapshot.exists) {
 
    
@@ -618,7 +618,7 @@ if(complaintSnapshot.exists && (!complaintSnapshot.data().treatment.chosenRadiol
     
     if(complaintSnapshot.exists && !complaintSnapshot.data().treatment.ECG){
 
-   
+    // this is the treatment test where ECG image is located..it can be hardcoded for now.
       let correctAnswers= ['4NLkZix4e6t8gjCkZHmG'] 
      
  

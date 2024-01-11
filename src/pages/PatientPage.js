@@ -49,7 +49,7 @@ const [radiologyClicked,setRadiologyClicked] = useState(false)
     bloodInv2:'',
     radiology1:null,
     radiology2:null,
-    ecg: 'Mid Axillary',
+    ecg: 'Mid Axillary ',
     referral:'',
   });
 

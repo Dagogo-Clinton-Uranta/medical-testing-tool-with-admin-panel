@@ -9,7 +9,7 @@ import { useNavigate,Link } from 'react-router-dom';
 //import CJobList from "../components/home/c-job-list";
 import LessonStatsList from "../components/contractor/lesson-stats-list";
 import QuizStatsList from "../components/contractor/quiz-stats-list";
-//import { getUserCourses } from "../redux/actions/job.action";
+
 import {Skeleton} from '@mui/material';
 import ReactApexChart from 'react-apexcharts';
 
