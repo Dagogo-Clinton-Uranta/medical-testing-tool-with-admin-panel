@@ -23,7 +23,7 @@ export default function ExaminerLoginForm() {
   const userSignin = (e) => {
     e.preventDefault();
     setLoading(true);
-     const user = { email, password };
+     const user = { email,clientId ,password };
     dispatch(signExaminerIn(user, navigate, setLoading));
    // navigate('/entry');
   }

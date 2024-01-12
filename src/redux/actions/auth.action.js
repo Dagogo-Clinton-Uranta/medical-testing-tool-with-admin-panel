@@ -35,13 +35,13 @@ export const signCandidateIn = (user, navigate, setLoading) => async (dispatch) 
 };
 
 
-export const signExaminerIn = (user, navigate, setLoading) => async (dispatch) => {
-  fb.auth().signInWithEmailAndPassword(user.email, user.password)
+export const signExaminerIn = (signer, navigate, setLoading) => async (dispatch) => {
+  fb.auth().signInWithEmailAndPassword(signer.email, signer.password)
   .then((userCredential) => {
     // Signed in
     var user = userCredential.user;
    
-     dispatch(fetchExaminerData(user.uid/*"iu2Nxs2jksaxYl1FAEsR4Rl7MwD3"*/, "sigin", navigate, setLoading));
+     dispatch(fetchExaminerData(user.uid,signer.clientId/*"iu2Nxs2jksaxYl1FAEsR4Rl7MwD3"*/, "sigin", navigate, setLoading));
      dispatch(fetchAllCategories())
     dispatch(fetchAllGroupTreatmentCategories())
     
@@ -197,9 +197,12 @@ return user;
 };
 
 
-export const fetchExaminerData = (id, type, navigate, setLoading) => async (dispatch) => {
+export const fetchExaminerData = (id,clientId ,type, navigate, setLoading) => async (dispatch) => {
  
-  var user = db.collection("Admins").where('uid' ,"==", id);
+  var user = db.collection("Admins")
+  .where('uid' ,"==", id)
+  /*.where('institutionId' ,"==", clientId)*/
+  ;
   user.get().then((snapshot) => {
  
     const docsFound = snapshot.docs.map((doc) => ({...doc.data()}));
